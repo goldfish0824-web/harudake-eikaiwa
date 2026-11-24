@@ -5,21 +5,22 @@ window.APP = {
   lead: "練習を選んで、プロンプトをコピー。ChatGPTに貼り付けて送信すれば、英会話の練習が始まります。",
   learner: "I am a Japanese high school student",
   levels: [
-    { id: "e3", ja: "英検3級くらい", short: "3級", en: "around Eiken Grade 3 (CEFR A1)",
+    { id: "e3", ja: "英検3級くらい", short: "3級", eg: "g3", en: "around Eiken Grade 3 (CEFR A1)",
       style: "Use very easy words (junior high school level) and very short sentences (about 5 to 8 words)." },
-    { id: "ep2", ja: "英検準2級くらい", short: "準2級", en: "around Eiken Grade Pre-2 (CEFR A2)",
+    { id: "ep2", ja: "英検準2級くらい", short: "準2級", eg: "gp2", en: "around Eiken Grade Pre-2 (CEFR A2)",
       style: "Use easy words and short sentences (about 8 to 12 words). Avoid idioms and difficult grammar." },
-    { id: "e2", ja: "英検2級くらい", short: "2級", en: "around Eiken Grade 2 (CEFR B1)",
+    { id: "e2", ja: "英検2級くらい", short: "2級", eg: "g2", en: "around Eiken Grade 2 (CEFR B1)",
       style: "Use common everyday words and clear sentences. You can use a few easy idioms." }
   ],
   defLevel: "ep2",
+  eikenGrades: ["g3", "gp2", "gp2p", "g2", "gp1"],
   commands: [
     ["Hint", "ヒントをもらう（使える単語や答え方の始め）", "give me a hint (useful words, or how to start my answer)."],
     ["Repeat", "もう一度言ってもらう", "say your last sentence again."],
     ["Slowly", "ゆっくり、やさしい英語で言い直してもらう", "say it again slowly, with easier words."],
     ["Japanese, please", "今の英語を日本語で説明してもらう", "explain your last sentence briefly in Japanese."],
     ["Skip", "その質問を飛ばして次へ", "skip this question and move on (in a role-play, move the scene forward)."],
-    ["Finish", "練習を終えて、フィードバックをもらう", "end the practice and give me feedback."]
+    ["Finish", "練習を終える（このあとSTEP 2で添削・評価をもらう）", "end the practice."]
   ],
 
   topics: [
@@ -422,8 +423,8 @@ window.APP = {
           "Stay in your role as the interviewer. Keep your comments short and polite; don't praise every answer."
         );
         return { lines: L, start: "Start now: greet me as the interviewer and ask the first question.",
-          fbJa: "【面接のアドバイス】内容・話し方でよかった点と改善点。また、1つの質問について、私のレベルに合った模範解答を見せてください",
-          fbEn: "Interview advice: good points and things to improve in my answers. Also show me a model answer at my level for one question.",
+          fbJa: "【面接のアドバイス】内容・話し方でよかった点と改善点",
+          fbEn: "Interview advice: good points and things to improve in my answers.",
           show: ["面接官：大学の先生", "質問の数：約" + c.n + "問"].concat(c.in.field ? ["志望分野：" + c.in.field] : []) };
       } },
     { id: "eiken", ja: "英検二次風・意見を答える質問", en: "Eiken-style Speaking Questions",
@@ -443,8 +444,8 @@ window.APP = {
           "Ask " + c.n + " questions in total, one at a time, about different topics (school, technology, environment, health, shopping, and so on).",
           "After each answer, react briefly (for example, \"I see.\") and go to the next question, like a real test."
         ], start: "Start now: greet me like an interviewer (\"Hello. Let's start.\") and ask the first question.",
-          fbJa: "【面接のアドバイス】それぞれの答えで、意見と理由がはっきり言えていたか。また、1つの質問について、私のレベルに合った模範解答を見せてください",
-          fbEn: "Interview advice: tell me if my answers had a clear opinion and reasons. Also show me a model answer at my level for one question.",
+          fbJa: "【面接のアドバイス】それぞれの答えで、意見と理由がはっきり言えていたか",
+          fbEn: "Interview advice: tell me if my answers had a clear opinion and reasons.",
           show: ["面接官：英検の面接委員", "質問の数：" + c.n + "問", "レベル：" + c.levelJa] };
       } },
     { id: "studyabroad", ja: "留学プログラムの選考面接", en: "Study-abroad Program Interview",
@@ -469,8 +470,8 @@ window.APP = {
           "Ask a follow-up question when my answer is short."
         );
         return { lines: L, start: "Start now: greet me as the interviewer and ask the first question.",
-          fbJa: "【面接のアドバイス】熱意や具体性が伝わったか、よかった点と改善点。また、1つの質問について、私のレベルに合った模範解答を見せてください",
-          fbEn: "Interview advice: did my answers show my motivation clearly and with details? Also show me a model answer at my level for one question.",
+          fbJa: "【面接のアドバイス】熱意や具体性が伝わったか、よかった点と改善点",
+          fbEn: "Interview advice: did my answers show my motivation clearly and with details?",
           show: ["面接官：留学プログラムの担当者", "質問の数：約" + c.n + "問"].concat(c.in.country ? ["行きたい国：" + c.in.country] : []) };
       } },
     { id: "volunteer", ja: "国際イベントのボランティア面接", en: "Volunteer Guide Interview",
@@ -490,8 +491,8 @@ window.APP = {
           "- Have you ever worked in a team? What did you do?",
           "Sometimes ask me to show you what I would actually say to the visitor, in English."
         ], start: "Start now: greet me as the staff leader and ask the first question.",
-          fbJa: "【面接のアドバイス】よかった点と改善点。また、1つの質問について、私のレベルに合った模範解答を見せてください",
-          fbEn: "Interview advice: good points and things to improve. Also show me a model answer at my level for one question.",
+          fbJa: "【面接のアドバイス】よかった点と改善点",
+          fbEn: "Interview advice: good points and things to improve.",
           show: ["面接官：イベントスタッフのリーダー", "質問の数：約" + c.n + "問"] };
       } }
   ],
@@ -500,6 +501,7 @@ window.APP = {
     "本名・学校名・住所などの個人情報は入力しないようにしましょう。名前を聞かれたら仮の名前でかまいません。",
     "ChatGPTを使えるのは13歳以上で、18歳未満は保護者の同意が必要です（OpenAIの利用規約）。",
     "無料版の音声モードには、1日に使える時間の上限があります。",
-    "AIの訂正やフィードバックがいつも正しいとは限りません。気になる点は先生に聞いてみましょう。"
+    "AIの訂正やフィードバックがいつも正しいとは限りません。気になる点は先生に聞いてみましょう。",
+    "英検・TOEICなどの評価は、AIによるおおよその目安です。発音は文字からは判断できないので、評価には入りません。"
   ]
 };

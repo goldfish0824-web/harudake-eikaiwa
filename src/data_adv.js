@@ -4,20 +4,21 @@ window.APP = {
   ver: "中〜上級版",
   lead: "読めるし聞ける。でも、とっさに自然な英語が出てこない人のための練習プロンプト集です。",
   levels: [
-    { id: "b2", ja: "中級（B2）", short: "B2", en: "upper-intermediate (CEFR B2, around Eiken Pre-1 / TOEIC 700-850)",
+    { id: "b2", ja: "中級（B2）", short: "B2", eg: "gp1", en: "upper-intermediate (CEFR B2, around Eiken Pre-1 / TOEIC 700-850)",
       style: "Use natural, everyday native English at a normal pace, with contractions and common phrasal verbs. Avoid very rare idioms or heavy slang, and explain an idiom briefly if I seem confused." },
-    { id: "c1", ja: "上級（C1）", short: "C1", en: "advanced (CEFR C1, around Eiken Grade 1 / TOEIC 900+)",
+    { id: "c1", ja: "上級（C1）", short: "C1", eg: "g1", en: "advanced (CEFR C1, around Eiken Grade 1 / TOEIC 900+)",
       style: "Talk like a native speaker in a real conversation: natural speed, contractions, phrasal verbs, idioms and casual expressions. Don't simplify your English for me." },
-    { id: "c2", ja: "最上級（C2をめざす）", short: "C2", en: "advanced, aiming for near-native fluency (CEFR C1+ to C2)",
+    { id: "c2", ja: "最上級（C2をめざす）", short: "C2", eg: "g1", en: "advanced, aiming for near-native fluency (CEFR C1+ to C2)",
       style: "Talk exactly as you would with a native-speaker friend: fast, idiomatic, with slang, humor, cultural references and abstract ideas. Don't hold back at all." }
   ],
   defLevel: "c1",
+  eikenGrades: ["g2", "gp1", "g1"],
   commands: [
     ["Upgrade", "直前の自分の発言を、ネイティブらしい言い方に直してもらう（もう一度言い直す練習）", "show me how a native speaker would say what I just said, then let me try saying it again."],
     ["Hint", "答えるためのアイデアや使える表現をもらう", "give me a few ideas or useful phrases for my answer."],
     ["Explain ___", "わからない単語や表現を例文つきで説明してもらう", "explain that word or expression briefly, with an example."],
     ["Skip", "その質問を飛ばして次へ", "move on to the next question (in a role-play, move the scene forward)."],
-    ["Finish", "練習を終えて、フィードバックをもらう", "end the practice and give me feedback."]
+    ["Finish", "練習を終える（このあとSTEP 2で添削・評価をもらう）", "end the practice."]
   ],
 
   topics: [
@@ -481,7 +482,7 @@ window.APP = {
           show: topics };
       } },
     { id: "ielts", ja: "IELTS スピーキング風", en: "IELTS Speaking Style",
-      desc: "Part 1（身近な質問）→ Part 2（トピックカードで1〜2分スピーチ）→ Part 3（抽象的なディスカッション）。最後に目安のバンドスコアも。",
+      desc: "Part 1（身近な質問）→ Part 2（トピックカードで1〜2分スピーチ）→ Part 3（抽象的なディスカッション）。STEP 2で「IELTS」を選ぶと、目安のバンドスコアも出せます。",
       inputs: [], fixed: true, mins: "約15分", reroll: true,
       make(c) {
         const card = c.pick(c.app.ieltsCards, 1)[0];
@@ -497,8 +498,8 @@ window.APP = {
           "   Tell me I have one minute to prepare and should speak for one to two minutes. I'll say \"Ready\" when I start. Don't time me or interrupt. When I finish, ask one short question about it.",
           "Part 3 (about 4 to 5 minutes): ask me four or five more abstract questions related to the Part 2 topic, and ask me to explain and justify my opinions."
         ], start: "Start now: introduce yourself as the examiner and begin Part 1.",
-          fbJa: "**目安のバンドスコア**（非公式のおおよその目安）：Fluency and Coherence、Lexical Resource、Grammatical Range and Accuracy のそれぞれについて、スコアと理由を1つずつ。発音は評価しないでください。",
-          fbEn: "**Estimated band** (a rough, unofficial estimate): give a band for Fluency and Coherence, Lexical Resource, and Grammatical Range and Accuracy, with one reason each. Don't assess pronunciation.",
+          fbJa: "**IELTS形式**：Part 2で1〜2分話し続け、カードの項目をすべてカバーできたか。Part 3で意見の理由づけと具体例が十分だったか。",
+          fbEn: "**IELTS format**: in Part 2, did I keep talking for one to two minutes and cover all the points on the card? In Part 3, did I justify my opinions with reasons and examples?",
           show: [card[0]].concat(card.slice(1).map(x => "・" + x)) };
       } },
     { id: "job", ja: "英語での就職面接", en: "Job Interview in English",
@@ -546,6 +547,7 @@ window.APP = {
   notes: [
     "設定を変えると、下の「プロンプトを見る・編集する」の中身も変わります。直接書き換えてからコピーすることもできます。",
     "無料版の音声モードには、1日に使える時間の上限があります。長めの練習はテキストと組み合わせると効率的です。",
-    "フィードバックは毎回コピーしてメモアプリなどに残しておくと、自分専用の表現集になります。"
+    "フィードバックは毎回コピーしてメモアプリなどに残しておくと、自分専用の表現集になります。",
+    "英検・TOEIC・IELTSなどの評価は、AIによる非公式の目安です。発音は文字起こしからは判断できないため、評価の対象外にしています。"
   ]
 };

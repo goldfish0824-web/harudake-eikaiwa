@@ -8,178 +8,254 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="{{FONTLINK}}" rel="stylesheet">
 <style>
-/* VOICE everyday learning tool, friendly and quick to use
-   IDEA a practice ticket: pick a talk, tear off the stub, take it to ChatGPT
-   PICTURE the ticket itself: chosen practice, its questions or mission, settings chips, a stub with voice/text and minutes
-   COLOUR one header band colour carried into the ticket stub; white ground; one accent for the copy action
-   TYPE one Japanese face with a Latin set, heavy for titles
+/* VOICE everyday learning tool that still feels a bit special: bold, quick, confident
+   IDEA two steps: STEP 1 copy a practice prompt and talk; STEP 2 after the talk, paste a review prompt into the same chat
+   PICTURE a dark hero with the two steps as tabs; below, a ticket (the chosen practice or review) beside the choices
+   COLOUR dark hero band, light ground, one accent (gradient on the high school version) for selection and the copy action
+   TYPE a display face for titles, a Japanese text face for everything else
    LAYOUT laptop: choices left, ticket sticky right; phone: choices, ticket, settings, with a bottom copy bar */
 {{THEME}}
 *{box-sizing:border-box;min-width:0}
 [hidden]{display:none!important}
 html{scroll-padding-top:16px}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--font);overflow-x:clip;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 var(--font);overflow-x:clip;-webkit-text-size-adjust:100%;-webkit-font-smoothing:antialiased}
 .wrap{max-width:1240px;margin:0 auto;padding-left:max(4vw,16px);padding-right:max(4vw,16px)}
 button{font:inherit;color:inherit}
-header.top{background:var(--band);color:var(--bandInk)}
-.head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 40px;padding-top:30px;padding-bottom:26px}
-h1,.t-title,.card .ja,.mode span{word-break:auto-phrase}
-h1{font-size:clamp(28px,4vw,44px);line-height:1.12;letter-spacing:-.01em;margin:0;font-weight:800;text-wrap:balance}
-.ver{display:inline-block;font-size:max(15px,.42em);line-height:1;vertical-align:.3em;padding:.45em .9em;border-radius:99px;background:var(--bandInk);color:var(--band);margin-left:.35em;letter-spacing:0;white-space:nowrap}
-.lead{margin:10px 0 0;font-size:16px;max-width:40em}
-.steps{list-style:none;margin:0;padding:0;display:flex;gap:10px 18px;flex-wrap:wrap}
-.steps li{display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px;white-space:nowrap}
-.steps b{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--bandInk);color:var(--band);font-size:14px}
-main.grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);column-gap:36px;row-gap:28px;padding-top:26px;padding-bottom:56px;align-items:start}
+h1,.t-title,.card .ja,.mode span,.view b{word-break:auto-phrase}
+
+/* hero */
+header.top{position:relative;isolation:isolate;overflow:hidden;background:var(--band);color:var(--bandInk)}
+header.top::before{content:"";position:absolute;inset:0;z-index:-2;background:var(--hero)}
+.deco{position:absolute;right:max(2vw,8px);top:18px;z-index:-1;font-family:var(--display);font-weight:var(--dw);font-size:clamp(80px,13vw,200px);line-height:1;letter-spacing:-.02em;color:transparent;-webkit-text-stroke:1.5px var(--decoLine);white-space:nowrap;pointer-events:none;user-select:none}
+.head{padding-top:44px;padding-bottom:4px}
+.eyebrow{margin:0 0 14px;display:flex;align-items:center;gap:12px;font-size:12.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--bandSoft)}
+.eyebrow::before{content:"";flex:none;width:30px;height:3px;border-radius:2px;background:var(--hi)}
+h1{font-family:var(--display);font-weight:var(--dw);font-size:clamp(32px,5.4vw,62px);line-height:1.12;letter-spacing:-.005em;margin:0;text-wrap:balance}
+h1 .hl{color:var(--hi)}
+h1 .nw{white-space:nowrap}
+.ver{display:inline-block;font-family:var(--font);font-weight:800;font-size:max(14px,.28em);line-height:1;vertical-align:.5em;padding:.55em 1em;border-radius:99px;background:var(--hi);color:var(--hiInk);margin-left:.55em;letter-spacing:.02em;white-space:nowrap}
+.lead{margin:14px 0 0;font-size:16.5px;max-width:40em;color:var(--bandSoft)}
+.views{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:34px;max-width:780px}
+.view{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:14px;align-items:center;text-align:left;padding:14px 18px 16px;border:1px solid var(--tabLine);border-bottom:0;border-radius:20px 20px 0 0;background:var(--tabBg);color:var(--bandInk);cursor:pointer;transition:background .15s}
+.view .vn{grid-row:span 2;display:grid;place-items:center;width:46px;height:46px;border-radius:14px;background:var(--tabNum);font-family:var(--display);font-weight:var(--dw);font-size:22px;line-height:1}
+.view b{font-size:17px;line-height:1.3}
+.view small{font-size:13px;line-height:1.4;color:var(--bandSoft)}
+.view:hover{background:var(--tabHover)}
+.view[aria-selected=true]{background:var(--bg);color:var(--ink);border-color:var(--bg)}
+.view[aria-selected=true] small{color:var(--soft)}
+.view[aria-selected=true] .vn{background:var(--accGrad);color:var(--accInk)}
+
+/* layout */
+main.grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);column-gap:40px;row-gap:30px;padding-top:30px;padding-bottom:64px;align-items:start}
 .pick{grid-column:1;grid-row:1}
 .conf{grid-column:1;grid-row:2;display:grid;gap:20px}
-.side{grid-column:2;grid-row:1/3;position:sticky;top:16px;display:grid;gap:14px;max-height:calc(100vh - 32px);overflow:auto;padding:2px 10px 10px 2px}
-h2.sec{font-size:20px;line-height:1.3;margin:0 0 10px}
-.modes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
-.mode{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 6px 10px;border:2px solid var(--line);border-radius:14px;background:var(--bg);font-weight:700;font-size:14px;line-height:1.3;cursor:pointer;min-height:44px;text-align:center}
-.mode svg{width:32px;height:32px;flex:none}
-.mode:hover{border-color:var(--soft)}
-.mode[aria-selected=true]{border-color:var(--acc);background:var(--accSoft);color:var(--ink)}
-.mode[aria-selected=true] svg{color:var(--acc)}
-.intro{margin:14px 0 10px;color:var(--soft);font-size:15px}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.side{grid-column:2;grid-row:1/3;position:sticky;top:16px;display:grid;gap:14px;max-height:calc(100vh - 32px);overflow:auto;padding:14px 12px 12px 4px}
+.label{display:flex;align-items:center;gap:12px;margin:0 0 12px;font-size:13px;font-weight:800;letter-spacing:.08em;color:var(--soft)}
+.label::after{content:"";flex:1;height:1px;background:var(--line)}
+.label.gap{margin-top:22px}
+.intro{margin:16px 0 0;color:var(--soft);font-size:15px}
+
+/* choices */
+.modes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.mode{display:flex;flex-direction:column;align-items:center;gap:9px;padding:16px 8px 14px;border:1.5px solid var(--line);border-radius:18px;background:var(--panel);box-shadow:var(--sh1);font-weight:800;font-size:14.5px;line-height:1.3;cursor:pointer;text-align:center;transition:transform .15s,box-shadow .15s,border-color .15s}
+.mode .ic{display:grid;place-items:center;width:50px;height:50px;border-radius:15px;background:var(--accSoft);color:var(--acc);transition:background .15s}
+.mode svg{width:28px;height:28px}
+.mode:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
+.mode[aria-selected=true]{border-color:var(--acc);box-shadow:0 0 0 1.5px var(--acc),var(--sh2)}
+.mode[aria-selected=true] .ic{background:var(--accGrad);color:var(--accInk)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px}
 .cards.wide{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
-.card{display:flex;flex-direction:column;justify-content:center;gap:2px;text-align:left;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;background:var(--bg);cursor:pointer;min-height:58px}
-.card:hover{border-color:var(--soft)}
-.card .ja{font-weight:700;font-size:15px;line-height:1.35}
+.card{position:relative;display:flex;flex-direction:column;justify-content:center;gap:2px;text-align:left;padding:12px 32px 12px 14px;border:1.5px solid var(--line);border-radius:14px;background:var(--panel);cursor:pointer;min-height:62px;transition:transform .15s,box-shadow .15s,border-color .15s}
+.card:hover{transform:translateY(-2px);box-shadow:var(--sh2);border-color:var(--soft2)}
+.card .ja{font-weight:800;font-size:15px;line-height:1.35}
 .card .en{font-size:13px;color:var(--soft);line-height:1.35}
 .card .ds{font-size:13px;color:var(--soft);line-height:1.5;margin-top:4px}
 .card.mot .en{font-size:15px;color:var(--ink);font-weight:700}
 .card.mot .ja{font-size:13px;font-weight:400;color:var(--soft)}
-.card.sp{border-style:dashed}
-.card[aria-pressed=true]{border-color:var(--acc);background:var(--accSoft);box-shadow:inset 0 0 0 1.5px var(--acc)}
-:is(.mode,.card,.copy,.open,.reroll,summary):focus-visible{outline:3px solid var(--acc);outline-offset:2px}
-.panel{background:var(--panel);border-radius:16px;padding:20px;display:grid;gap:18px}
-.panel h3{margin:0;font-size:17px}
-.setgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:18px 24px}
+.card.sp{border-style:dashed;background:transparent;box-shadow:none}
+.card[aria-pressed=true]{border-color:var(--acc);background:var(--accSoft);box-shadow:0 0 0 1px var(--acc)}
+.card[aria-pressed=true]::after{content:"";position:absolute;top:9px;right:9px;width:18px;height:18px;border-radius:50%;background:var(--acc) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5.5 12.5l4.2 4.2L18.5 8'/%3E%3C/svg%3E") center/12px no-repeat}
+:is(.view,.mode,.card,.copy,.open,.reroll,.nextstep,summary):focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.subopt{margin-top:12px;padding:16px 18px;border-radius:16px;background:var(--panel);border:1px solid var(--line)}
+
+/* settings */
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:22px;display:grid;gap:20px;box-shadow:var(--sh1)}
+.panel h3{margin:0;font-size:17px;display:flex;align-items:center;gap:10px}
+.panel h3::before{content:"";flex:none;width:5px;height:20px;border-radius:3px;background:var(--accGrad)}
+.setgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:20px 26px}
 fieldset{border:0;margin:0;padding:0;min-width:0}
-legend{font-weight:700;font-size:14px;padding:0;margin-bottom:8px}
+legend{font-weight:800;font-size:14px;padding:0;margin-bottom:8px}
 .seg{display:flex;flex-wrap:wrap;gap:6px}
 .seg label{position:relative;display:inline-flex}
 .seg input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
-.seg span{display:inline-flex;align-items:center;min-height:44px;padding:6px 14px;border:1.5px solid var(--line);border-radius:99px;font-size:14px;font-weight:700;background:var(--bg);line-height:1.3}
+.seg span{display:inline-flex;align-items:center;min-height:44px;padding:6px 15px;border:1.5px solid var(--line);border-radius:99px;font-size:14px;font-weight:700;background:var(--bg);line-height:1.3;transition:border-color .15s}
+.seg label:hover span{border-color:var(--soft2)}
 .seg input:checked+span{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .seg input:focus-visible+span{outline:3px solid var(--acc);outline-offset:2px}
 .check{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700;min-height:44px;cursor:pointer}
 .check input{width:22px;height:22px;accent-color:var(--acc);margin:0;flex:none}
+.checks{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,235px),1fr));gap:8px}
+.tick{display:flex;align-items:flex-start;gap:10px;padding:11px 13px;border:1.5px solid var(--line);border-radius:14px;background:var(--bg);font-size:14.5px;font-weight:700;line-height:1.4;cursor:pointer;min-height:48px;transition:border-color .15s,background .15s}
+.tick:hover{border-color:var(--soft2)}
+.tick input{width:20px;height:20px;accent-color:var(--acc);margin:1px 0 0;flex:none}
+.tick small{display:block;font-weight:400;font-size:12.5px;color:var(--soft);line-height:1.45;margin-top:2px}
+.tick:has(input:checked){border-color:var(--acc);background:var(--accSoft)}
+.tick:has(input:focus-visible){outline:3px solid var(--acc);outline-offset:2px}
 .field{display:grid;gap:6px}
-.field label{font-weight:700;font-size:14px}
-input[type=text],textarea{font:inherit;font-size:16px;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);width:100%}
+.field label{font-weight:800;font-size:14px}
+input[type=text],textarea{font:inherit;font-size:16px;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);width:100%}
 input[type=text]:focus,textarea:focus{outline:3px solid var(--acc);outline-offset:0;border-color:transparent}
 textarea{resize:vertical;line-height:1.5}
-.ticket{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 96px;background:var(--tk);border:1.5px solid var(--line);border-radius:20px;box-shadow:7px 7px 0 var(--sup);margin-right:7px}
-.ticket::before,.ticket::after{content:"";position:absolute;right:85px;width:22px;height:22px;border-radius:50%;background:var(--bg);border:1.5px solid var(--line)}
-.ticket::before{top:-12px;clip-path:inset(50% 0 0 0)}
-.ticket::after{bottom:-12px;clip-path:inset(0 0 50% 0)}
-.t-main{padding:18px 20px 20px}
-.t-mode{display:flex;align-items:center;gap:6px;margin:0;font-size:14px;font-weight:700;color:var(--soft)}
+
+/* ticket */
+.ticket{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 92px;background:var(--tk);border:1px solid var(--line);border-radius:22px;box-shadow:var(--sh3)}
+.ticket::before,.ticket::after{content:"";position:absolute;right:80px;width:24px;height:24px;border-radius:50%;background:var(--bg);border:1px solid var(--line)}
+.ticket::before{top:-13px;clip-path:inset(50% 0 0 0)}
+.ticket::after{bottom:-13px;clip-path:inset(0 0 50% 0)}
+.t-main{padding:20px 22px 22px}
+.t-mode{display:flex;align-items:center;gap:7px;margin:0;font-size:13px;font-weight:800;letter-spacing:.04em;color:var(--acc)}
 .t-mode svg{width:20px;height:20px}
-.t-title{font-size:clamp(26px,2.8vw,34px);line-height:1.15;margin:6px 0 2px;font-weight:800;letter-spacing:-.01em;overflow-wrap:anywhere}
+.t-title{font-family:var(--display);font-weight:var(--dw);font-size:clamp(26px,2.7vw,34px);line-height:1.2;margin:8px 0 4px;letter-spacing:-.005em;overflow-wrap:anywhere}
+.t-title.long{font-size:clamp(20px,1.9vw,25px);line-height:1.3}
 .t-sub{margin:0 0 4px;color:var(--soft);font-size:15px}
-.t-h{margin:14px 0 4px;font-size:14px;font-weight:700}
-.t-set{margin:10px 0 0;font-size:14px;line-height:1.6}
+.t-h{margin:16px 0 6px;font-size:13px;font-weight:800;letter-spacing:.04em;color:var(--soft)}
+.t-set{margin:12px 0 0;font-size:14px;line-height:1.65}
 .t-list{margin:0;padding-left:1.4em;font-size:14.5px;line-height:1.5}
-.t-list li{margin:4px 0}
-.t-list.tick{list-style:none;padding-left:0}
-.t-list.tick li{display:flex;gap:8px}
-.t-list.tick li::before{content:"";flex:none;width:15px;height:15px;margin-top:3px;border:2px solid var(--soft);border-radius:4px}
-.reroll{margin-top:12px;min-height:40px;padding:6px 14px;border:1.5px solid var(--line);border-radius:99px;background:var(--bg);font-size:14px;font-weight:700;cursor:pointer}
-.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
-.chip{font-size:13px;line-height:1.4;padding:3px 10px;border-radius:99px;background:var(--panel);border:1px solid var(--line);white-space:nowrap}
-.t-stub{display:flex;flex-direction:column;align-items:center;gap:4px;padding:22px 6px 16px;background:var(--band);color:var(--bandInk);border-left:2px dashed color-mix(in srgb,var(--bandInk) 35%,transparent);border-radius:0 18px 18px 0;text-align:center}
-.t-stub svg{width:38px;height:38px}
+.t-list li{margin:5px 0}
+.t-list li::marker{color:var(--acc);font-weight:800}
+.t-list.tick-l{list-style:none;padding-left:0}
+.t-list.tick-l li{display:flex;gap:9px}
+.t-list.tick-l li::before{content:"";flex:none;width:15px;height:15px;margin-top:3px;border:2px solid var(--acc);border-radius:5px}
+.t-list .plus{list-style:none;margin-left:-1.4em;color:var(--soft)}
+.reroll{margin-top:14px;min-height:40px;padding:6px 15px;border:1.5px solid var(--line);border-radius:99px;background:var(--bg);font-size:14px;font-weight:700;cursor:pointer}
+.reroll:hover{border-color:var(--soft2)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}
+.chip{font-size:12.5px;font-weight:700;line-height:1.4;padding:4px 11px;border-radius:99px;background:var(--bg);border:1px solid var(--line);white-space:nowrap}
+.t-stub{display:flex;flex-direction:column;align-items:center;gap:5px;padding:24px 6px 18px;background:var(--stub);color:var(--stubInk);border-left:2px dashed var(--stubLine);border-radius:0 21px 21px 0;text-align:center}
+.t-stub svg{width:36px;height:36px}
 .t-stub b{font-size:15px;line-height:1.3}
-.t-stub small{font-size:13px}
+.t-stub small{font-size:12.5px;line-height:1.35;opacity:.9}
 .stamp{margin-top:auto;padding:3px 6px;border:2.5px solid currentColor;border-radius:8px;font-size:13px;font-weight:800;transform:rotate(-12deg);opacity:0;white-space:nowrap}
 .stamp.on{opacity:1;animation:stamp .4s cubic-bezier(.2,1.4,.4,1)}
 @keyframes stamp{from{opacity:0;transform:rotate(-12deg) scale(1.9)}to{opacity:1;transform:rotate(-12deg) scale(1)}}
-.acts{display:grid;gap:8px}
-.copy{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:58px;border:0;border-radius:14px;background:var(--acc);color:var(--accInk);font-size:18px;font-weight:800;cursor:pointer}
-.copy:hover{filter:brightness(1.08)}
+
+/* actions */
+.acts{display:grid;gap:10px}
+.copy{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:60px;border:0;border-radius:16px;background:var(--accGrad);color:var(--accInk);font-size:18px;font-weight:800;cursor:pointer;box-shadow:0 14px 26px -14px var(--accShadow);transition:transform .15s,filter .15s}
+.copy:hover{transform:translateY(-1px);filter:brightness(1.07)}
+.copy:active{transform:translateY(1px)}
 .copy svg{width:22px;height:22px}
-.open{display:flex;align-items:center;justify-content:center;min-height:50px;border:2px solid var(--ink);border-radius:14px;color:var(--ink);text-decoration:none;font-weight:700}
-.open:hover{background:var(--panel)}
-.msg{min-height:1.6em;margin:2px 0 0;font-size:14px;color:var(--soft)}
+.open{display:flex;align-items:center;justify-content:center;gap:8px;min-height:50px;border:1.5px solid var(--line);border-radius:16px;background:var(--panel);color:var(--ink);text-decoration:none;font-weight:800}
+.open:hover{border-color:var(--soft2)}
+.open svg{width:18px;height:18px}
+.callout{display:flex;gap:10px;margin:0;padding:12px 14px;border-radius:14px;background:var(--hiSoft);font-size:14px;line-height:1.55}
+.callout svg{flex:none;width:20px;height:20px;margin-top:1px}
+.msg{min-height:1.6em;margin:0;font-size:14px;color:var(--soft)}
 .msg.ok{color:var(--ink);font-weight:700}
-details.prev{border:1.5px solid var(--line);border-radius:14px;padding:0 14px}
-details.prev summary{cursor:pointer;font-weight:700;font-size:15px;min-height:46px;display:flex;align-items:center}
+.nextstep{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;padding:13px 16px;border:1.5px dashed var(--soft2);border-radius:16px;background:transparent;cursor:pointer;text-align:left;font-size:13.5px;line-height:1.45;color:var(--soft)}
+.nextstep b{display:block;color:var(--ink);font-size:15px}
+.nextstep svg{flex:none;width:22px;height:22px;color:var(--acc)}
+.nextstep:hover{border-color:var(--acc)}
+details.prev{border:1.5px solid var(--line);border-radius:16px;padding:0 14px;background:var(--panel)}
+details.prev summary{cursor:pointer;font-weight:800;font-size:15px;min-height:46px;display:flex;align-items:center}
 details.prev textarea{height:300px;font-size:13px;font-family:ui-monospace,Menlo,Consolas,monospace;margin-bottom:6px}
 details.prev p{font-size:13px;color:var(--soft);margin:0 0 12px}
-.how{background:var(--panel);border-top:1.5px solid var(--line)}
-.howgrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr) minmax(0,1fr);gap:28px 40px;padding-top:36px;padding-bottom:40px}
-.how h2{font-size:20px;margin:0 0 12px}
+
+/* how-to */
+.how{background:var(--band);color:var(--bandInk);position:relative;isolation:isolate;overflow:hidden}
+.how::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--hero);opacity:.55}
+.howgrid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr);gap:28px 44px;padding-top:48px;padding-bottom:40px}
+.how h2{font-family:var(--display);font-weight:var(--dw);font-size:21px;line-height:1.3;margin:0 0 14px}
 .how ol,.how ul{margin:0;padding-left:1.3em}
-.how li{margin:6px 0;font-size:15px}
+.how li{margin:7px 0;font-size:15px;color:var(--bandSoft)}
+.how li b{color:var(--bandInk)}
+.how ol li::marker{color:var(--hi);font-weight:800}
 .cmd{width:100%;border-collapse:collapse;font-size:14.5px}
-.cmd td{padding:7px 0;border-bottom:1px solid var(--line);vertical-align:top}
-.cmd td:first-child{font-weight:800;white-space:nowrap;padding-right:14px}
-footer{padding-top:18px;padding-bottom:28px;font-size:13px;color:var(--soft)}
+.cmd td{padding:8px 0;border-bottom:1px solid var(--tabLine);vertical-align:top;color:var(--bandSoft)}
+.cmd td:first-child{font-weight:800;white-space:nowrap;padding-right:14px;color:var(--hi)}
+footer{padding-top:18px;padding-bottom:30px;font-size:13px;color:var(--bandSoft);border-top:1px solid var(--tabLine)}
 .bar{display:none}
+
 @media(max-width:960px){
   main.grid{grid-template-columns:minmax(0,1fr)}
   .pick,.side,.conf{grid-column:1;grid-row:auto}
-  .side{position:static;max-height:none;overflow:visible;padding:0}
+  .side{position:static;max-height:none;overflow:visible;padding:12px 0 0}
   .howgrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   .howgrid>:first-child{grid-column:1/-1}
-  .bar{display:flex;align-items:center;gap:12px;position:fixed;left:0;right:0;bottom:0;z-index:5;padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:var(--band);color:var(--bandInk);transition:transform .2s}
+  .bar{display:flex;align-items:center;gap:12px;position:fixed;left:0;right:0;bottom:0;z-index:5;padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:var(--band);color:var(--bandInk);box-shadow:0 -10px 30px -18px rgba(0,0,0,.6);transition:transform .2s}
   .bar.off{transform:translateY(110%)}
   .bar-t{flex:1;display:grid;line-height:1.3}
-  .bar-t span{font-size:13px}
+  .bar-t span{font-size:12.5px;color:var(--bandSoft)}
   .bar-t b{font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .bar .copy{width:auto;min-height:48px;padding:0 20px;font-size:16px;flex:none}
+  .bar .copy{width:auto;min-height:48px;padding:0 22px;font-size:16px;flex:none;box-shadow:none}
   body{padding-bottom:80px}
 }
 @media(max-width:600px){
-  .head{padding-top:22px;padding-bottom:20px}
-  .steps{display:none}
+  .head{padding-top:30px}
+  .deco{display:none}
+  h1{font-size:30px}
+  .lead{font-size:15.5px}
+  .views{margin-top:26px;gap:6px}
+  .view{padding:11px 12px 13px;column-gap:10px}
+  .view .vn{width:36px;height:36px;font-size:18px;border-radius:11px}
+  .view b{font-size:15px}
+  .view small,.view .lg{display:none}
   .modes{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .mode{flex-direction:row;justify-content:flex-start;padding:10px 12px;text-align:left}
-  .mode svg{width:26px;height:26px}
+  .mode{padding:12px 6px 11px;gap:7px;font-size:14px}
+  .mode .ic{width:40px;height:40px;border-radius:12px}
+  .mode svg{width:24px;height:24px}
   .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
   .cards.wide{grid-template-columns:minmax(0,1fr)}
   .ticket{grid-template-columns:minmax(0,1fr) 76px}
-  .ticket::before,.ticket::after{right:65px}
-  .t-main{padding:16px 16px 18px}
+  .ticket::before,.ticket::after{right:64px}
+  .t-main{padding:18px 16px 20px}
   .t-stub svg{width:30px;height:30px}
-  .panel{padding:16px}
+  .panel{padding:18px}
   .howgrid{grid-template-columns:minmax(0,1fr)}
 }
-@media(prefers-reduced-motion:reduce){.stamp.on{animation:none}.bar{transition:none}}
+@media(prefers-reduced-motion:reduce){.stamp.on{animation:none}.bar,.mode,.card,.copy{transition:none}.mode:hover,.card:hover,.copy:hover{transform:none}}
 </style>
 </head>
 <body>
 <header class="top">
+  <span class="deco" aria-hidden="true">{{DECO}}</span>
   <div class="wrap head">
-    <div>
-      <h1>ChatGPT英会話プロンプト<span class="ver">{{VER}}</span></h1>
-      <p class="lead" id="lead"></p>
+    <p class="eyebrow">{{EYEBROW}}</p>
+    <h1>ChatGPT<span class="hl">英会話</span><span class="nw">プロンプト</span><span class="ver">{{VER}}</span></h1>
+    <p class="lead" id="lead"></p>
+  </div>
+  <div class="wrap">
+    <div class="views" role="tablist" aria-label="ステップ">
+      <button class="view" type="button" role="tab" id="view-practice" data-view="practice"><span class="vn">1</span><b>練習する</b><small>プロンプトをコピーして、ChatGPTと会話</small></button>
+      <button class="view" type="button" role="tab" id="view-review" data-view="review"><span class="vn">2</span><b>添削・評価<span class="lg">をもらう</span></b><small>会話が終わったら、同じチャットに貼る</small></button>
     </div>
-    <ol class="steps" aria-label="使い方">
-      <li><b>1</b>練習を選ぶ</li>
-      <li><b>2</b>コピー</li>
-      <li><b>3</b>ChatGPTに貼って話す</li>
-    </ol>
   </div>
 </header>
 
 <main class="wrap grid">
-  <section class="pick" aria-label="練習を選ぶ">
+  <section class="pick" id="pickP" aria-label="練習を選ぶ">
+    <p class="label">練習の種類</p>
     <div class="modes" role="tablist" id="modes"></div>
     <p class="intro" id="intro"></p>
+    <p class="label gap" id="cardsLabel"></p>
     <div class="cards" id="cards"></div>
   </section>
 
-  <aside class="side" aria-label="選んだ練習">
+  <section class="pick" id="pickR" aria-label="評価の基準を選ぶ" hidden>
+    <p class="label">評価の基準（複数選べます・選ばなくてもOK）</p>
+    <div class="cards wide" id="crits"></div>
+    <div class="subopt" id="egBox"></div>
+    <p class="intro">会話が終わってから頼むと、会話全体を見直したうえで、くわしい添削と評価が返ってきます。基準を変えて、同じチャットに何度でも頼めます。</p>
+  </section>
+
+  <aside class="side" aria-label="選んだ内容">
     <article class="ticket" id="ticket"></article>
     <div class="acts">
-      <button class="copy" id="copy" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>プロンプトをコピー</button>
-      <a class="open" id="open" href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPTを開く</a>
-      <p class="msg" id="msg" role="status">コピーしたら、ChatGPTの入力欄に貼り付けて送信します。</p>
+      <button class="copy" id="copy" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg><span id="copyLabel">プロンプトをコピー</span></button>
+      <a class="open" id="open" href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPTを開く<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4"/></svg></a>
+      <p class="callout" id="same" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5"/><path d="M12 16.5v.1"/></svg><span>新しいチャットではなく、<b>練習したのと同じチャット</b>に貼り付けて送信します。音声モードで練習したときは、音声モードを終えてから貼り付けます。</span></p>
+      <p class="msg" id="msg" role="status"></p>
+      <button class="nextstep" id="nextstep" type="button"></button>
     </div>
     <details class="prev" id="prev">
       <summary>プロンプトを見る・編集する</summary>
@@ -188,11 +264,19 @@ footer{padding-top:18px;padding-bottom:28px;font-size:13px;color:var(--soft)}
     </details>
   </aside>
 
-  <section class="conf" aria-label="設定">
+  <section class="conf" id="confP" aria-label="練習の設定">
     <div id="modeOpts"></div>
     <div class="panel">
       <h3>練習の設定</h3>
       <div class="setgrid" id="settings"></div>
+    </div>
+  </section>
+
+  <section class="conf" id="confR" aria-label="添削・評価の設定" hidden>
+    <div class="panel">
+      <h3>返してほしい内容</h3>
+      <div class="checks" id="incs"></div>
+      <div class="setgrid" id="rvSettings"></div>
     </div>
   </section>
 </main>
@@ -202,11 +286,11 @@ footer{padding-top:18px;padding-bottom:28px;font-size:13px;color:var(--soft)}
     <div>
       <h2>使い方</h2>
       <ol>
-        <li>上で練習の種類と内容を選び、設定を確かめます。</li>
-        <li>「プロンプトをコピー」を押し、「ChatGPTを開く」から新しいチャットを開きます。</li>
-        <li>入力欄に貼り付けて送信すると、ChatGPTが最初のあいさつと質問を返してきます。</li>
-        <li>声で話すときは、その返事が来てから、同じチャットで音声モードに切り替えて答えます。</li>
-        <li>終わるときは「Finish」。音声モードのときは音声モードを終えてから「Finish」と入力すると、フィードバックが文字で届きます。</li>
+        <li><b>STEP 1</b>で練習の種類と内容を選び、設定を確かめます。</li>
+        <li>「プロンプトをコピー」を押し、「ChatGPTを開く」から新しいチャットを開いて、貼り付けて送信します。</li>
+        <li>ChatGPTから最初のあいさつと質問が届いたら、会話スタート。声で話すときは、ここで音声モードに切り替えます。</li>
+        <li>終わるときは「Finish」と言います。音声モードのときは、そのあと音声モードを終えます。</li>
+        <li><b>STEP 2</b>で評価の基準などを選んでコピーし、<b>同じチャット</b>に貼り付けて送信すると、添削と評価が届きます。</li>
       </ol>
     </div>
     <div>
@@ -218,8 +302,8 @@ footer{padding-top:18px;padding-bottom:28px;font-size:13px;color:var(--soft)}
       <ul id="notes"></ul>
     </div>
   </div>
+  <footer class="wrap">ChatGPT無料版での利用を想定したプロンプトです。ChatGPTはOpenAIのサービスで、このページとは関係ありません。英検・TOEIC・IELTSなどの評価は、AIによる非公式のおおよその目安です。</footer>
 </section>
-<footer class="wrap">ChatGPT無料版での利用を想定したプロンプトです。ChatGPTはOpenAIのサービスで、このページとは関係ありません。</footer>
 
 <div class="bar" id="bar">
   <div class="bar-t"><span id="barMode"></span><b id="barTitle"></b></div>
@@ -242,20 +326,22 @@ const IC = {
   db: sv('<path d="M3 5h15v10H10l-4.5 3.5V15H3z"/><path d="M21 12h8v10h-2.5v3.5L22 22h-8v-4"/>'),
   iv: sv('<circle cx="16" cy="9.5" r="4.5"/><path d="M7.5 27v-2.5a8.5 8.5 0 0 1 17 0V27"/><path d="M16 18.5l-1.6 3 1.6 2 1.6-2z"/><path d="M3 27h26"/>'),
   voice: sv('<rect x="12" y="4" width="8" height="14" rx="4"/><path d="M7.5 15a8.5 8.5 0 0 0 17 0"/><path d="M16 23.5V28"/><path d="M11.5 28h9"/>'),
-  text: sv('<rect x="3" y="8" width="26" height="16" rx="3"/><path d="M8 13h0M12 13h0M16 13h0M20 13h0M24 13h0M8 17.5h0M24 17.5h0" stroke-width="3"/><path d="M11 19.5h10"/>')
+  text: sv('<rect x="3" y="8" width="26" height="16" rx="3"/><path d="M8 13h0M12 13h0M16 13h0M20 13h0M24 13h0M8 17.5h0M24 17.5h0" stroke-width="3"/><path d="M11 19.5h10"/>'),
+  pen: sv('<path d="M20.5 5.5l6 6L12 26H6v-6z"/><path d="M17.5 8.5l6 6"/>'),
+  arrow: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>'
 };
 const MODES = [
-  { id: "qa", ja: "トピック別Q&A", intro: HS ? "トピックを選ぶと、そのトピックの質問を1つずつ聞いてくれます。" : "トピックを選ぶと、深掘りの質問を交えながら会話が進みます。" },
-  { id: "rp", ja: "ロールプレイ", intro: HS ? "場面を選んで、店員や観光客になりきったAIと会話。ミッションをクリアしよう。" : "交渉・苦情・雑談など、実際に困りがちな場面をロールプレイします。" },
-  { id: "db", ja: "ディスカッション", intro: HS ? "テーマについて意見を言い合う練習。理由と例をつけて話そう。" : "意見交換またはディベート。AIが論理の甘さを突いてきます。" },
-  { id: "iv", ja: "面接練習", intro: HS ? "英語の面接の練習。面接官になりきったAIが質問してきます。" : "試験や面接の形式で、まとまった量を話す練習をします。" }
+  { id: "qa", ja: "トピック別Q&A", pick: "トピックを選ぶ", intro: HS ? "トピックを選ぶと、そのトピックの質問を1つずつ聞いてくれます。" : "トピックを選ぶと、深掘りの質問を交えながら会話が進みます。" },
+  { id: "rp", ja: "ロールプレイ", pick: "場面を選ぶ", intro: HS ? "場面を選んで、店員や観光客になりきったAIと会話。ミッションをクリアしよう。" : "交渉・苦情・雑談など、実際に困りがちな場面をロールプレイします。" },
+  { id: "db", ja: "ディスカッション", pick: "テーマを選ぶ", intro: HS ? "テーマについて意見を言い合う練習。理由と例をつけて話そう。" : "意見交換またはディベート。AIが論理の甘さを突いてきます。" },
+  { id: "iv", ja: "面接練習", pick: "面接の種類を選ぶ", intro: HS ? "英語の面接の練習。面接官になりきったAIが質問してきます。" : "試験や面接の形式で、まとまった量を話す練習をします。" }
 ];
 const LIST = { qa: A.topics, rp: A.scenes, db: A.debates, iv: A.interviews };
 const LEN = { qa: { short: 4, normal: 6, long: 8 }, db: { short: 3, normal: 5, long: 7 }, iv: { short: 4, normal: 6, long: 8 } };
 const MINS = { short: "約5分", normal: "約10分", long: "約15分" };
 const OPT = {
   io: [["voice", "音声で話す"], ["text", "文字で入力"]],
-  corr: [["end", "最後にまとめて"], ["each", "その場で短く"], ["light", "少なめ（会話優先）"]],
+  corr: [["end", "会話のあとでまとめて"], ["each", "その場で短く"]],
   len: [["short", "短め（約5分）"], ["normal", "ふつう（約10分）"], ["long", "長め（約15分）"]],
   fb: [["ja", "日本語"], ["en", "英語"]],
   accent: [["us", "アメリカ英語"], ["uk", "イギリス英語"], ["any", "指定なし"]],
@@ -263,30 +349,66 @@ const OPT = {
   order: [["list", "順番どおり"], ["shuffle", "シャッフル"]],
   diff: [["easy", "やさしい"], ["normal", "ふつう"], ["hard", "手ごわい"]],
   dbf: [["discussion", "意見交換"], ["debate", "ディベート（AIは反対側）"]],
-  stance: [["agree", "賛成側"], ["disagree", "反対側"], ["random", "おまかせ"]]
+  stance: [["agree", "賛成側"], ["disagree", "反対側"], ["random", "おまかせ"]],
+  amt: [["3", "3つまで"], ["5", "5つまで"], ["all", "できるだけ全部"]]
 };
 const lab = (k, v) => (OPT[k].find(o => o[0] === v) || ["", ""])[1];
 
+// 英検の級（面接＝二次試験の観点）
+const EG = {
+  g3: { ja: "3級", en: "Grade 3", cefr: "A1", resp: "did I understand the questions and answer in full sentences, adding a little extra information?", miss: "reading a passage aloud, and answering questions about the passage and its picture" },
+  gp2: { ja: "準2級", en: "Grade Pre-2", cefr: "A2", resp: "did I understand the questions, give my opinions with a reason, and talk about my own experiences?", miss: "reading a passage aloud, and answering questions about the passage and its pictures" },
+  gp2p: { ja: "準2級プラス", en: "Grade Pre-2 Plus", cefr: "between A2 and B1", resp: "did I give my opinions with clear reasons, and add details or examples?", miss: "reading a passage aloud, and answering questions about the passage and its pictures" },
+  g2: { ja: "2級", en: "Grade 2", cefr: "B1", resp: "did I give clear opinions, including on social topics, with reasons or examples?", miss: "reading a passage aloud, and describing pictures" },
+  gp1: { ja: "準1級", en: "Grade Pre-1", cefr: "B2", miss: "the narration of a four-panel picture story" },
+  g1: { ja: "1級", en: "Grade 1", cefr: "C1", miss: "a strictly timed two-minute speech on a topic chosen from five" }
+};
+const EGS = (A.eikenGrades || []).filter(id => EG[id]);
+OPT.eg = EGS.map(id => [id, EG[id].ja]);
+const CRIT = [
+  { id: "eiken", ja: "英検", en: "Eiken", ds: "二次試験（面接）の観点で、合格圏かどうかを判定。級は下で選べます。" },
+  { id: "toeic", ja: "TOEIC スピーキング", en: "TOEIC Speaking Test", ds: "スコア（0〜200点）とレベル（1〜8）の目安。" },
+  ...(HS ? [] : [{ id: "ielts", ja: "IELTS スピーキング", en: "IELTS Speaking", ds: "観点ごとのバンドスコア（0〜9）の目安。" }]),
+  { id: "cefr", ja: "CEFR", en: "Common European Framework", ds: "A1〜C2のどのレベルか。観点ごとに。" },
+  HS ? { id: "simple", ja: "5段階でざっくり", en: "Simple Scores", ds: "伝わりやすさ・文法・語彙・話した量・積極性を5点満点で。" }
+     : { id: "native", ja: "ネイティブ目線", en: "Native Speaker's View", ds: "ネイティブにどう聞こえるか。自然さ・丁寧さ・ニュアンスを10段階で。" }
+];
+const INC = [
+  { id: "good", ja: HS ? "よかったところ" : "よかった点", ds: "具体的に2〜3つ" },
+  { id: "corr", ja: "添削", ds: "まちがい・不自然な文を直して理由も" },
+  { id: "up", ja: HS ? "ワンランク上の言い方" : "ネイティブらしい言い換え", ds: HS ? "言えた文を、少しレベルアップ" : "イディオム・句動詞・コロケーションで" },
+  { id: "model", ja: "模範解答", ds: "1〜2問ぶんのお手本" },
+  { id: "mode", ja: "練習に合わせたチェック", ds: "" },
+  { id: "tip", ja: HS ? "次へのアドバイス" : "次の課題", ds: "次に練習することを2〜3つ" },
+  { id: "retry", ja: "もう一度チャレンジ", ds: "フィードバックのあと、同じ質問に答え直す" }
+];
+
 function fresh() {
   return {
+    view: "practice",
     mode: "qa", sel: { qa: A.topics[0].id, rp: A.scenes[0].id, db: A.debates[0].id, iv: A.interviews[0].id },
     custom: { qa: "", rp: "", db: "" }, ivIn: {},
     level: A.defLevel, io: "voice", corr: "end", len: "normal", fb: HS ? "ja" : "en", jp: true, accent: "us",
     style: HS ? "interview" : "chat", order: "list", diff: "normal", dbf: "discussion", stance: "random",
-    extra: "", seed: 1 + Math.floor(Math.random() * 2147483000)
+    extra: "", seed: 1 + Math.floor(Math.random() * 2147483000),
+    crit: HS ? { eiken: true } : { cefr: true }, eg: "", amt: HS ? "3" : "5",
+    inc: { good: true, corr: true, up: true, model: HS, mode: true, tip: true, retry: false }, rvExtra: ""
   };
 }
 let st = fresh();
 try {
   const s = JSON.parse(localStorage.getItem(KEY) || "null");
   if (s && typeof s === "object") for (const k in st) if (k in s) {
-    if (st[k] && typeof st[k] === "object") Object.assign(st[k], s[k]); else if (typeof s[k] === typeof st[k]) st[k] = s[k];
+    if (st[k] && typeof st[k] === "object") { if (s[k] && typeof s[k] === "object") Object.assign(st[k], s[k]); }
+    else if (typeof s[k] === typeof st[k]) st[k] = s[k];
   }
 } catch (e) {}
 const valid = (k, v) => !OPT[k] || OPT[k].some(o => o[0] === v);
 for (const k in OPT) if (!valid(k, st[k])) st[k] = fresh()[k];
 if (!A.levels.some(l => l.id === st.level)) st.level = A.defLevel;
 if (!LIST[st.mode]) st.mode = "qa";
+if (st.view !== "review") st.view = "practice";
+if (!EG[st.eg] || !EGS.includes(st.eg)) st.eg = "";
 for (const m in LIST) if (st.sel[m] !== "__custom" && !LIST[m].some(x => x.id === st.sel[m])) st.sel[m] = LIST[m][0].id;
 if (st.sel.iv === "__custom") st.sel.iv = A.interviews[0].id;
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} };
@@ -297,6 +419,7 @@ const cur = () => LIST[st.mode].find(x => x.id === st.sel[st.mode]);
 const isCustom = () => st.sel[st.mode] === "__custom";
 const nOf = m => LEN[m][st.len];
 const lvl = () => A.levels.find(l => l.id === st.level);
+const egCur = () => st.eg || (EGS.includes(lvl().eg) ? lvl().eg : EGS[0]);
 const qaQs = t => (st.order === "shuffle" ? shuffle(t.q, st.seed) : t.q).slice(0, nOf("qa"));
 function ivRun() {
   const iv = cur(), inp = {};
@@ -304,10 +427,25 @@ function ivRun() {
   return iv.make({ n: nOf("iv"), level: st.level, levelJa: lvl().ja, in: inp, app: A, pick: (arr, k) => shuffle(arr, st.seed).slice(0, k) });
 }
 
+// 練習の種類ごとのチェック項目（STEP 2 で使う）
+function fbxOf() {
+  const m = st.mode;
+  if (m === "rp") return HS
+    ? { ja: "【ミッション】それぞれのミッションができたか（○・△）", en: "Mission: did I complete each part of my mission?" }
+    : { ja: "**ゴール**：各ゴールの達成度と、場面にふさわしい言い方（丁寧さ・きっぱりさ・角の立たなさ）ができていたか", en: "**Goals**: how well I achieved each goal, and whether my tone fit the situation (politeness, firmness, diplomacy)." };
+  if (m === "db") return HS
+    ? { ja: "【意見の伝え方】OREO（意見・理由・例・意見）で話せていたか", en: "Opinions: did I use OREO (Opinion, Reason, Example, Opinion)?" }
+    : { ja: "**議論**：主張と反論の強さ・論理性と、より強い主張の例", en: "**Arguments**: how strong and logical my arguments and rebuttals were, and what a stronger argument could have been." };
+  if (m === "iv") { const r = ivRun(); return { ja: r.fbJa, en: r.fbEn }; }
+  return null;
+}
+const fbxName = f => { const x = f && /^(?:【(.+?)】|\*\*(.+?)\*\*)/.exec(f.ja); return x ? (x[1] || x[2]) : ""; };
+
+/* ---------- STEP 1: 練習のプロンプト ---------- */
 function buildPrompt() {
   const lv = lvl(), voice = st.io === "voice", m = st.mode, it = cur(), custom = isCustom();
   const P = [], add = (...x) => P.push(...x);
-  let start = "", endPlan = "", fbx = { ja: "", en: "" };
+  let start = "", endPlan = "";
   add(HS
     ? "Let's practice English conversation. You are my English conversation partner. I'm a Japanese high school student, and my English level is " + lv.en + "."
     : "Let's practice English conversation. You are my English conversation partner. I'm a Japanese adult learner of English, and my level is " + lv.en + ". I understand English quite well, but I want to speak more fluently and naturally.");
@@ -354,9 +492,6 @@ function buildPrompt() {
         : "- If I get stuck or say \"Hint\", give me a hint in (parentheses)" + (HS ? ": a short English phrase I can use, with its Japanese meaning" : "") + ", then continue the scene.",
       (HS ? "- When I have done everything in my mission" : "- When I have achieved all my goals") + ", end the scene naturally and say \"Mission complete!\"");
     endPlan = "after \"Mission complete!\"";
-    fbx = HS
-      ? { ja: "【ミッション】それぞれのミッションができたか（○・△）", en: "Mission: did I complete each part of my mission?" }
-      : { ja: "**ゴール**：各ゴールの達成度と、場面にふさわしい言い方（丁寧さ・きっぱりさ・角の立たなさ）ができていたか", en: "**Goals**: how well I achieved each goal, and whether my tone fit the situation (politeness, firmness, diplomacy)." };
   }
 
   if (m === "db") {
@@ -388,20 +523,17 @@ function buildPrompt() {
     add(HS
       ? "When I give an opinion, encourage me to use OREO: Opinion, Reason, Example, and then my Opinion again. If I forget a reason or an example, ask \"Why do you think so?\" or \"Can you give me an example?\""
       : "Challenge weak points in my logic and push me to support my claims with specific evidence or examples. Don't give in too easily, but acknowledge it when I make a strong point.");
-    fbx = HS
-      ? { ja: "【意見の伝え方】OREO（意見・理由・例・意見）で話せていたか", en: "Opinions: did I use OREO (Opinion, Reason, Example, Opinion)?" }
-      : { ja: "**議論**：主張と反論の強さ・論理性と、より強い主張の例", en: "**Arguments**: how strong and logical my arguments and rebuttals were, and what a stronger argument could have been." };
   }
 
   if (m === "iv") {
     const r = ivRun();
     add(...r.lines, "Stay in your role for the whole interview. The rules below still apply, but keep your reactions short and professional.");
-    start = r.start; endPlan = "at the end of the interview"; fbx = { ja: r.fbJa, en: r.fbEn };
+    start = r.start; endPlan = "at the end of the interview";
   }
 
   add("", "## How to talk with me");
   const R = HS ? [
-    "Speak only in English, except for the Japanese help and feedback explained below.",
+    "Speak only in English, except for the Japanese help explained below.",
     "Ask only one question at a time. Then wait for my answer.",
     "Keep your turns short, usually one or two sentences. I should talk more than you.",
     lv.style,
@@ -427,58 +559,127 @@ function buildPrompt() {
     "- Don't use lists, emojis, symbols, or formatting while we talk. Keep each turn short and easy to follow by ear.",
     "- If I'm quiet for a while, wait patiently." + (HS ? " If I still can't answer, say the question again more simply." : ""));
   else {
-    add("We will chat by typing.", "- Use short, plain messages. Use formatting only for hints, corrections, and feedback.");
+    add("We will chat by typing.", "- Use short, plain messages. Use formatting only for hints and corrections.");
     if (HS) add("- If you use a word that may be difficult for me, add its Japanese meaning in parentheses the first time.");
   }
 
   add("", "## Corrections");
   const nat = HS ? "a mistake" : "a mistake, or say something that sounds unnatural to a native speaker";
-  if (st.corr === "end") add("Don't stop the conversation to correct me. If I make " + nat + ", you can naturally say my idea again correctly in your reply, without pointing it out. Remember my mistakes for the feedback at the end.");
-  else if (st.corr === "each") add(voice
+  if (st.corr === "each") add(voice
     ? "If I make " + nat + ", first say a better version briefly (for example, \"" + (HS ? "You can say" : "A more natural way to say that is") + ": ...\"), then continue the conversation. Correct only the most important point each time."
     : "If I make " + nat + ", add one short line at the end of your reply: \"" + (HS ? "Better" : "More natural") + ": (a better version of my sentence)\". Correct only the most important point. If there is nothing to correct, don't add the line.");
-  else add("Don't correct my mistakes during the conversation. Focus on keeping the conversation fun and moving. In the feedback at the end, point out only the two most important things.");
+  else add("Don't stop the conversation to correct me. If I make " + nat + ", you can naturally say my idea again correctly in your reply, without pointing it out. I will ask for detailed corrections after we finish.");
 
   add("", "## Commands I may use");
   A.commands.forEach(c => add("- \"" + c[0] + "\": " + c[2]));
 
-  add("", "## Ending and feedback", "End the practice when I say \"Finish\", or " + endPlan + ".");
-  if (voice) add("We are in voice mode, so when the practice ends (or when I say \"Finish\"), don't read the feedback aloud. Just say a short goodbye and ask me to type \"Finish\". When I type \"Finish\", write the feedback as text (formatting is OK here).");
-  else add("Then write the feedback.");
-  const light = st.corr === "light", ja = st.fb === "ja";
-  if (HS) {
-    if (ja) add("Write the feedback in Japanese, using easy words (keep English sentences in English). Be encouraging but honest. Use this format:",
-      "【よかったところ】具体的に2つ",
-      "【もっとよくなる英文】最大" + (light ? 2 : 3) + "つ。「あなたの英文 → よりよい英文」の形で、理由を日本語で短く",
-      "【使ってみたい表現】今日の話題で使える便利な英語表現を3つ（日本語訳つき）",
-      ...(fbx.ja ? [fbx.ja] : []),
-      "【次へのアドバイス】ひとこと");
-    else add("Write the feedback in easy English. Be encouraging but honest. Use this format:",
-      "Good points: two specific things I did well.",
-      "Better sentences: up to " + (light ? 2 : 3) + ". Write \"What I said → A better sentence\" and a short reason.",
-      "Useful expressions: three useful English expressions for today's topic.",
-      ...(fbx.en ? [fbx.en] : []),
-      "Advice: one short tip for next time.");
-  } else {
-    if (ja) add("Write the feedback in Japanese, but keep all English examples in English. Be honest and specific: I want to improve, not just be praised. Use this format:",
-      "**総評**：流暢さ・表現の幅・自然さについて2〜3文",
-      "**訂正**：最大" + (light ? 2 : 5) + "つ。「私の発言 → より自然な言い方」と短い理由（文法・語の選び方・コロケーション・レジスターなど）",
-      "**ネイティブらしい表現**：今日の会話で使えたはずのイディオム・句動詞・コロケーションを3〜5つ、会話に合わせた例文つきで",
-      ...(fbx.ja ? [fbx.ja] : []),
-      "**次の課題**：次回意識することを1つ");
-    else add("Write the feedback in English. Be honest and specific: I want to improve, not just be praised. Use this format:",
-      "**Overall**: two or three sentences on my fluency, range and naturalness.",
-      "**Corrections**: up to " + (light ? 2 : 5) + ". Write \"What I said → a more natural version\" with a short reason (grammar, word choice, collocation, register, or \"sounds unnatural\").",
-      "**Upgrades**: three to five native-like expressions (idioms, phrasal verbs, collocations) I could have used today, each with a short example based on our conversation.",
-      ...(fbx.en ? [fbx.en] : []),
-      "**Next focus**: one specific thing to work on next time.");
-  }
+  add("", "## Ending", "End the practice when I say \"Finish\", or " + endPlan + ".",
+    "When the practice ends, don't give me feedback, corrections or scores yet. I will ask for them in a separate message right after the practice.");
+  if (voice) add("We are in voice mode, so just say a short, friendly goodbye in English. I will then end voice mode and type my feedback request in this chat.");
+  else if (HS) add("Just say a short, friendly goodbye in English, and then add this line in Japanese: 「おつかれさまでした！添削・評価がほしいときは、練習ページの「STEP 2 添削・評価」でプロンプトをコピーして、このチャットに貼り付けてください。」");
+  else add("Just say a short goodbye and wait for my next message.");
 
   if (st.extra.trim()) add("", "## My extra request (it may be in Japanese)", st.extra.trim());
   add("", "## Start", start);
   return P.join("\n");
 }
 
+/* ---------- STEP 2: 添削・評価のプロンプト ---------- */
+function eikenBlock() {
+  const id = egCur(), g = EG[id], L = ["### Eiken (STEP Eiken), " + g.en,
+    "Judge my speaking as if this conversation were the interview test (second stage) of Eiken " + g.en + " (about CEFR " + g.cefr + ").", "Check these points:"];
+  if (id === "g1") L.push(
+    "- Short speech: if I gave a speech, were its structure, relevance and supporting points strong enough? (If I didn't give one, skip this point.)",
+    "- Interaction: did I respond well to the questions and keep the conversation going?",
+    "- Grammar and vocabulary: were my range and accuracy good enough for this grade?",
+    "- Pronunciation: skip it, because it can't be judged from text.");
+  else if (id === "gp1") L.push(
+    "- Responses: did I answer questions, including on social topics, with clear opinions and good support?",
+    "- Vocabulary and grammar: were my range and accuracy good enough for this grade?",
+    "- Fluency: could I keep talking without long pauses?",
+    "- Attitude: did I communicate actively and naturally?");
+  else L.push(
+    "- Responses: " + g.resp,
+    "- Grammar and vocabulary: were they accurate enough and right for this grade?",
+    "- Attitude: did I answer actively, without long silences, and ask again properly when I didn't understand?");
+  L.push("For each point, mark ◎ (good enough to pass), ○ (borderline) or △ (needs work), with one short reason.",
+    "Then give your overall judgment (\"likely to pass\", \"borderline\" or \"not yet\"), and tell me which Eiken grade's interview my speaking is closest to now.",
+    "The real test also has parts we didn't practice here (" + g.miss + "), so treat this as a rough estimate.");
+  return L;
+}
+const CRIT_TXT = {
+  eiken: eikenBlock,
+  toeic: () => ["### TOEIC Speaking Test",
+    "Judge my speaking using the scoring criteria of the TOEIC Speaking Test (scores from 0 to 200, Proficiency Levels 1 to 8).",
+    "- Rate my grammar, vocabulary, cohesion, relevance of content, and completeness of content (good / fair / weak), with one short reason each. Skip pronunciation and intonation, because they can't be judged from text.",
+    "- Then give an estimated Proficiency Level (1 to 8) and an approximate score range.",
+    "- Tell me what I need to do to reach the next level.",
+    "The real test has tasks we didn't practice here (such as reading aloud, describing a picture, and answering with given information), so treat this as a rough estimate."],
+  ielts: () => ["### IELTS Speaking",
+    "Use the IELTS Speaking band descriptors. Give an estimated band (0 to 9) for Fluency and Coherence, Lexical Resource, and Grammatical Range and Accuracy, each with one reason and a short example from what I said.",
+    "Don't assess Pronunciation, because it can't be judged from text.",
+    "Then give an overall estimated band, and tell me what would raise it by half a band."],
+  cefr: () => ["### CEFR",
+    "Using the CEFR descriptors for spoken language, give my level for range, accuracy, fluency, interaction and coherence (you can use levels like A2+ or B1+), with one short reason each.",
+    "Then give my overall level, and tell me what I need for the next level."],
+  simple: () => ["### Simple scores",
+    "Give me a score from 1 to 5 for each of these: communication (was my message clear?), grammar, vocabulary, amount (how much I said), and active attitude. Add one short comment for each, and a total score out of 25."],
+  native: () => ["### Native speaker's view",
+    "Tell me honestly how my English would sound to a native speaker: natural or textbook-like, too formal or too casual, any phrases that sound odd, blunt or rude, and how fluent I seem.",
+    "Rate my naturalness from 1 to 10, and explain what would make it one point higher."]
+};
+const critName = c => c.id === "eiken" ? "英検" + EG[egCur()].ja : c.id === "toeic" ? "TOEICスピーキング" : c.id === "ielts" ? "IELTS" : c.id === "cefr" ? "CEFR" : c.id === "simple" ? "5段階評価" : "ネイティブ目線";
+const crits = () => CRIT.filter(c => st.crit[c.id]);
+const incOn = id => !!st.inc[id] && (id !== "mode" || !!fbxOf());
+
+function buildReview() {
+  const lv = lvl(), ja = st.fb === "ja", P = [], add = (...x) => P.push(...x), C = crits(), fx = fbxOf();
+  const h = (hsJa, advJa, en) => ja ? (HS ? "【" + hsJa + "】" : "**" + advJa + "**") : (HS ? en + ":" : "**" + en + "**:");
+  add("Our practice is over. Now please look back at our whole conversation in this chat and give me feedback on my English.");
+  add("", "## Rules for the feedback",
+    "- Look only at what I said, not at your own messages. When you quote or correct me, use my exact words.",
+    "- Some of my messages may be transcripts of my voice. If so, ignore spelling, punctuation and capital letters. Don't judge my pronunciation, because it can't be judged from text.",
+    HS ? "- Be kind and encouraging, but honest. Don't give me a better evaluation than I deserve." : "- Be direct and specific. I want to improve, not to be flattered, so don't overrate me.",
+    "- If I didn't say much, tell me that the feedback may not be very reliable.",
+    "- My level (my own estimate): " + lv.en + ".",
+    ja ? (HS ? "- Write the feedback in Japanese, using easy words. Keep my sentences and all English examples in English." : "- Write the feedback in Japanese, but keep my sentences and all English examples in English.")
+       : (HS ? "- Write the feedback in easy English." : "- Write the feedback in English."),
+    "- Use a clear heading for each part, and keep each part short and easy to read.");
+
+  const items = [];
+  if (incOn("good")) items.push(h("よかったところ", "よかった点", "Good points") + " two or three specific things I did well, with examples from what I said.");
+  if (incOn("corr")) items.push(h("添削", "添削", "Corrections") + " " + {
+      "3": "the three most important mistakes or unnatural sentences in what I said.",
+      "5": "up to five mistakes or unnatural sentences in what I said, the most important first.",
+      all: "every sentence I said that has a mistake or sounds unnatural, in the order I said them. If there are many, group similar mistakes together."
+    }[st.amt] + " Write each one like this: \"✕ what I said → ○ " + (HS ? "a better sentence" : "a more natural version") + "\", with a short reason" +
+    (HS ? "" : " (grammar, word choice, collocation, register, or \"sounds unnatural\")") + (ja ? " in Japanese." : "."));
+  if (incOn("up")) items.push(HS
+    ? h("ワンランク上の言い方", "", "Level up") + " choose three things I said that were correct but simple, and show how to say them in a slightly more advanced way (just a little above my level)" + (ja ? ", with the Japanese meaning." : ".")
+    : h("", "ネイティブらしい言い換え", "Upgrades") + " three to five things I said, rewritten the way a native speaker would naturally say them (idioms, phrasal verbs, collocations), each with a short note on why it sounds better.");
+  if (incOn("model")) items.push(h("模範解答", "模範解答", "Model answers") + " choose one or two questions you asked me, and show " +
+    (HS ? "a model answer for each (three to five sentences), a little above my level." : "how a highly proficient speaker might answer each one (natural spoken English, about four to six sentences).") +
+    (st.mode === "rp" ? " (In a role-play, show a model version of my lines for one important moment instead.)" : ""));
+  if (incOn("mode")) items.push(ja ? fx.ja : fx.en);
+  if (C.length) items.push(h("評価", "評価", "Evaluation") + " evaluate my speaking using " + (C.length > 1 ? "each of the criteria" : "the criterion") + " below.");
+  if (incOn("tip")) items.push(h("次へのアドバイス", "次の課題", "Next steps") + " " +
+    (HS ? "two or three specific things to practice next time, the most important first." : "two or three specific things to work on next, the most important first, each with a quick way to practice it."));
+
+  if (items.length) { add("", "## What I want, in this order"); items.forEach((x, i) => add((i + 1) + ". " + x)); }
+  else add("", "## What I want", "Give me short, general feedback on my English.");
+
+  if (C.length) {
+    add("", "## Evaluation criteria");
+    C.forEach((c, i) => { if (i) add(""); add(...CRIT_TXT[c.id]()); });
+    add("", "At the end of the evaluation, add one short line saying that this is an unofficial estimate based only on this one conversation.");
+  }
+  if (incOn("retry")) add("", "## After the feedback",
+    "Then let me try again: choose one question (or one moment in the role-play) where my answer could be much better, and ask it again. When I answer, give me short feedback on my new answer.");
+  if (st.rvExtra.trim()) add("", "## My extra request (it may be in Japanese)", st.rvExtra.trim());
+  return P.join("\n");
+}
+
+/* ---------- ticket ---------- */
 function ticketInfo() {
   const m = st.mode, it = cur(), custom = isCustom();
   let title = "", sub = "", body = "", reroll = "";
@@ -493,7 +694,7 @@ function ticketInfo() {
     if (custom) { title = st.custom.rp.trim() || "自分で決めた場面"; sub = "役割とミッションはChatGPTが決めます"; }
     else {
       title = it.ja; sub = it.en;
-      body = '<p class="t-set">' + esc(it.jaSet) + '</p><p class="t-h">' + (HS ? "ミッション" : "ゴール") + '</p><ul class="t-list tick">' + it.missionJa.map(x => "<li>" + esc(x) + "</li>").join("") + "</ul>";
+      body = '<p class="t-set">' + esc(it.jaSet) + '</p><p class="t-h">' + (HS ? "ミッション" : "ゴール") + '</p><ul class="t-list tick-l">' + it.missionJa.map(x => "<li>" + esc(x) + "</li>").join("") + "</ul>";
     }
   } else if (m === "db") {
     if (custom) { title = st.custom.db.trim() || "自分で決めたテーマ"; sub = "自分で決めたテーマ"; }
@@ -512,25 +713,49 @@ function ticketInfo() {
   return { title, sub, body, reroll, mins };
 }
 
-function renderTicket() {
-  const t = ticketInfo(), md = MODES.find(x => x.id === st.mode), voice = st.io === "voice";
-  const chips = [lvl().ja, "訂正：" + lab("corr", st.corr), "フィードバック：" + lab("fb", st.fb)];
-  if (!HS && st.accent !== "any") chips.push(lab("accent", st.accent));
-  if (st.mode === "rp") chips.push("相手：" + lab("diff", st.diff));
-  if (st.extra.trim()) chips.push("追加の希望あり");
-  $("#ticket").innerHTML =
-    '<div class="t-main"><p class="t-mode">' + IC[st.mode] + esc(md.ja) + '</p><h2 class="t-title">' + esc(t.title) + '</h2>' +
-    (t.sub ? '<p class="t-sub">' + esc(t.sub) + "</p>" : "") + t.body +
-    (t.reroll ? '<button class="reroll" id="reroll" type="button">' + esc(t.reroll) + "</button>" : "") +
-    '<div class="chips">' + chips.map(c => '<span class="chip">' + esc(c) + "</span>").join("") + "</div></div>" +
-    '<div class="t-stub">' + IC[voice ? "voice" : "text"] + "<b>" + (voice ? "音声" : "文字") + "</b><small>" + esc(t.mins) + '</small><span class="stamp" id="stamp">コピー済</span></div>';
-  $("#barMode").textContent = md.ja;
-  $("#barTitle").textContent = t.title;
+function ticketHTML(o) {
+  return '<div class="t-main"><p class="t-mode">' + o.icon + esc(o.mode) + '</p><h2 class="t-title' + (o.title.length > 22 ? " long" : "") + '">' + esc(o.title) + "</h2>" +
+    (o.sub ? '<p class="t-sub">' + esc(o.sub) + "</p>" : "") + o.body +
+    (o.reroll ? '<button class="reroll" id="reroll" type="button">' + esc(o.reroll) + "</button>" : "") +
+    '<div class="chips">' + o.chips.map(c => '<span class="chip">' + esc(c) + "</span>").join("") + "</div></div>" +
+    '<div class="t-stub">' + o.stubIcon + "<b>" + esc(o.stubB) + "</b><small>" + esc(o.stubS) + '</small><span class="stamp" id="stamp">コピー済</span></div>';
 }
 
+function renderTicket() {
+  const md = MODES.find(x => x.id === st.mode), t = ticketInfo();
+  if (st.view === "practice") {
+    const voice = st.io === "voice", chips = [lvl().ja, "訂正：" + lab("corr", st.corr)];
+    if (!HS && st.accent !== "any") chips.push(lab("accent", st.accent));
+    if (st.mode === "rp") chips.push("相手：" + lab("diff", st.diff));
+    if (st.extra.trim()) chips.push("追加の希望あり");
+    $("#ticket").innerHTML = ticketHTML({ icon: IC[st.mode], mode: md.ja, title: t.title, sub: t.sub, body: t.body, reroll: t.reroll, chips, stubIcon: IC[voice ? "voice" : "text"], stubB: voice ? "音声" : "文字", stubS: t.mins });
+    $("#barMode").textContent = "STEP 1・" + md.ja;
+    $("#barTitle").textContent = t.title;
+  } else {
+    const C = crits(), fx = fbxOf(), list = [];
+    if (incOn("good")) list.push(INC[0].ja);
+    if (incOn("corr")) list.push("添削（" + lab("amt", st.amt) + "）");
+    if (incOn("up")) list.push(INC[2].ja);
+    if (incOn("model")) list.push("模範解答");
+    if (incOn("mode")) list.push(fbxName(fx) || "練習に合わせたチェック");
+    if (C.length) list.push("評価：" + C.map(critName).join("・"));
+    if (incOn("tip")) list.push(INC[5].ja);
+    let body = '<p class="t-h">返ってくる内容</p>' + (list.length
+      ? '<ol class="t-list">' + list.map(x => "<li>" + esc(x) + "</li>").join("") + (incOn("retry") ? '<li class="plus">＋ もう一度チャレンジ</li>' : "") + "</ol>"
+      : '<p class="t-set" style="margin-top:0">かんたんなフィードバック（項目が選ばれていません）</p>');
+    const title = C.length ? C.map(critName).join(" ＋ ") : "添削・フィードバック";
+    $("#ticket").innerHTML = ticketHTML({ icon: IC.pen, mode: "添削・評価", title, sub: "対象：" + md.ja + "「" + t.title + "」", body, reroll: "", chips: ["フィードバック：" + lab("fb", st.fb)].concat(st.rvExtra.trim() ? ["追加の希望あり"] : []), stubIcon: IC.pen, stubB: "STEP 2", stubS: "会話後に" });
+    $("#barMode").textContent = "STEP 2・添削・評価";
+    $("#barTitle").textContent = title;
+  }
+}
+
+/* ---------- STEP 1 UI ---------- */
 function renderModes() {
-  $("#modes").innerHTML = MODES.map(m => '<button class="mode" type="button" role="tab" id="mode-' + m.id + '" data-mode="' + m.id + '" aria-selected="' + (st.mode === m.id) + '">' + IC[m.id] + "<span>" + m.ja + "</span></button>").join("");
-  $("#intro").textContent = MODES.find(m => m.id === st.mode).intro;
+  $("#modes").innerHTML = MODES.map(m => '<button class="mode" type="button" role="tab" id="mode-' + m.id + '" data-mode="' + m.id + '" aria-selected="' + (st.mode === m.id) + '"><span class="ic">' + IC[m.id] + "</span><span>" + m.ja + "</span></button>").join("");
+  const md = MODES.find(m => m.id === st.mode);
+  $("#intro").textContent = md.intro;
+  $("#cardsLabel").textContent = md.pick;
 }
 
 function renderCards() {
@@ -546,8 +771,8 @@ function renderCards() {
   el.innerHTML = h;
 }
 
-const seg = (name, legend) => '<fieldset id="g-' + name + '"><legend>' + legend + '</legend><div class="seg">' +
-  OPT[name].map(o => '<label><input type="radio" name="' + name + '" id="' + name + "-" + o[0] + '" value="' + o[0] + '"' + (st[name] === o[0] ? " checked" : "") + "><span>" + o[1] + "</span></label>").join("") + "</div></fieldset>";
+const seg = (name, legend, val) => { const v = val === undefined ? st[name] : val; return '<fieldset id="g-' + name + '"><legend>' + legend + '</legend><div class="seg">' +
+  OPT[name].map(o => '<label><input type="radio" name="' + name + '" id="' + name + "-" + o[0] + '" value="' + o[0] + '"' + (v === o[0] ? " checked" : "") + "><span>" + o[1] + "</span></label>").join("") + "</div></fieldset>"; };
 const fld = (key, label, ph, val) => '<div class="field"><label for="f-' + key.replace(/\W/g, "-") + '">' + label + '</label><input type="text" id="f-' + key.replace(/\W/g, "-") + '" data-k="' + key + '" maxlength="200" placeholder="' + esc(ph) + '" value="' + esc(val) + '"></div>';
 
 function renderOpts() {
@@ -572,9 +797,8 @@ function renderOpts() {
 }
 
 function renderSettings() {
-  const lvOpt = A.levels.map(l => [l.id, l.ja]);
-  OPT.level = lvOpt;
-  let h = seg("level", HS ? "自分のレベル" : "レベル") + seg("io", "話し方") + seg("corr", "まちがいの訂正") + '<div id="lenBox">' + seg("len", "練習の長さ") + "</div>" + seg("fb", "フィードバックの言語");
+  OPT.level = A.levels.map(l => [l.id, l.ja]);
+  let h = seg("level", HS ? "自分のレベル" : "レベル") + seg("io", "話し方") + seg("corr", "まちがいの訂正") + '<div id="lenBox">' + seg("len", "練習の長さ") + "</div>";
   h += HS
     ? '<fieldset><legend>日本語の使用</legend><label class="check"><input type="checkbox" id="jp"' + (st.jp ? " checked" : "") + ">困ったら日本語で言ってもOKにする</label></fieldset>"
     : seg("accent", "英語の種類");
@@ -582,10 +806,51 @@ function renderSettings() {
   $("#settings").innerHTML = h;
 }
 
+/* ---------- STEP 2 UI ---------- */
+function renderCrits() {
+  $("#crits").innerHTML = CRIT.map(c => '<button class="card" type="button" data-crit="' + c.id + '" aria-pressed="' + !!st.crit[c.id] + '"><span class="ja">' + esc(c.ja) + '</span><span class="en">' + esc(c.en) + '</span><span class="ds">' + esc(c.ds) + "</span></button>").join("");
+  const box = $("#egBox");
+  box.hidden = !st.crit.eiken || !EGS.length;
+  box.innerHTML = seg("eg", "英検の級", egCur());
+}
+
+function renderReviewOpts() {
+  const fx = fbxOf();
+  $("#incs").innerHTML = INC.map(x => {
+    if (x.id === "mode" && !fx) return "";
+    const ds = x.id === "mode" ? fbxName(fx) + "（" + MODES.find(m => m.id === st.mode).ja + "用）" : x.ds;
+    return '<label class="tick"><input type="checkbox" data-inc="' + x.id + '"' + (st.inc[x.id] ? " checked" : "") + "><span>" + esc(x.ja) + "<small>" + esc(ds) + "</small></span></label>";
+  }).join("");
+  $("#rvSettings").innerHTML = '<div id="amtBox">' + seg("amt", "添削の量（大事なものから）") + "</div>" + seg("fb", "フィードバックの言語") +
+    '<div class="field" style="grid-column:1/-1"><label for="rvExtra">その他の希望（任意・日本語OK）</label><textarea id="rvExtra" rows="2" maxlength="400" placeholder="' +
+    (HS ? "例：前置詞のまちがいを特にくわしく教えてほしい" : "例：ビジネスの場面でも通用するかどうかも教えてほしい") + '">' + esc(st.rvExtra) + "</textarea></div>";
+  $("#amtBox").hidden = !st.inc.corr;
+}
+
+/* ---------- view, update, copy ---------- */
+function setView(v, scroll) {
+  st.view = v;
+  const r = v === "review";
+  ["practice", "review"].forEach(x => $("#view-" + x).setAttribute("aria-selected", String(x === v)));
+  $("#pickP").hidden = $("#confP").hidden = r;
+  $("#pickR").hidden = $("#confR").hidden = !r;
+  if (r) { renderCrits(); renderReviewOpts(); }
+  $("#open").hidden = r; $("#same").hidden = !r;
+  $("#copyLabel").textContent = r ? "添削・評価のプロンプトをコピー" : "プロンプトをコピー";
+  const msg = $("#msg"); msg.className = "msg";
+  msg.textContent = r ? "コピーしたら、練習したチャットに戻って貼り付け、送信します。" : "コピーしたら、ChatGPTの入力欄に貼り付けて送信します。";
+  $("#nextstep").dataset.view = r ? "practice" : "review";
+  $("#nextstep").innerHTML = r
+    ? "<span>別の練習をするときは<b>STEP 1 練習するへ</b></span>" + IC.arrow
+    : "<span>会話が終わったら<b>STEP 2 添削・評価をもらう</b></span>" + IC.arrow;
+  update();
+  if (scroll) $(".views").scrollIntoView({ block: "start", behavior: "smooth" });
+}
+
 function update() {
   $("#lenBox").hidden = st.mode === "rp" || (st.mode === "iv" && !!cur().fixed);
   renderTicket();
-  $("#prompt").value = buildPrompt();
+  $("#prompt").value = st.view === "review" ? buildReview() : buildPrompt();
   save();
 }
 
@@ -596,7 +861,7 @@ function setK(k, v) {
 }
 
 async function copy(btn) {
-  const t = $("#prompt").value;
+  const t = $("#prompt").value, r = st.view === "review";
   let ok = false;
   try { await navigator.clipboard.writeText(t); ok = true; } catch (e) {}
   if (!ok) {
@@ -604,7 +869,9 @@ async function copy(btn) {
   }
   const msg = $("#msg");
   msg.className = "msg" + (ok ? " ok" : "");
-  msg.textContent = ok ? "コピーしました。ChatGPTを開いて貼り付け、送信してください。" : "自動でコピーできませんでした。下の欄が開いたら、全選択してコピーしてください。";
+  msg.textContent = ok
+    ? (r ? "コピーしました。練習したチャットに戻って貼り付け、送信してください。" : "コピーしました。ChatGPTを開いて貼り付け、送信してください。")
+    : "自動でコピーできませんでした。下の欄が開いたら、全選択してコピーしてください。";
   if (ok) {
     const s = $("#stamp"); s.classList.remove("on"); void s.offsetWidth; s.classList.add("on");
     if (btn && btn.id === "copy2") { btn.textContent = "コピー済"; setTimeout(() => { btn.textContent = "コピー"; }, 1600); }
@@ -612,9 +879,11 @@ async function copy(btn) {
 }
 
 document.addEventListener("click", e => {
-  const t = e.target.closest("[data-mode],[data-card],#reroll,#copy,#copy2");
+  const t = e.target.closest("[data-view],[data-mode],[data-card],[data-crit],#reroll,#copy,#copy2");
   if (!t) return;
+  if (t.dataset.view) { setView(t.dataset.view, t.id === "nextstep"); return; }
   if (t.dataset.mode) { st.mode = t.dataset.mode; renderModes(); renderCards(); renderOpts(); update(); return; }
+  if (t.dataset.crit) { const k = t.dataset.crit; st.crit[k] = !st.crit[k]; renderCrits(); update(); return; }
   if (t.dataset.card) {
     const id = t.dataset.card;
     if (id === "__rand") { const L = LIST[st.mode].filter(x => x.id !== st.sel[st.mode]); st.sel[st.mode] = L[Math.floor(Math.random() * L.length)].id; }
@@ -631,17 +900,19 @@ document.addEventListener("change", e => {
   const t = e.target;
   if (t.type === "radio" && t.name) { st[t.name] = t.value; if (t.name === "dbf") renderOpts(); update(); }
   else if (t.id === "jp") { st.jp = t.checked; update(); }
+  else if (t.dataset && t.dataset.inc) { st.inc[t.dataset.inc] = t.checked; if (t.dataset.inc === "corr") $("#amtBox").hidden = !t.checked; update(); }
 });
 document.addEventListener("input", e => {
   const t = e.target;
   if (t.dataset && t.dataset.k) { setK(t.dataset.k, t.value); update(); }
   else if (t.id === "extra") { st.extra = t.value; update(); }
+  else if (t.id === "rvExtra") { st.rvExtra = t.value; update(); }
 });
 
 $("#lead").textContent = A.lead;
 $("#cmds").innerHTML = A.commands.map(c => "<tr><td>" + esc(c[0]) + "</td><td>" + esc(c[1]) + "</td></tr>").join("");
 $("#notes").innerHTML = A.notes.map(n => "<li>" + esc(n) + "</li>").join("");
-renderSettings(); renderModes(); renderCards(); renderOpts(); update();
+renderSettings(); renderModes(); renderCards(); renderOpts(); setView(st.view);
 if ("IntersectionObserver" in window) {
   const barWatch = new IntersectionObserver(en => { $("#bar").classList.toggle("off", en[0].isIntersecting); });
   barWatch.observe($("#copy"));
