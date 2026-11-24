@@ -1,7 +1,7 @@
 # ChatGPT英会話プロンプト
 
 ChatGPT（無料版）に貼り付けるだけで英会話の練習ができる、プロンプト作成用のWebページ。
-APIは使わない静的HTMLで、GitHub Pagesで公開する予定。画面は日本語、生成されるプロンプト本文は英語。
+APIは使わない静的HTMLで、GitHub Pagesで公開している。画面は日本語、生成されるプロンプト本文は英語。
 
 ## フォルダ構成
 
@@ -17,7 +17,9 @@ chatgpt-eikaiwa-prompt/
 ```
 
 - `hs/index.html` と `adv/index.html` は生成物なので直接編集しない。`src/` を直してから `python src/build.py` を実行する。
+- `build.py` は改行をLFのまま書き出す（WindowsでビルドしてもCRLFにならない）。
 - 色やフォントなど版ごとのテーマは `build.py` の `THEMES` にある。
+- ルートの `.nojekyll` は消さない。これが無いと GitHub Pages が Jekyll を通し、README.md がルートのトップページとして表示されてしまう。
 
 ## ページの中身（両版共通）
 
@@ -28,15 +30,17 @@ chatgpt-eikaiwa-prompt/
 - 設定はブラウザの localStorage に保存（キーは `eikaiwa-prompt-v1-hs` と `eikaiwa-prompt-v1-adv`）
 - Google Fonts を読み込む（高校生版：M PLUS Rounded 1c、中〜上級版：Zen Kaku Gothic New）
 
-## 次にやること
+## 公開
 
-1. GitHubに公開リポジトリを作り、このフォルダをpushする（リポジトリ名の候補：`chatgpt-eikaiwa-prompt`）
-2. GitHub Pagesを有効にする（mainブランチ／ルート）
-3. 公開後のURL（GitHubのユーザー名が goldfish0824-web の場合）
-   - 高校生版：https://goldfish0824-web.github.io/chatgpt-eikaiwa-prompt/hs/
-   - 中〜上級版：https://goldfish0824-web.github.io/chatgpt-eikaiwa-prompt/adv/
-4. ルート（`/`）には2つの版へのリンクページを置かない（本人の判断）。ルートは404のままでよい
-5. GoatCounter は今のところ入れない（本人の判断）
+- リポジトリ：https://github.com/goldfish0824-web/chatgpt-eikaiwa-prompt （公開、mainブランチ）
+- GitHub Pages：mainブランチ／ルートから配信（2026年11月24日に公開）
+  - 高校生版：https://goldfish0824-web.github.io/chatgpt-eikaiwa-prompt/hs/
+  - 中〜上級版：https://goldfish0824-web.github.io/chatgpt-eikaiwa-prompt/adv/
+- 更新するときは、`src/` を直す → `python src/build.py` → コミットして `git push`。1〜2分で公開ページに反映される
+- コミットのメールアドレスは、このリポジトリだけ GitHub の noreply アドレスにしてある（`git config` のローカル設定）
+- リポジトリは公開なので、CLAUDE.md や README.md も誰でも読める（Pages上の `/CLAUDE.md` などでも見える）
+- ルート（`/`）には2つの版へのリンクページを置かない（本人の判断）。ルートは404のままでよい
+- GoatCounter は今のところ入れない（本人の判断）
 
 ## メモ
 
