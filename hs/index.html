@@ -742,7 +742,6 @@ window.APP = {
         );
         return { lines: L, start: "Start now: greet me as the interviewer and ask the first question.",
           fbJa: "【面接のアドバイス】内容・話し方でよかった点と改善点",
-          fbEn: "Interview advice: good points and things to improve in my answers.",
           show: ["面接官：大学の先生", "質問の数：約" + c.n + "問"].concat(c.in.field ? ["志望分野：" + c.in.field] : []) };
       } },
     { id: "eiken", ja: "英検二次風・意見を答える質問", en: "Eiken-style Speaking Questions",
@@ -763,7 +762,6 @@ window.APP = {
           "After each answer, react briefly (for example, \"I see.\") and go to the next question, like a real test."
         ], start: "Start now: greet me like an interviewer (\"Hello. Let's start.\") and ask the first question.",
           fbJa: "【面接のアドバイス】それぞれの答えで、意見と理由がはっきり言えていたか",
-          fbEn: "Interview advice: tell me if my answers had a clear opinion and reasons.",
           show: ["面接官：英検の面接委員", "質問の数：" + c.n + "問", "レベル：" + c.levelJa] };
       } },
     { id: "studyabroad", ja: "留学プログラムの選考面接", en: "Study-abroad Program Interview",
@@ -789,7 +787,6 @@ window.APP = {
         );
         return { lines: L, start: "Start now: greet me as the interviewer and ask the first question.",
           fbJa: "【面接のアドバイス】熱意や具体性が伝わったか、よかった点と改善点",
-          fbEn: "Interview advice: did my answers show my motivation clearly and with details?",
           show: ["面接官：留学プログラムの担当者", "質問の数：約" + c.n + "問"].concat(c.in.country ? ["行きたい国：" + c.in.country] : []) };
       } },
     { id: "volunteer", ja: "国際イベントのボランティア面接", en: "Volunteer Guide Interview",
@@ -810,7 +807,6 @@ window.APP = {
           "Sometimes ask me to show you what I would actually say to the visitor, in English."
         ], start: "Start now: greet me as the staff leader and ask the first question.",
           fbJa: "【面接のアドバイス】よかった点と改善点",
-          fbEn: "Interview advice: good points and things to improve.",
           show: ["面接官：イベントスタッフのリーダー", "質問の数：約" + c.n + "問"] };
       } }
   ],
@@ -855,7 +851,6 @@ const OPT = {
   io: [["voice", "音声で話す"], ["text", "文字で入力"]],
   corr: [["end", "会話のあとでまとめて"], ["each", "その場で短く"]],
   len: [["short", "短め（約5分）"], ["normal", "ふつう（約10分）"], ["long", "長め（約15分）"]],
-  fb: [["ja", "日本語"], ["en", "英語"]],
   accent: [["us", "アメリカ英語"], ["uk", "イギリス英語"], ["any", "指定なし"]],
   style: [["interview", "インタビュー型（質問中心）"], ["chat", "雑談型（AIも自分の話をする）"]],
   order: [["list", "順番どおり"], ["shuffle", "シャッフル"]],
@@ -900,7 +895,7 @@ function fresh() {
     view: "practice",
     mode: "qa", sel: { qa: A.topics[0].id, rp: A.scenes[0].id, db: A.debates[0].id, iv: A.interviews[0].id },
     custom: { qa: "", rp: "", db: "" }, ivIn: {},
-    level: A.defLevel, io: "voice", corr: "end", len: "normal", fb: HS ? "ja" : "en", jp: true, accent: "us",
+    level: A.defLevel, io: "voice", corr: "end", len: "normal", jp: true, accent: "us",
     style: HS ? "interview" : "chat", order: "list", diff: "normal", dbf: "discussion", stance: "random",
     extra: "", seed: 1 + Math.floor(Math.random() * 2147483000),
     crit: HS ? { eiken: true } : { cefr: true }, eg: "", amt: HS ? "3" : "5",
@@ -939,19 +934,19 @@ function ivRun() {
   return iv.make({ n: nOf("iv"), level: st.level, levelJa: lvl().ja, in: inp, app: A, pick: (arr, k) => shuffle(arr, st.seed).slice(0, k) });
 }
 
-// 練習の種類ごとのチェック項目（STEP 2 で使う）
+// 練習の種類ごとのチェック項目（STEP 2 で使う。添削・評価は日本語だけ）
 function fbxOf() {
   const m = st.mode;
   if (m === "rp") return HS
-    ? { ja: "【ミッション】それぞれのミッションができたか（○・△）", en: "Mission: did I complete each part of my mission?" }
-    : { ja: "**ゴール**：各ゴールの達成度と、場面にふさわしい言い方（丁寧さ・きっぱりさ・角の立たなさ）ができていたか", en: "**Goals**: how well I achieved each goal, and whether my tone fit the situation (politeness, firmness, diplomacy)." };
+    ? "【ミッション】それぞれのミッションができたか（○・△）"
+    : "**ゴール**：各ゴールの達成度と、場面にふさわしい言い方（丁寧さ・きっぱりさ・角の立たなさ）ができていたか";
   if (m === "db") return HS
-    ? { ja: "【意見の伝え方】OREO（意見・理由・例・意見）で話せていたか", en: "Opinions: did I use OREO (Opinion, Reason, Example, Opinion)?" }
-    : { ja: "**議論**：主張と反論の強さ・論理性と、より強い主張の例", en: "**Arguments**: how strong and logical my arguments and rebuttals were, and what a stronger argument could have been." };
-  if (m === "iv") { const r = ivRun(); return { ja: r.fbJa, en: r.fbEn }; }
+    ? "【意見の伝え方】OREO（意見・理由・例・意見）で話せていたか"
+    : "**議論**：主張と反論の強さ・論理性と、より強い主張の例";
+  if (m === "iv") return ivRun().fbJa;
   return null;
 }
-const fbxName = f => { const x = f && /^(?:【(.+?)】|\*\*(.+?)\*\*)/.exec(f.ja); return x ? (x[1] || x[2]) : ""; };
+const fbxName = f => { const x = f && /^(?:【(.+?)】|\*\*(.+?)\*\*)/.exec(f); return x ? (x[1] || x[2]) : ""; };
 
 /* ---------- STEP 1: 練習のプロンプト ---------- */
 function buildPrompt() {
@@ -1145,36 +1140,36 @@ const crits = () => CRIT.filter(c => st.crit[c.id]);
 const incOn = id => !!st.inc[id] && (id !== "mode" || !!fbxOf());
 
 function buildReview() {
-  const lv = lvl(), ja = st.fb === "ja", P = [], add = (...x) => P.push(...x), C = crits(), fx = fbxOf();
-  const h = (hsJa, advJa, en) => ja ? (HS ? "【" + hsJa + "】" : "**" + advJa + "**") : (HS ? en + ":" : "**" + en + "**:");
-  add("Our practice is over. Now please look back at our whole conversation in this chat and give me feedback on my English.");
+  const lv = lvl(), P = [], add = (...x) => P.push(...x), C = crits(), fx = fbxOf();
+  const h = (hsJa, advJa) => HS ? "【" + hsJa + "】" : "**" + advJa + "**";
+  add("Our practice is over. Now please look back at our whole conversation in this chat and give me feedback on my English, written in Japanese.");
   add("", "## Rules for the feedback",
+    HS ? "- Write all of the feedback in Japanese, using easy words: headings, explanations, reasons, comments and the evaluation. Keep only my sentences and the English examples (better sentences, expressions and model answers) in English."
+       : "- Write all of the feedback in Japanese: headings, explanations, reasons, comments and the evaluation. Keep only my sentences and the English examples (corrections, rewrites and model answers) in English.",
     "- Look only at what I said, not at your own messages. When you quote or correct me, use my exact words.",
     "- Some of my messages may be transcripts of my voice. If so, ignore spelling, punctuation and capital letters. Don't judge my pronunciation, because it can't be judged from text.",
     HS ? "- Be kind and encouraging, but honest. Don't give me a better evaluation than I deserve." : "- Be direct and specific. I want to improve, not to be flattered, so don't overrate me.",
     "- If I didn't say much, tell me that the feedback may not be very reliable.",
     "- My level (my own estimate): " + lv.en + ".",
-    ja ? (HS ? "- Write the feedback in Japanese, using easy words. Keep my sentences and all English examples in English." : "- Write the feedback in Japanese, but keep my sentences and all English examples in English.")
-       : (HS ? "- Write the feedback in easy English." : "- Write the feedback in English."),
     "- Use a clear heading for each part, and keep each part short and easy to read.");
 
   const items = [];
-  if (incOn("good")) items.push(h("よかったところ", "よかった点", "Good points") + " two or three specific things I did well, with examples from what I said.");
-  if (incOn("corr")) items.push(h("添削", "添削", "Corrections") + " " + {
+  if (incOn("good")) items.push(h("よかったところ", "よかった点") + " two or three specific things I did well, with examples from what I said.");
+  if (incOn("corr")) items.push(h("添削", "添削") + " " + {
       "3": "the three most important mistakes or unnatural sentences in what I said.",
       "5": "up to five mistakes or unnatural sentences in what I said, the most important first.",
       all: "every sentence I said that has a mistake or sounds unnatural, in the order I said them. If there are many, group similar mistakes together."
     }[st.amt] + " Write each one like this: \"✕ what I said → ○ " + (HS ? "a better sentence" : "a more natural version") + "\", with a short reason" +
-    (HS ? "" : " (grammar, word choice, collocation, register, or \"sounds unnatural\")") + (ja ? " in Japanese." : "."));
+    (HS ? "" : " (grammar, word choice, collocation, register, or \"sounds unnatural\")") + " in Japanese.");
   if (incOn("up")) items.push(HS
-    ? h("ワンランク上の言い方", "", "Level up") + " choose three things I said that were correct but simple, and show how to say them in a slightly more advanced way (just a little above my level)" + (ja ? ", with the Japanese meaning." : ".")
-    : h("", "ネイティブらしい言い換え", "Upgrades") + " three to five things I said, rewritten the way a native speaker would naturally say them (idioms, phrasal verbs, collocations), each with a short note on why it sounds better.");
-  if (incOn("model")) items.push(h("模範解答", "模範解答", "Model answers") + " choose one or two questions you asked me, and show " +
+    ? h("ワンランク上の言い方", "") + " choose three things I said that were correct but simple, and show how to say them in a slightly more advanced way (just a little above my level), with the Japanese meaning."
+    : h("", "ネイティブらしい言い換え") + " three to five things I said, rewritten the way a native speaker would naturally say them (idioms, phrasal verbs, collocations), each with a short note in Japanese on why it sounds better.");
+  if (incOn("model")) items.push(h("模範解答", "模範解答") + " choose one or two questions you asked me, and show " +
     (HS ? "a model answer for each (three to five sentences), a little above my level." : "how a highly proficient speaker might answer each one (natural spoken English, about four to six sentences).") +
     (st.mode === "rp" ? " (In a role-play, show a model version of my lines for one important moment instead.)" : ""));
-  if (incOn("mode")) items.push(ja ? fx.ja : fx.en);
-  if (C.length) items.push(h("評価", "評価", "Evaluation") + " evaluate my speaking using " + (C.length > 1 ? "each of the criteria" : "the criterion") + " below.");
-  if (incOn("tip")) items.push(h("次へのアドバイス", "次の課題", "Next steps") + " " +
+  if (incOn("mode")) items.push(fx);
+  if (C.length) items.push(h("評価", "評価") + " evaluate my speaking using " + (C.length > 1 ? "each of the criteria" : "the criterion") + " below. Write the evaluation in Japanese too.");
+  if (incOn("tip")) items.push(h("次へのアドバイス", "次の課題") + " " +
     (HS ? "two or three specific things to practice next time, the most important first." : "two or three specific things to work on next, the most important first, each with a quick way to practice it."));
 
   if (items.length) { add("", "## What I want, in this order"); items.forEach((x, i) => add((i + 1) + ". " + x)); }
@@ -1183,10 +1178,10 @@ function buildReview() {
   if (C.length) {
     add("", "## Evaluation criteria");
     C.forEach((c, i) => { if (i) add(""); add(...CRIT_TXT[c.id]()); });
-    add("", "At the end of the evaluation, add one short line saying that this is an unofficial estimate based only on this one conversation.");
+    add("", "At the end of the evaluation, add one short line in Japanese saying that this is an unofficial estimate based only on this one conversation.");
   }
   if (incOn("retry")) add("", "## After the feedback",
-    "Then let me try again: choose one question (or one moment in the role-play) where my answer could be much better, and ask it again. When I answer, give me short feedback on my new answer.");
+    "Then let me try again: choose one question (or one moment in the role-play) where my answer could be much better, and ask it again in English. When I answer, give me short feedback on my new answer in Japanese.");
   if (st.rvExtra.trim()) add("", "## My extra request (it may be in Japanese)", st.rvExtra.trim());
   return P.join("\n");
 }
@@ -1256,7 +1251,7 @@ function renderTicket() {
       ? '<ol class="t-list">' + list.map(x => "<li>" + esc(x) + "</li>").join("") + (incOn("retry") ? '<li class="plus">＋ もう一度チャレンジ</li>' : "") + "</ol>"
       : '<p class="t-set" style="margin-top:0">かんたんなフィードバック（項目が選ばれていません）</p>');
     const title = C.length ? C.map(critName).join(" ＋ ") : "添削・フィードバック";
-    $("#ticket").innerHTML = ticketHTML({ icon: IC.pen, mode: "添削・評価", title, sub: "対象：" + md.ja + "「" + t.title + "」", body, reroll: "", chips: ["フィードバック：" + lab("fb", st.fb)].concat(st.rvExtra.trim() ? ["追加の希望あり"] : []), stubIcon: IC.pen, stubB: "STEP 2", stubS: "会話後に" });
+    $("#ticket").innerHTML = ticketHTML({ icon: IC.pen, mode: "添削・評価", title, sub: "対象：" + md.ja + "「" + t.title + "」", body, reroll: "", chips: ["解説は日本語"].concat(st.rvExtra.trim() ? ["追加の希望あり"] : []), stubIcon: IC.pen, stubB: "STEP 2", stubS: "会話後に" });
     $("#barMode").textContent = "STEP 2・添削・評価";
     $("#barTitle").textContent = title;
   }
@@ -1333,7 +1328,7 @@ function renderReviewOpts() {
     const ds = x.id === "mode" ? fbxName(fx) + "（" + MODES.find(m => m.id === st.mode).ja + "用）" : x.ds;
     return '<label class="tick"><input type="checkbox" data-inc="' + x.id + '"' + (st.inc[x.id] ? " checked" : "") + "><span>" + esc(x.ja) + "<small>" + esc(ds) + "</small></span></label>";
   }).join("");
-  $("#rvSettings").innerHTML = '<div id="amtBox">' + seg("amt", "添削の量（大事なものから）") + "</div>" + seg("fb", "フィードバックの言語") +
+  $("#rvSettings").innerHTML = '<div id="amtBox">' + seg("amt", "添削の量（大事なものから）") + "</div>" +
     '<div class="field" style="grid-column:1/-1"><label for="rvExtra">その他の希望（任意・日本語OK）</label><textarea id="rvExtra" rows="2" maxlength="400" placeholder="' +
     (HS ? "例：前置詞のまちがいを特にくわしく教えてほしい" : "例：ビジネスの場面でも通用するかどうかも教えてほしい") + '">' + esc(st.rvExtra) + "</textarea></div>";
   $("#amtBox").hidden = !st.inc.corr;

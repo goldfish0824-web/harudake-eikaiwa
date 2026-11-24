@@ -424,7 +424,6 @@ window.APP = {
         );
         return { lines: L, start: "Start now: greet me as the interviewer and ask the first question.",
           fbJa: "【面接のアドバイス】内容・話し方でよかった点と改善点",
-          fbEn: "Interview advice: good points and things to improve in my answers.",
           show: ["面接官：大学の先生", "質問の数：約" + c.n + "問"].concat(c.in.field ? ["志望分野：" + c.in.field] : []) };
       } },
     { id: "eiken", ja: "英検二次風・意見を答える質問", en: "Eiken-style Speaking Questions",
@@ -445,7 +444,6 @@ window.APP = {
           "After each answer, react briefly (for example, \"I see.\") and go to the next question, like a real test."
         ], start: "Start now: greet me like an interviewer (\"Hello. Let's start.\") and ask the first question.",
           fbJa: "【面接のアドバイス】それぞれの答えで、意見と理由がはっきり言えていたか",
-          fbEn: "Interview advice: tell me if my answers had a clear opinion and reasons.",
           show: ["面接官：英検の面接委員", "質問の数：" + c.n + "問", "レベル：" + c.levelJa] };
       } },
     { id: "studyabroad", ja: "留学プログラムの選考面接", en: "Study-abroad Program Interview",
@@ -471,7 +469,6 @@ window.APP = {
         );
         return { lines: L, start: "Start now: greet me as the interviewer and ask the first question.",
           fbJa: "【面接のアドバイス】熱意や具体性が伝わったか、よかった点と改善点",
-          fbEn: "Interview advice: did my answers show my motivation clearly and with details?",
           show: ["面接官：留学プログラムの担当者", "質問の数：約" + c.n + "問"].concat(c.in.country ? ["行きたい国：" + c.in.country] : []) };
       } },
     { id: "volunteer", ja: "国際イベントのボランティア面接", en: "Volunteer Guide Interview",
@@ -492,7 +489,6 @@ window.APP = {
           "Sometimes ask me to show you what I would actually say to the visitor, in English."
         ], start: "Start now: greet me as the staff leader and ask the first question.",
           fbJa: "【面接のアドバイス】よかった点と改善点",
-          fbEn: "Interview advice: good points and things to improve.",
           show: ["面接官：イベントスタッフのリーダー", "質問の数：約" + c.n + "問"] };
       } }
   ],

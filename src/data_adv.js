@@ -478,7 +478,6 @@ window.APP = {
           "5. Then ask me about four questions on my speech: challenge my points, ask for specific examples, and ask about related wider issues."
         ], start: "Start now: greet me as the examiner and begin the warm-up with your first question.",
           fbJa: "**スピーチ**：構成（導入・主張・結論）、主張の妥当性と裏づけ。明らかに2分より短かった場合はそれも指摘。**質疑応答**：質問へのかわし方・深め方。**モデル**：選んだトピックで、より説得力のあるスピーチの骨子（3〜4項目）。",
-          fbEn: "**Speech**: structure (introduction, main points, conclusion), and how relevant and well-supported my points were. If the speech seemed clearly shorter than two minutes, say so. **Q&A**: how well I handled the questions. **Model**: a short outline (3 or 4 points) of a stronger speech on the topic I chose.",
           show: topics };
       } },
     { id: "ielts", ja: "IELTS スピーキング風", en: "IELTS Speaking Style",
@@ -499,7 +498,6 @@ window.APP = {
           "Part 3 (about 4 to 5 minutes): ask me four or five more abstract questions related to the Part 2 topic, and ask me to explain and justify my opinions."
         ], start: "Start now: introduce yourself as the examiner and begin Part 1.",
           fbJa: "**IELTS形式**：Part 2で1〜2分話し続け、カードの項目をすべてカバーできたか。Part 3で意見の理由づけと具体例が十分だったか。",
-          fbEn: "**IELTS format**: in Part 2, did I keep talking for one to two minutes and cover all the points on the card? In Part 3, did I justify my opinions with reasons and examples?",
           show: [card[0]].concat(card.slice(1).map(x => "・" + x)) };
       } },
     { id: "job", ja: "英語での就職面接", en: "Job Interview in English",
@@ -523,7 +521,6 @@ window.APP = {
         );
         return { lines: L, start: "Start now: greet me as the hiring manager and ask the first question.",
           fbJa: "**面接スキル**：答えの具体性と構成（行動面接はSTAR：Situation, Task, Action, Result）、自信の伝わり方。さらに、私の答えを1つ選び、より強い模範解答に書き直してください。",
-          fbEn: "**Interview skills**: how specific and well-structured my answers were (for behavioral questions, check the STAR method: Situation, Task, Action, Result) and how confident I sounded. Then rewrite one of my answers as a stronger model answer.",
           show: ["面接官：採用担当マネージャー", "質問の数：約" + c.n + "問"].concat(c.in.role ? ["職種：" + c.in.role] : []) };
       } },
     { id: "podcast", ja: "ポッドキャストにゲスト出演", en: "Podcast Guest",
@@ -539,7 +536,6 @@ window.APP = {
           "Keep it conversational, like a real episode, not a formal interview."
         ], start: "Start now: open the show with a short intro like a real podcast, welcome me, and ask the first question.",
           fbJa: "**ストーリーテリング**：話の引き込み方、具体性、もっと生き生きと伝えるための工夫。",
-          fbEn: "**Storytelling**: how engaging and vivid my stories and explanations were, and how I could make them more compelling.",
           show: ["ホスト：英語ポッドキャストの司会者", "質問の数：約" + c.n + "問"].concat(c.in.theme ? ["テーマ：" + c.in.theme] : []) };
       } }
   ],
