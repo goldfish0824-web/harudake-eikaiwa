@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ChatGPT英会話プロンプト 中〜上級版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+/* VOICE everyday learning tool, friendly and quick to use
+   IDEA a practice ticket: pick a talk, tear off the stub, take it to ChatGPT
+   PICTURE the ticket itself: chosen practice, its questions or mission, settings chips, a stub with voice/text and minutes
+   COLOUR one header band colour carried into the ticket stub; white ground; one accent for the copy action
+   TYPE one Japanese face with a Latin set, heavy for titles
+   LAYOUT laptop: choices left, ticket sticky right; phone: choices, ticket, settings, with a bottom copy bar */
+:root{color-scheme:light;--bg:#ffffff;--ink:#0f262b;--soft:#4b6266;--line:#d4e0de;--panel:#f1f6f5;--band:#0e3b43;--bandInk:#eef8f5;--acc:#d13a22;--accInk:#ffffff;--accSoft:#fdf0ed;--sup:#7fd1c0;--tk:#ffffff;--font:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP","Yu Gothic",Meiryo,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#0a1d21;--ink:#e8f2f0;--soft:#a3bab8;--line:#24404a;--panel:#102a30;--band:#0e3b43;--bandInk:#eef8f5;--acc:#ff7a5f;--accInk:#1b0a06;--accSoft:#2a2322;--sup:#1f6b5f;--tk:#102a30;}}
+:root[data-theme=dark]{color-scheme:dark;--bg:#0a1d21;--ink:#e8f2f0;--soft:#a3bab8;--line:#24404a;--panel:#102a30;--band:#0e3b43;--bandInk:#eef8f5;--acc:#ff7a5f;--accInk:#1b0a06;--accSoft:#2a2322;--sup:#1f6b5f;--tk:#102a30;}
+*{box-sizing:border-box;min-width:0}
+[hidden]{display:none!important}
+html{scroll-padding-top:16px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--font);overflow-x:clip;-webkit-text-size-adjust:100%}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(4vw,16px);padding-right:max(4vw,16px)}
+button{font:inherit;color:inherit}
+header.top{background:var(--band);color:var(--bandInk)}
+.head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 40px;padding-top:30px;padding-bottom:26px}
+h1,.t-title,.card .ja,.mode span{word-break:auto-phrase}
+h1{font-size:clamp(28px,4vw,44px);line-height:1.12;letter-spacing:-.01em;margin:0;font-weight:900;text-wrap:balance}
+.ver{display:inline-block;font-size:max(15px,.42em);line-height:1;vertical-align:.3em;padding:.45em .9em;border-radius:99px;background:var(--bandInk);color:var(--band);margin-left:.35em;letter-spacing:0;white-space:nowrap}
+.lead{margin:10px 0 0;font-size:16px;max-width:40em}
+.steps{list-style:none;margin:0;padding:0;display:flex;gap:10px 18px;flex-wrap:wrap}
+.steps li{display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px;white-space:nowrap}
+.steps b{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--bandInk);color:var(--band);font-size:14px}
+main.grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);column-gap:36px;row-gap:28px;padding-top:26px;padding-bottom:56px;align-items:start}
+.pick{grid-column:1;grid-row:1}
+.conf{grid-column:1;grid-row:2;display:grid;gap:20px}
+.side{grid-column:2;grid-row:1/3;position:sticky;top:16px;display:grid;gap:14px;max-height:calc(100vh - 32px);overflow:auto;padding:2px 10px 10px 2px}
+h2.sec{font-size:20px;line-height:1.3;margin:0 0 10px}
+.modes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.mode{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 6px 10px;border:2px solid var(--line);border-radius:14px;background:var(--bg);font-weight:700;font-size:14px;line-height:1.3;cursor:pointer;min-height:44px;text-align:center}
+.mode svg{width:32px;height:32px;flex:none}
+.mode:hover{border-color:var(--soft)}
+.mode[aria-selected=true]{border-color:var(--acc);background:var(--accSoft);color:var(--ink)}
+.mode[aria-selected=true] svg{color:var(--acc)}
+.intro{margin:14px 0 10px;color:var(--soft);font-size:15px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.cards.wide{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.card{display:flex;flex-direction:column;justify-content:center;gap:2px;text-align:left;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;background:var(--bg);cursor:pointer;min-height:58px}
+.card:hover{border-color:var(--soft)}
+.card .ja{font-weight:700;font-size:15px;line-height:1.35}
+.card .en{font-size:13px;color:var(--soft);line-height:1.35}
+.card .ds{font-size:13px;color:var(--soft);line-height:1.5;margin-top:4px}
+.card.mot .en{font-size:15px;color:var(--ink);font-weight:700}
+.card.mot .ja{font-size:13px;font-weight:400;color:var(--soft)}
+.card.sp{border-style:dashed}
+.card[aria-pressed=true]{border-color:var(--acc);background:var(--accSoft);box-shadow:inset 0 0 0 1.5px var(--acc)}
+:is(.mode,.card,.copy,.open,.reroll,summary):focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.panel{background:var(--panel);border-radius:16px;padding:20px;display:grid;gap:18px}
+.panel h3{margin:0;font-size:17px}
+.setgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:18px 24px}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+legend{font-weight:700;font-size:14px;padding:0;margin-bottom:8px}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg label{position:relative;display:inline-flex}
+.seg input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.seg span{display:inline-flex;align-items:center;min-height:44px;padding:6px 14px;border:1.5px solid var(--line);border-radius:99px;font-size:14px;font-weight:700;background:var(--bg);line-height:1.3}
+.seg input:checked+span{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.seg input:focus-visible+span{outline:3px solid var(--acc);outline-offset:2px}
+.check{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700;min-height:44px;cursor:pointer}
+.check input{width:22px;height:22px;accent-color:var(--acc);margin:0;flex:none}
+.field{display:grid;gap:6px}
+.field label{font-weight:700;font-size:14px}
+input[type=text],textarea{font:inherit;font-size:16px;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);width:100%}
+input[type=text]:focus,textarea:focus{outline:3px solid var(--acc);outline-offset:0;border-color:transparent}
+textarea{resize:vertical;line-height:1.5}
+.ticket{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 96px;background:var(--tk);border:1.5px solid var(--line);border-radius:20px;box-shadow:7px 7px 0 var(--sup);margin-right:7px}
+.ticket::before,.ticket::after{content:"";position:absolute;right:85px;width:22px;height:22px;border-radius:50%;background:var(--bg);border:1.5px solid var(--line)}
+.ticket::before{top:-12px;clip-path:inset(50% 0 0 0)}
+.ticket::after{bottom:-12px;clip-path:inset(0 0 50% 0)}
+.t-main{padding:18px 20px 20px}
+.t-mode{display:flex;align-items:center;gap:6px;margin:0;font-size:14px;font-weight:700;color:var(--soft)}
+.t-mode svg{width:20px;height:20px}
+.t-title{font-size:clamp(26px,2.8vw,34px);line-height:1.15;margin:6px 0 2px;font-weight:900;letter-spacing:-.01em;overflow-wrap:anywhere}
+.t-sub{margin:0 0 4px;color:var(--soft);font-size:15px}
+.t-h{margin:14px 0 4px;font-size:14px;font-weight:700}
+.t-set{margin:10px 0 0;font-size:14px;line-height:1.6}
+.t-list{margin:0;padding-left:1.4em;font-size:14.5px;line-height:1.5}
+.t-list li{margin:4px 0}
+.t-list.tick{list-style:none;padding-left:0}
+.t-list.tick li{display:flex;gap:8px}
+.t-list.tick li::before{content:"";flex:none;width:15px;height:15px;margin-top:3px;border:2px solid var(--soft);border-radius:4px}
+.reroll{margin-top:12px;min-height:40px;padding:6px 14px;border:1.5px solid var(--line);border-radius:99px;background:var(--bg);font-size:14px;font-weight:700;cursor:pointer}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.chip{font-size:13px;line-height:1.4;padding:3px 10px;border-radius:99px;background:var(--panel);border:1px solid var(--line);white-space:nowrap}
+.t-stub{display:flex;flex-direction:column;align-items:center;gap:4px;padding:22px 6px 16px;background:var(--band);color:var(--bandInk);border-left:2px dashed color-mix(in srgb,var(--bandInk) 35%,transparent);border-radius:0 18px 18px 0;text-align:center}
+.t-stub svg{width:38px;height:38px}
+.t-stub b{font-size:15px;line-height:1.3}
+.t-stub small{font-size:13px}
+.stamp{margin-top:auto;padding:3px 6px;border:2.5px solid currentColor;border-radius:8px;font-size:13px;font-weight:900;transform:rotate(-12deg);opacity:0;white-space:nowrap}
+.stamp.on{opacity:1;animation:stamp .4s cubic-bezier(.2,1.4,.4,1)}
+@keyframes stamp{from{opacity:0;transform:rotate(-12deg) scale(1.9)}to{opacity:1;transform:rotate(-12deg) scale(1)}}
+.acts{display:grid;gap:8px}
+.copy{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:58px;border:0;border-radius:14px;background:var(--acc);color:var(--accInk);font-size:18px;font-weight:900;cursor:pointer}
+.copy:hover{filter:brightness(1.08)}
+.copy svg{width:22px;height:22px}
+.open{display:flex;align-items:center;justify-content:center;min-height:50px;border:2px solid var(--ink);border-radius:14px;color:var(--ink);text-decoration:none;font-weight:700}
+.open:hover{background:var(--panel)}
+.msg{min-height:1.6em;margin:2px 0 0;font-size:14px;color:var(--soft)}
+.msg.ok{color:var(--ink);font-weight:700}
+details.prev{border:1.5px solid var(--line);border-radius:14px;padding:0 14px}
+details.prev summary{cursor:pointer;font-weight:700;font-size:15px;min-height:46px;display:flex;align-items:center}
+details.prev textarea{height:300px;font-size:13px;font-family:ui-monospace,Menlo,Consolas,monospace;margin-bottom:6px}
+details.prev p{font-size:13px;color:var(--soft);margin:0 0 12px}
+.how{background:var(--panel);border-top:1.5px solid var(--line)}
+.howgrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr) minmax(0,1fr);gap:28px 40px;padding-top:36px;padding-bottom:40px}
+.how h2{font-size:20px;margin:0 0 12px}
+.how ol,.how ul{margin:0;padding-left:1.3em}
+.how li{margin:6px 0;font-size:15px}
+.cmd{width:100%;border-collapse:collapse;font-size:14.5px}
+.cmd td{padding:7px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.cmd td:first-child{font-weight:900;white-space:nowrap;padding-right:14px}
+footer{padding-top:18px;padding-bottom:28px;font-size:13px;color:var(--soft)}
+.bar{display:none}
+@media(max-width:960px){
+  main.grid{grid-template-columns:minmax(0,1fr)}
+  .pick,.side,.conf{grid-column:1;grid-row:auto}
+  .side{position:static;max-height:none;overflow:visible;padding:0}
+  .howgrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .howgrid>:first-child{grid-column:1/-1}
+  .bar{display:flex;align-items:center;gap:12px;position:fixed;left:0;right:0;bottom:0;z-index:5;padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:var(--band);color:var(--bandInk);transition:transform .2s}
+  .bar.off{transform:translateY(110%)}
+  .bar-t{flex:1;display:grid;line-height:1.3}
+  .bar-t span{font-size:13px}
+  .bar-t b{font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bar .copy{width:auto;min-height:48px;padding:0 20px;font-size:16px;flex:none}
+  body{padding-bottom:80px}
+}
+@media(max-width:600px){
+  .head{padding-top:22px;padding-bottom:20px}
+  .steps{display:none}
+  .modes{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .mode{flex-direction:row;justify-content:flex-start;padding:10px 12px;text-align:left}
+  .mode svg{width:26px;height:26px}
+  .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cards.wide{grid-template-columns:minmax(0,1fr)}
+  .ticket{grid-template-columns:minmax(0,1fr) 76px}
+  .ticket::before,.ticket::after{right:65px}
+  .t-main{padding:16px 16px 18px}
+  .t-stub svg{width:30px;height:30px}
+  .panel{padding:16px}
+  .howgrid{grid-template-columns:minmax(0,1fr)}
+}
+@media(prefers-reduced-motion:reduce){.stamp.on{animation:none}.bar{transition:none}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap head">
+    <div>
+      <h1>ChatGPT英会話プロンプト<span class="ver">中〜上級版</span></h1>
+      <p class="lead" id="lead"></p>
+    </div>
+    <ol class="steps" aria-label="使い方">
+      <li><b>1</b>練習を選ぶ</li>
+      <li><b>2</b>コピー</li>
+      <li><b>3</b>ChatGPTに貼って話す</li>
+    </ol>
+  </div>
+</header>
+
+<main class="wrap grid">
+  <section class="pick" aria-label="練習を選ぶ">
+    <div class="modes" role="tablist" id="modes"></div>
+    <p class="intro" id="intro"></p>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <aside class="side" aria-label="選んだ練習">
+    <article class="ticket" id="ticket"></article>
+    <div class="acts">
+      <button class="copy" id="copy" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>プロンプトをコピー</button>
+      <a class="open" id="open" href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPTを開く</a>
+      <p class="msg" id="msg" role="status">コピーしたら、ChatGPTの入力欄に貼り付けて送信します。</p>
+    </div>
+    <details class="prev" id="prev">
+      <summary>プロンプトを見る・編集する</summary>
+      <textarea id="prompt" spellcheck="false" aria-label="プロンプト"></textarea>
+      <p>ここで直接書き換えてからコピーすることもできます。設定を変えると元に戻ります。</p>
+    </details>
+  </aside>
+
+  <section class="conf" aria-label="設定">
+    <div id="modeOpts"></div>
+    <div class="panel">
+      <h3>練習の設定</h3>
+      <div class="setgrid" id="settings"></div>
+    </div>
+  </section>
+</main>
+
+<section class="how">
+  <div class="wrap howgrid">
+    <div>
+      <h2>使い方</h2>
+      <ol>
+        <li>上で練習の種類と内容を選び、設定を確かめます。</li>
+        <li>「プロンプトをコピー」を押し、「ChatGPTを開く」から新しいチャットを開きます。</li>
+        <li>入力欄に貼り付けて送信すると、ChatGPTが最初のあいさつと質問を返してきます。</li>
+        <li>声で話すときは、その返事が来てから、同じチャットで音声モードに切り替えて答えます。</li>
+        <li>終わるときは「Finish」。音声モードのときは音声モードを終えてから「Finish」と入力すると、フィードバックが文字で届きます。</li>
+      </ol>
+    </div>
+    <div>
+      <h2>練習中に使えることば</h2>
+      <table class="cmd"><tbody id="cmds"></tbody></table>
+    </div>
+    <div>
+      <h2>知っておくこと</h2>
+      <ul id="notes"></ul>
+    </div>
+  </div>
+</section>
+<footer class="wrap">ChatGPT無料版での利用を想定したプロンプトです。ChatGPTはOpenAIのサービスで、このページとは関係ありません。</footer>
+
+<div class="bar" id="bar">
+  <div class="bar-t"><span id="barMode"></span><b id="barTitle"></b></div>
+  <button class="copy" id="copy2" type="button">コピー</button>
+</div>
+
+<script>
+window.APP = {
+  id: "adv",
+  title: "ChatGPT英会話プロンプト 中〜上級版",
+  ver: "中〜上級版",
+  lead: "読めるし聞ける。でも、とっさに自然な英語が出てこない人のための練習プロンプト集です。",
+  levels: [
+    { id: "b2", ja: "中級（B2）", short: "B2", en: "upper-intermediate (CEFR B2, around Eiken Pre-1 / TOEIC 700-850)",
+      style: "Use natural, everyday native English at a normal pace, with contractions and common phrasal verbs. Avoid very rare idioms or heavy slang, and explain an idiom briefly if I seem confused." },
+    { id: "c1", ja: "上級（C1）", short: "C1", en: "advanced (CEFR C1, around Eiken Grade 1 / TOEIC 900+)",
+      style: "Talk like a native speaker in a real conversation: natural speed, contractions, phrasal verbs, idioms and casual expressions. Don't simplify your English for me." },
+    { id: "c2", ja: "最上級（C2をめざす）", short: "C2", en: "advanced, aiming for near-native fluency (CEFR C1+ to C2)",
+      style: "Talk exactly as you would with a native-speaker friend: fast, idiomatic, with slang, humor, cultural references and abstract ideas. Don't hold back at all." }
+  ],
+  defLevel: "c1",
+  commands: [
+    ["Upgrade", "直前の自分の発言を、ネイティブらしい言い方に直してもらう（もう一度言い直す練習）", "show me how a native speaker would say what I just said, then let me try saying it again."],
+    ["Hint", "答えるためのアイデアや使える表現をもらう", "give me a few ideas or useful phrases for my answer."],
+    ["Explain ___", "わからない単語や表現を例文つきで説明してもらう", "explain that word or expression briefly, with an example."],
+    ["Skip", "その質問を飛ばして次へ", "move on to the next question (in a role-play, move the scene forward)."],
+    ["Finish", "練習を終えて、フィードバックをもらう", "end the practice and give me feedback."]
+  ],
+
+  topics: [
+    { id: "work", ja: "仕事・キャリア", en: "Work & Career", q: [
+      "What do you do, and how did you end up in that line of work?",
+      "What's the most rewarding part of your job, and the most frustrating?",
+      "How has your job changed over the last few years?",
+      "What's the best piece of career advice you've ever received?",
+      "If you could switch careers tomorrow, what would you try?",
+      "Do you think work-life balance in Japan is getting better or worse?",
+      "Would you rather have a high-paying job you don't love, or a modest one you're passionate about?",
+      "How do you think AI will change your field in the next ten years?" ] },
+    { id: "education", ja: "教育", en: "Education", q: [
+      "What was your school experience like growing up?",
+      "Who was a teacher that really made an impact on you, and why?",
+      "What makes a lesson genuinely engaging?",
+      "What should schools teach that they currently don't?",
+      "Is the Japanese education system too focused on exams?",
+      "How much does a university degree matter these days?",
+      "Should students be allowed to use AI tools for homework?",
+      "If you could redesign the school system from scratch, what would you change first?" ] },
+    { id: "language", ja: "語学学習", en: "Language Learning", q: [
+      "How did you first get into learning English?",
+      "What's been the hardest part of learning English for you?",
+      "What's an English word or expression you really like?",
+      "What's the most embarrassing language mistake you've ever made?",
+      "Is it better to learn grammar first, or to just start speaking?",
+      "Do you think adults can reach a native-like level? Why or why not?",
+      "Will AI translation make learning languages unnecessary?",
+      "What other language would you like to learn, and why?" ] },
+    { id: "screen", ja: "映画・ドラマ", en: "Movies & TV Shows", q: [
+      "What have you been watching lately?",
+      "What's a movie you could watch over and over again?",
+      "Do you prefer movies or binge-watching a series? Why?",
+      "Do you watch with subtitles? In which language?",
+      "What's a film that changed the way you think about something?",
+      "What's a movie everyone loves but you just don't get?",
+      "Are all the remakes and sequels a sign that Hollywood is running out of ideas?",
+      "If your life were a movie, what genre would it be, and who would play you?" ] },
+    { id: "books", ja: "読書", en: "Books & Reading", q: [
+      "What are you reading at the moment?",
+      "What's a book that stuck with you long after you finished it?",
+      "Do you prefer fiction or non-fiction?",
+      "Paper books, e-books or audiobooks: which do you go for?",
+      "Do you read in English? What's that like for you?",
+      "Is there a book you think everyone should read?",
+      "Do people read less than they used to? Does it matter?",
+      "If you could have dinner with any author, who would it be?" ] },
+    { id: "music", ja: "音楽", en: "Music", q: [
+      "What kind of music have you been into lately?",
+      "What song takes you straight back to a specific moment in your life?",
+      "Has your taste in music changed over the years?",
+      "Do you prefer live music or recorded music?",
+      "What's your go-to karaoke song?",
+      "Has streaming been good or bad for musicians?",
+      "Can music help you learn a language?",
+      "If you could master any instrument overnight, which would you pick?" ] },
+    { id: "food", ja: "食・料理", en: "Food & Cooking", q: [
+      "What's your comfort food?",
+      "Do you cook much? Do you have a signature dish?",
+      "What's the best meal you've ever had, and where was it?",
+      "What Japanese dish do you think is underrated overseas?",
+      "Is there any food you just can't stand?",
+      "How have eating habits in Japan changed over the years?",
+      "Do you think we'll all be eating lab-grown meat or insects someday?",
+      "If you could only eat one cuisine for the rest of your life, which would it be?" ] },
+    { id: "travel", ja: "旅行", en: "Travel", q: [
+      "What's your most memorable trip, and what made it special?",
+      "Are you the type to plan every detail, or do you go with the flow?",
+      "What's a travel disaster you can laugh about now?",
+      "Where would you send a first-time visitor to Japan, and where off the beaten path?",
+      "Do you prefer traveling solo or with others?",
+      "How has overtourism affected places in Japan?",
+      "Has traveling changed the way you see your own country?",
+      "What's next on your bucket list, and why?" ] },
+    { id: "tech", ja: "テクノロジー・AI", en: "Technology & AI", q: [
+      "How do you use AI in your daily life or work?",
+      "What's one piece of technology you couldn't live without?",
+      "Will AI create more jobs than it destroys?",
+      "What worries you most about AI?",
+      "Are we too dependent on our smartphones?",
+      "Would you ride in a self-driving car? Why or why not?",
+      "Should there be stricter rules on how tech companies use our data?",
+      "What invention do you hope to see in your lifetime?" ] },
+    { id: "internet", ja: "SNS・ネット", en: "Social Media & the Internet", q: [
+      "Which social media platforms do you actually use, and why?",
+      "Has social media made people more connected or more isolated?",
+      "Do people show their real selves online?",
+      "How do you decide what information to trust online?",
+      "Have you ever taken a break from social media? How did it feel?",
+      "Should there be an age limit for social media?",
+      "What do you think of being an influencer as a career?",
+      "What would the world look like if social media disappeared tomorrow?" ] },
+    { id: "money", ja: "お金・消費", en: "Money & Spending", q: [
+      "Are you more of a saver or a spender?",
+      "What's something you think is always worth spending money on?",
+      "What's the worst purchase you've ever made?",
+      "A lot of people in Japan have started investing recently. Why do you think that is?",
+      "Do you think Japan will ever go fully cashless? Would you mind?",
+      "Should financial education be taught in schools?",
+      "Does money buy happiness, at least up to a point?",
+      "If you suddenly got a year's salary with no strings attached, what would you do?" ] },
+    { id: "health", ja: "健康・運動", en: "Health & Fitness", q: [
+      "What do you do to stay healthy?",
+      "Are you a morning person or a night owl?",
+      "Have you ever tried to build a new habit? How did it go?",
+      "What's a health trend you think is overrated?",
+      "How do you deal with stress?",
+      "Do people in Japan work too hard to stay healthy?",
+      "Is it harder to stay healthy now than it was 30 years ago?",
+      "If you had an extra hour every day, would you use it for exercise, sleep, or something else?" ] },
+    { id: "cities", ja: "都市・住まい", en: "Cities & Housing", q: [
+      "Would you call yourself a city person or a countryside person?",
+      "What do you like and dislike about where you live now?",
+      "What's your dream home like?",
+      "Is it better to rent or to buy a home?",
+      "What city in the world would you most like to live in?",
+      "Why do so many young people move to Tokyo?",
+      "What can be done about empty houses (akiya) in rural Japan?",
+      "What will cities look like in 50 years?" ] },
+    { id: "environment", ja: "環境", en: "The Environment", q: [
+      "Do you do anything in your daily life for the environment?",
+      "Have you noticed the climate changing where you live?",
+      "Who should take the most responsibility: individuals, companies, or governments?",
+      "Is recycling actually effective, or just a way to feel good?",
+      "Would you pay more for eco-friendly products?",
+      "What's your take on electric cars?",
+      "Is it fair to ask developing countries to cut emissions?",
+      "Are you optimistic or pessimistic about the planet's future?" ] },
+    { id: "culture", ja: "文化・習慣", en: "Culture & Customs", q: [
+      "What Japanese custom do you think surprises foreigners the most?",
+      "Is there a Japanese custom you wish other countries had?",
+      "Is there a Japanese custom you'd happily get rid of?",
+      "Have you ever experienced culture shock? What happened?",
+      "How would you explain \"kuuki wo yomu\" (reading the air) to someone from overseas?",
+      "Is Japanese culture becoming more Westernized?",
+      "What do people abroad misunderstand most about Japan?",
+      "What can Japan learn from other cultures?" ] },
+    { id: "relationships", ja: "人間関係・友情", en: "Relationships & Friendship", q: [
+      "How did you meet your closest friend?",
+      "What makes a friendship last?",
+      "Is it harder to make friends as an adult? Why?",
+      "Can you be real friends with your boss or coworkers?",
+      "How do you handle disagreements with people close to you?",
+      "Has technology made relationships better or worse?",
+      "What's a quality you really value in other people?",
+      "Do you keep in touch with old school friends?" ] },
+    { id: "childhood", ja: "子ども時代", en: "Childhood & Growing Up", q: [
+      "What were you like as a kid?",
+      "What did you want to be when you grew up?",
+      "What's a childhood memory you'll never forget?",
+      "What games did you play as a kid that children don't play now?",
+      "Do kids today have it easier or harder than you did?",
+      "What's something your parents did that you appreciate more now?",
+      "Is it better to grow up in the city or the countryside?",
+      "If you could tell your fifteen-year-old self one thing, what would it be?" ] },
+    { id: "growth", ja: "習慣・自己成長", en: "Habits & Personal Growth", q: [
+      "What's a habit you're proud of?",
+      "What's a habit you've been trying to break?",
+      "How do you stay motivated when things get tough?",
+      "What's something you learned the hard way?",
+      "Do you make New Year's resolutions? Do you stick to them?",
+      "Who has influenced you the most as a person?",
+      "Do you think people can really change?",
+      "What skill would you like to pick up this year?" ] },
+    { id: "hobbies", ja: "趣味・余暇", en: "Hobbies & Free Time", q: [
+      "What do you do to unwind after a long day?",
+      "How did you get into your favorite hobby?",
+      "Is there a hobby you've always wanted to try but haven't?",
+      "Should hobbies be productive, or just for fun?",
+      "Have you ever thought about turning a hobby into a side hustle?",
+      "What hobby do you think is overrated?",
+      "How do you usually spend a long holiday?",
+      "If you had a whole year of free time, what would you do?" ] },
+    { id: "sports", ja: "スポーツ", en: "Sports", q: [
+      "Are you into any sports, either playing or watching?",
+      "What's the most exciting sporting moment you've ever seen?",
+      "Are top athletes paid too much?",
+      "What do you think about club activities (bukatsu) in Japanese schools?",
+      "Why do you think baseball is so popular in Japan?",
+      "Should e-sports count as real sports?",
+      "What's the main job of a coach: to win, or to help players grow?",
+      "If you could compete in any Olympic event, which would you choose?" ] },
+    { id: "news", ja: "ニュース・メディア", en: "News & Media", q: [
+      "How do you usually keep up with the news?",
+      "What's a news story that caught your attention recently?",
+      "How much do you trust the media in Japan?",
+      "Is it important to read news from other countries? Why?",
+      "How can we tell real news from fake news?",
+      "Will newspapers disappear?",
+      "Is it OK to avoid the news for your own peace of mind?",
+      "If you ran a news channel, what would you do differently?" ] },
+    { id: "science", ja: "科学・未来", en: "Science & the Future", q: [
+      "What scientific discovery do you find most fascinating?",
+      "Would you go to space if you had the chance?",
+      "Will humans live on Mars someday?",
+      "Would you want to live to 150 if you could?",
+      "What problem do you hope science solves in your lifetime?",
+      "Should there be limits on research like gene editing?",
+      "What will daily life be like in 2050?",
+      "If you could time-travel, would you go to the past or the future?" ] },
+    { id: "art", ja: "芸術・創造性", en: "Art & Creativity", q: [
+      "Would you call yourself a creative person?",
+      "What kind of art do you enjoy?",
+      "Have you been to an exhibition or a museum recently?",
+      "Is creativity something you're born with, or something you can learn?",
+      "Can AI-generated images be called art?",
+      "What's the most beautiful thing you've seen recently?",
+      "Should the government fund the arts?",
+      "If you could create anything, a book, a film, a building, what would it be?" ] },
+    { id: "generations", ja: "世代", en: "Generations", q: [
+      "Do you feel you fit the image of your generation?",
+      "What do older people misunderstand about younger people?",
+      "And what do younger people misunderstand about older people?",
+      "How are teenagers today different from when you were young?",
+      "Is the generation gap getting wider?",
+      "What can different generations learn from each other?",
+      "How should Japan deal with its aging population?",
+      "What will your generation be remembered for?" ] },
+    { id: "consumer", ja: "買い物・消費社会", en: "Shopping & Consumerism", q: [
+      "Do you enjoy shopping, or is it a chore?",
+      "Online or in-store: which do you prefer, and why?",
+      "What's something you bought that was totally worth it?",
+      "Do you follow trends, or stick to your own style?",
+      "Are you a minimalist, or do you like collecting things?",
+      "How much do ads influence what you buy?",
+      "What do you think about fast fashion?",
+      "Is consumerism making us any happier?" ] },
+    { id: "holidays", ja: "祝日・行事", en: "Holidays & Celebrations", q: [
+      "What's your favorite time of year, and why?",
+      "How do you usually spend New Year's?",
+      "What celebration from another country would you like to experience?",
+      "How is Christmas in Japan different from Christmas in the West?",
+      "What's the best birthday you've ever had?",
+      "Are traditional events losing their meaning?",
+      "Should Japan have more public holidays, or fewer?",
+      "If you could invent a new holiday, what would it celebrate?" ] },
+    { id: "nature", ja: "動物・自然", en: "Animals & Nature", q: [
+      "Are you a dog person or a cat person?",
+      "What's the most amazing natural place you've ever been to?",
+      "How much time do you spend outdoors?",
+      "Should zoos exist?",
+      "What do you think about keeping exotic pets?",
+      "Wild animals like bears and monkeys keep showing up in towns in Japan. Why do you think that's happening?",
+      "Is it OK to eat meat? Why or why not?",
+      "If you could be any animal for a day, what would you be?" ] },
+    { id: "ethics", ja: "倫理・ジレンマ", en: "Ethical Dilemmas", q: [
+      "If you found a wallet with 50,000 yen in it, what would you do?",
+      "Is it ever OK to lie? When?",
+      "Would you report a friend who cheated on a test?",
+      "Is it OK to use AI to write something and call it your own?",
+      "Should parents be allowed to choose their children's genes?",
+      "Do rich people have an obligation to help others?",
+      "If a self-driving car has to choose between two bad outcomes, how should it decide?",
+      "Is it better to be honest or to be kind?" ] },
+    { id: "whatif", ja: "もしも", en: "Hypotheticals", q: [
+      "If you could live in any period of history, when would you choose?",
+      "If you could instantly master one skill, what would it be?",
+      "If you could have dinner with any three people, living or dead, who would you pick?",
+      "If you won the lottery, would you quit your job?",
+      "If you had to leave Japan and live abroad, where would you go?",
+      "If you could change one thing about the world, what would it be?",
+      "If you could know the answer to one question, what would you ask?",
+      "If you could relive one day of your life, which day would it be?" ] },
+    { id: "values", ja: "人生・価値観", en: "Life & Values", q: [
+      "What does success mean to you?",
+      "What's something you've changed your mind about as you've gotten older?",
+      "What are you most grateful for?",
+      "What's the best decision you've ever made?",
+      "Is it better to have a few close friends or lots of acquaintances?",
+      "What do you think makes a good life?",
+      "What's a risk you're glad you took, or wish you had taken?",
+      "How would you like to be remembered?" ] }
+  ],
+
+  scenes: [
+    { id: "hotel", ja: "ホテルで部屋の苦情・交渉", en: "Hotel Room Complaint",
+      jaSet: "シカゴのホテル、夜11時。禁煙の静かな部屋を予約したのに、たばこ臭く製氷機の横の部屋だった。AIはフロント係。",
+      setting: "A hotel in Chicago at 11 p.m. I booked a quiet non-smoking room, but my room smells of smoke and is right next to a noisy ice machine.",
+      ai: "the night-shift front desk clerk. The hotel says it's fully booked, so at first you resist changing my room", me: "a tired guest",
+      mission: ["Explain the problem clearly, politely but firmly.", "Get a room change or some kind of compensation.", "Negotiate if the first offer isn't good enough.", "Confirm exactly what was agreed."],
+      missionJa: ["丁寧に、しかしはっきりと問題を伝える", "部屋の変更か何らかの補償を得る", "最初の提案が不十分なら交渉する", "合意内容を最後に確認する"] },
+    { id: "refund", ja: "不良品の返品・返金交渉", en: "Returning a Faulty Product",
+      jaSet: "シアトルの家電店。2週間前に買ったワイヤレスイヤホンの片方が壊れた。レシートはない。AIは規則に厳しい店員。",
+      setting: "An electronics store in Seattle. I bought wireless earbuds two weeks ago, and one side has stopped working. I've lost the receipt.",
+      ai: "a customer service clerk who sticks closely to store policy", me: "a customer",
+      mission: ["Explain the problem.", "Ask for a refund, not just an exchange.", "Deal with the \"no receipt, no refund\" policy (for example, offer your card statement).", "Reach an agreement, or ask to speak to a manager."],
+      missionJa: ["不具合を説明する", "交換ではなく返金を求める", "「レシートがないと返金不可」に対応する（カード明細を見せるなど）", "合意するか、責任者を呼んでもらう"] },
+    { id: "flight", ja: "欠航時の振替交渉", en: "Cancelled Flight",
+      jaSet: "ロンドン・ヒースロー空港。東京行きの便が欠航に。AIは忙しい航空会社の係員。",
+      setting: "A crowded airline counter at Heathrow Airport. My flight to Tokyo has just been cancelled.",
+      ai: "a stressed but professional airline agent", me: "a passenger",
+      mission: ["Get rebooked on the earliest possible flight.", "Ask about a hotel and meal vouchers.", "Make sure your checked bag will be transferred.", "Stay calm and polite even when the options are limited."],
+      missionJa: ["できるだけ早い便に振り替えてもらう", "ホテルや食事のバウチャーについて聞く", "預けた荷物がちゃんと移されるか確認する", "選択肢が少なくても冷静・丁寧に対応する"] },
+    { id: "party", ja: "パーティーでの雑談", en: "Small Talk at a Party",
+      jaSet: "トロントの友人宅のホームパーティー。知り合いはほとんどいない。AIは初対面のおしゃべりなゲスト。",
+      setting: "A friend's house party in Toronto. I don't know many people there.",
+      ai: "a chatty, curious guest I've just met", me: "a guest",
+      mission: ["Start a conversation naturally.", "Keep it going by asking questions and sharing stories.", "Find at least two things you have in common.", "Wrap up the conversation smoothly (for example, to go get a drink)."],
+      missionJa: ["自然に話しかける", "質問したり自分の話をしたりして会話を続ける", "共通点を2つ以上見つける", "自然に会話を切り上げる（飲み物を取りに行くなど）"] },
+    { id: "landlord", ja: "大家さんに修理を頼む", en: "Calling the Landlord",
+      jaSet: "ボストンの賃貸アパート。冬なのに暖房が3日間壊れたまま。AIは感じはいいが対応を先延ばしにする大家さん。",
+      setting: "A phone call. I rent an apartment in Boston, and the heating has been broken for three days in the middle of winter.",
+      ai: "my landlord, who is friendly but keeps putting things off", me: "a tenant",
+      mission: ["Explain the problem and how serious it is.", "Get a specific date for the repair.", "Ask what you can do in the meantime.", "Push politely but firmly if they try to delay."],
+      missionJa: ["問題とその深刻さを伝える", "修理の具体的な日にちを決めてもらう", "それまでの間どうすればいいか聞く", "先延ばしされたら丁寧に、でも強く求める"] },
+    { id: "doctor", ja: "病院で症状を詳しく説明", en: "Seeing a Doctor",
+      jaSet: "出張先のサンフランシスコのクリニック。AIは医師。",
+      setting: "A clinic in San Francisco during a business trip.",
+      ai: "a doctor", me: "a patient",
+      mission: ["Describe your symptoms in detail (when they started, what they feel like).", "Answer the doctor's questions accurately.", "Ask about the treatment and any side effects.", "Ask whether it's OK to fly back to Japan in three days."],
+      missionJa: ["症状を詳しく説明する（いつから・どんな感じか）", "医師の質問に正確に答える", "治療法と副作用について聞く", "3日後に日本へ飛行機で帰っても大丈夫か聞く"] },
+    { id: "alt", ja: "ALTとの授業打ち合わせ", en: "Planning a Lesson with an ALT",
+      jaSet: "日本の高校の職員室。明日のティームティーチングの打ち合わせ。AIは着任したばかりのアメリカ出身のALT。",
+      setting: "The teachers' room at a Japanese high school. We're planning tomorrow's team-taught English lesson.",
+      ai: "a new ALT from the United States who is enthusiastic but doesn't know the students yet", me: "a Japanese teacher of English",
+      mission: ["Explain the students' level and the goal of the lesson.", "Decide the activities and who does what.", "Politely turn down one of the ALT's ideas that won't work, and suggest an alternative.", "Agree on the timing and materials."],
+      missionJa: ["生徒のレベルと授業の目標を説明する", "活動内容と役割分担を決める", "うまくいかなそうなALTの案を丁寧に断り、代案を出す", "時間配分と教材を決める"] },
+    { id: "explainjapan", ja: "海外の同僚に日本文化を説明", en: "Explaining Japan to a Colleague",
+      jaSet: "東京の外資系企業でのコーヒーブレイク。AIはイギリスから来たばかりで、日本の習慣に興味津々の同僚。",
+      setting: "A coffee break at an international company in Tokyo.",
+      ai: "a colleague who just moved from the UK and is curious about Japanese customs (for example, omiyage, nomikai, and \"reading the air\")", me: "a Japanese colleague",
+      mission: ["Explain at least three customs they ask about.", "Give reasons and background, not just facts.", "Give practical advice for living and working in Japan.", "Answer follow-up questions honestly, including the downsides."],
+      missionJa: ["聞かれた習慣を3つ以上説明する", "事実だけでなく理由や背景も伝える", "日本で暮らし、働くための実用的なアドバイスをする", "マイナス面も含め、正直に答える"] },
+    { id: "neighbor", ja: "近所の人に騒音を伝える", en: "A Noisy Neighbor",
+      jaSet: "メルボルンのアパート。隣人が夜遅くに大音量で音楽をかけている。AIは最初は少し身構える隣人。",
+      setting: "My apartment building in Melbourne. My neighbor has been playing loud music late at night.",
+      ai: "my neighbor, who gets a bit defensive at first", me: "the person living next door",
+      mission: ["Bring up the problem diplomatically.", "Explain how it affects you without sounding aggressive.", "Respond to their excuses.", "Agree on a specific solution."],
+      missionJa: ["角が立たないように切り出す", "攻撃的にならずに困っていることを伝える", "相手の言い訳に対応する", "具体的な解決策に合意する"] },
+    { id: "decline", ja: "誘いを角を立てずに断る", en: "Saying No Politely",
+      jaSet: "仲のよい友人からの電話。AIは週末のキャンプに誘い、何度も説得してくる友人。",
+      setting: "A phone call with a close friend.",
+      ai: "a close friend who is excited about a weekend camping trip and keeps trying to persuade me to come", me: "the friend being invited",
+      mission: ["Turn down the invitation without hurting their feelings.", "Give a believable reason.", "Handle their attempts to persuade you.", "Suggest an alternative plan."],
+      missionJa: ["相手の気持ちを傷つけずに断る", "納得できる理由を伝える", "説得をうまくかわす", "代わりの案を出す"] },
+    { id: "meeting", ja: "会議で反対意見を述べる", en: "Disagreeing in a Meeting",
+      jaSet: "外資系企業のオンライン会議。AIはプロジェクトの締め切りを1か月早めたい先輩社員。",
+      setting: "An online meeting at an international company.",
+      ai: "a senior colleague who strongly wants to move the project deadline forward by a month", me: "a team member",
+      mission: ["Disagree politely and professionally.", "Explain the risks with concrete reasons.", "Propose an alternative.", "Reach a compromise or agree on a next step."],
+      missionJa: ["丁寧かつプロらしく反対する", "具体的な理由でリスクを説明する", "代案を出す", "妥協点か次のステップに合意する"] },
+    { id: "support", ja: "サポート窓口に電話", en: "Calling Customer Support",
+      jaSet: "インターネット会社のサポートに電話。家のネットが何度も切れる。AIはマニュアル通りに対応する担当者。",
+      setting: "A phone call to my internet provider. My home internet keeps dropping.",
+      ai: "a customer support agent who follows a script", me: "a customer",
+      mission: ["Explain the problem clearly.", "Follow the troubleshooting steps and describe what happens.", "Ask for a technician visit.", "Ask for a discount for the days without service."],
+      missionJa: ["問題をはっきり説明する", "指示どおりに操作し、結果を説明する", "技術者の訪問を頼む", "使えなかった期間の割引を求める"] },
+    { id: "restaurant", ja: "レストランで注文ミスに対応", en: "A Problem at a Restaurant",
+      jaSet: "ニューヨークの混雑したレストラン。40分待って出てきた料理が違った。AIは忙しいウェイター。",
+      setting: "A busy restaurant in New York. The server brought the wrong dish after a 40-minute wait.",
+      ai: "a busy server", me: "a customer",
+      mission: ["Get the server's attention politely.", "Explain the mistake.", "Decide what you want (a new dish, a discount, and so on).", "Ask for the check and to split the bill."],
+      missionJa: ["丁寧にウェイターを呼ぶ", "注文ミスを説明する", "どうしてほしいか決めて伝える（作り直し・割引など）", "会計を頼み、割り勘にしてもらう"] },
+    { id: "apartment", ja: "不動産屋で部屋探し", en: "Apartment Hunting",
+      jaSet: "バンクーバーの不動産屋。AIは高い部屋を勧めたがる不動産業者。",
+      setting: "A real estate agency in Vancouver.",
+      ai: "a real estate agent who keeps pushing expensive apartments", me: "someone looking for an apartment",
+      mission: ["Explain your conditions (budget, location, size).", "Ask detailed questions about one apartment.", "Point out its drawbacks and negotiate the rent or conditions.", "Decide to view it, or decline politely."],
+      missionJa: ["条件（予算・場所・広さ）を伝える", "物件について詳しく質問する", "欠点を指摘して家賃や条件を交渉する", "内見を決めるか、丁寧に断る"] },
+    { id: "pub", ja: "パブで地元の人と雑談", en: "Chatting at a Pub",
+      jaSet: "金曜の夜、イギリス・マンチェスターのパブ。AIは早口でスラングを使う気さくな地元の人。",
+      setting: "A pub in Manchester, England, on a Friday night.",
+      ai: "a friendly local who talks fast and uses British slang", me: "a visitor from Japan",
+      mission: ["Join the conversation naturally.", "Ask for local recommendations.", "Talk about football or something else you're both into.", "Ask what a slang word means when you don't get it."],
+      missionJa: ["自然に会話に加わる", "地元のおすすめを聞く", "サッカーなど共通の話題で盛り上がる", "わからないスラングの意味を聞く"] }
+  ],
+
+  debates: [
+    { id: "degree", en: "A university degree is no longer worth the cost.", ja: "大学の学位は、もはや費用に見合わない" },
+    { id: "remote", en: "Remote work is better for both employees and companies.", ja: "リモートワークは社員にも会社にもよい" },
+    { id: "aihw", en: "Students should be allowed to use generative AI for their assignments.", ja: "生徒・学生は課題に生成AIを使ってよい" },
+    { id: "aiteach", en: "AI will make human teachers far less necessary.", ja: "AIによって人間の教師の必要性は大きく下がる" },
+    { id: "mt", en: "Machine translation will make learning foreign languages unnecessary.", ja: "機械翻訳で外国語学習は不要になる" },
+    { id: "speak", en: "English education in Japan should focus on speaking more than on grammar and reading.", ja: "日本の英語教育は文法・読解より会話を重視すべきだ" },
+    { id: "bukatsu", en: "School club activities in Japan should be run by local communities, not teachers.", ja: "部活動は教員ではなく地域が運営すべきだ" },
+    { id: "sns", en: "Social media does more harm than good to society.", ja: "SNSは社会にとって益より害の方が大きい" },
+    { id: "fourday", en: "Japan should adopt a four-day work week.", ja: "日本は週4日勤務を導入すべきだ" },
+    { id: "tourism", en: "Popular destinations like Kyoto should limit the number of tourists.", ja: "京都のような人気観光地は観光客数を制限すべきだ" },
+    { id: "kidsphone", en: "Children shouldn't have smartphones until they are 15.", ja: "子どもには15歳までスマホを持たせるべきではない" },
+    { id: "cashless", en: "Japan should become completely cashless.", ja: "日本は完全キャッシュレス化すべきだ" },
+    { id: "rent", en: "It is better to rent a home than to buy one.", ja: "家は買うより借りる方がよい" },
+    { id: "tipping", en: "Tipping culture should be abolished.", ja: "チップの文化は廃止すべきだ" },
+    { id: "zoos", en: "Zoos should be abolished.", ja: "動物園は廃止すべきだ" },
+    { id: "space", en: "Space exploration is worth the money.", ja: "宇宙開発はお金をかける価値がある" },
+    { id: "selfdrive", en: "Self-driving cars will make our roads safer.", ja: "自動運転車で道路はより安全になる" },
+    { id: "fastfashion", en: "Fast fashion does more harm than good.", ja: "ファストファッションは益より害の方が大きい" }
+  ],
+
+  eiken1Topics: [
+    "Should Japan accept more foreign workers to deal with its labor shortage?",
+    "Agree or disagree: Social media companies should be responsible for the content on their platforms.",
+    "Is the rise of AI a threat to human creativity?",
+    "Should higher education be free for everyone?",
+    "Agree or disagree: Economic growth and environmental protection can go hand in hand.",
+    "Can international organizations like the UN still play an effective role today?",
+    "What should be done about Japan's declining birth rate?",
+    "Is remote work beneficial for society as a whole?",
+    "Agree or disagree: Genetic engineering of humans should be banned.",
+    "Is space exploration a worthwhile use of public money?",
+    "Agree or disagree: Personal privacy is becoming a thing of the past.",
+    "Should companies be required to have more women in leadership positions?",
+    "Can renewable energy fully replace fossil fuels?",
+    "Is globalization doing more harm than good?",
+    "Should animal testing be banned?",
+    "Agree or disagree: Standardized tests are an effective way to measure students' abilities.",
+    "Should governments regulate the development of AI?",
+    "Is tourism more of a blessing or a curse for local communities?",
+    "Should the retirement age in Japan be raised?",
+    "Agree or disagree: Today's news media divides people more than it informs them.",
+    "Should unhealthy food be taxed?",
+    "Do wealthy nations have a responsibility to help poorer ones?",
+    "Should cities ban private cars from their centers?",
+    "Agree or disagree: Online learning will eventually replace traditional classrooms.",
+    "Is a cashless society desirable?",
+    "Should professional athletes be expected to be role models?",
+    "Can national security and personal freedom be balanced?",
+    "Should English become an official second language in Japan?",
+    "Agree or disagree: Fast fashion should be more strictly regulated.",
+    "Is it the government's role to promote healthy lifestyles?"
+  ],
+
+  ieltsCards: [
+    ["Describe a person who has had a strong influence on you.", "who this person is", "how you know them", "what they have done", "and explain why they have influenced you"],
+    ["Describe a place you visited that you would like to go back to.", "where it is", "when you went there", "what you did there", "and explain why you would like to go back"],
+    ["Describe a skill that took you a long time to learn.", "what the skill is", "when you started learning it", "how you learned it", "and explain why it took so long"],
+    ["Describe a book or film that made you think.", "what it was", "when you read or saw it", "what it was about", "and explain why it made you think"],
+    ["Describe a time when you had to make a difficult decision.", "what the decision was", "when it happened", "what you decided", "and explain why it was difficult"],
+    ["Describe a piece of technology you find very useful.", "what it is", "when you started using it", "how you use it", "and explain why it is so useful to you"],
+    ["Describe an occasion when you helped someone.", "who you helped", "when it happened", "how you helped them", "and explain how you felt about it"],
+    ["Describe a tradition in your country.", "what the tradition is", "when it happens", "what people do", "and explain why it is important"],
+    ["Describe a time when you changed your mind about something.", "what it was about", "what you thought before", "what made you change your mind", "and explain how you feel about it now"],
+    ["Describe a goal you hope to achieve in the future.", "what the goal is", "when you set it", "what you are doing to achieve it", "and explain why it matters to you"],
+    ["Describe a memorable meal you had.", "where you had it", "who you were with", "what you ate", "and explain why it was memorable"],
+    ["Describe a time when you were very busy.", "when it was", "why you were busy", "how you managed your time", "and explain how you felt"],
+    ["Describe an interesting conversation you had with someone.", "who you talked with", "when and where it happened", "what you talked about", "and explain why it was interesting"],
+    ["Describe a time when something didn't go as planned.", "what you had planned", "what went wrong", "what you did about it", "and explain what you learned"],
+    ["Describe a teacher who was important to you.", "who the teacher was", "what they taught", "what they were like", "and explain why they were important to you"]
+  ],
+
+  interviews: [
+    { id: "eiken1", ja: "英検1級 二次試験風", en: "Eiken Grade 1 Style Speaking",
+      desc: "短い雑談のあと、5つの社会的トピックから1つ選んで約2分のスピーチ。その後、内容について質問されます。",
+      inputs: [], fixed: true, mins: "約10分", reroll: true,
+      make(c) {
+        const topics = c.pick(c.app.eiken1Topics, 5);
+        return { lines: [
+          "Mode: Interview practice",
+          "Interview: practice in the style of the Eiken Grade 1 speaking test (a short speech followed by questions). This is practice, not an official test.",
+          "Your role: a calm, professional examiner. React briefly and neutrally.",
+          "Flow:",
+          "1. Start with a short warm-up: ask me two or three simple questions about myself.",
+          "2. Then show me these five topics and ask me to choose one:",
+          ...topics.map((t, i) => "   (" + (i + 1) + ") " + t),
+          "3. Tell me I have one minute to prepare. I'll say \"Ready\" when I'm ready. Don't time me; I'll time myself.",
+          "4. I'll give a speech of about two minutes. Don't interrupt.",
+          "5. Then ask me about four questions on my speech: challenge my points, ask for specific examples, and ask about related wider issues."
+        ], start: "Start now: greet me as the examiner and begin the warm-up with your first question.",
+          fbJa: "**スピーチ**：構成（導入・主張・結論）、主張の妥当性と裏づけ。明らかに2分より短かった場合はそれも指摘。**質疑応答**：質問へのかわし方・深め方。**モデル**：選んだトピックで、より説得力のあるスピーチの骨子（3〜4項目）。",
+          fbEn: "**Speech**: structure (introduction, main points, conclusion), and how relevant and well-supported my points were. If the speech seemed clearly shorter than two minutes, say so. **Q&A**: how well I handled the questions. **Model**: a short outline (3 or 4 points) of a stronger speech on the topic I chose.",
+          show: topics };
+      } },
+    { id: "ielts", ja: "IELTS スピーキング風", en: "IELTS Speaking Style",
+      desc: "Part 1（身近な質問）→ Part 2（トピックカードで1〜2分スピーチ）→ Part 3（抽象的なディスカッション）。最後に目安のバンドスコアも。",
+      inputs: [], fixed: true, mins: "約15分", reroll: true,
+      make(c) {
+        const card = c.pick(c.app.ieltsCards, 1)[0];
+        return { lines: [
+          "Mode: Interview practice",
+          "Interview: practice in the style of the IELTS Speaking test (Parts 1, 2 and 3). This is practice, not an official test.",
+          "Your role: an examiner. Be polite and neutral. Tell me when we move from one part to the next.",
+          "Part 1 (about 4 to 5 minutes): ask me questions about familiar topics, such as my home, my work or studies, and one or two everyday topics. One question at a time.",
+          "Part 2: give me this task card:",
+          "   " + card[0],
+          "   You should say:",
+          ...card.slice(1).map(x => "   - " + x),
+          "   Tell me I have one minute to prepare and should speak for one to two minutes. I'll say \"Ready\" when I start. Don't time me or interrupt. When I finish, ask one short question about it.",
+          "Part 3 (about 4 to 5 minutes): ask me four or five more abstract questions related to the Part 2 topic, and ask me to explain and justify my opinions."
+        ], start: "Start now: introduce yourself as the examiner and begin Part 1.",
+          fbJa: "**目安のバンドスコア**（非公式のおおよその目安）：Fluency and Coherence、Lexical Resource、Grammatical Range and Accuracy のそれぞれについて、スコアと理由を1つずつ。発音は評価しないでください。",
+          fbEn: "**Estimated band** (a rough, unofficial estimate): give a band for Fluency and Coherence, Lexical Resource, and Grammatical Range and Accuracy, with one reason each. Don't assess pronunciation.",
+          show: [card[0]].concat(card.slice(1).map(x => "・" + x)) };
+      } },
+    { id: "job", ja: "英語での就職面接", en: "Job Interview in English",
+      desc: "採用担当者との面接。定番の質問に加え、「〜したときのことを話してください」型の行動面接も。",
+      inputs: [
+        { id: "role", label: "応募する職種・業界（任意）", ph: "例：外資系IT企業の営業、インターナショナルスクールの教員" },
+        { id: "exp", label: "アピールしたい経験（任意）", ph: "例：学年主任として教員チームをまとめた" }
+      ],
+      make(c) {
+        const L = [
+          "Mode: Interview practice",
+          "Interview: a job interview in English.",
+          c.in.role ? "The position: " + c.in.role : "If I haven't told you the position, ask me first what job I'm applying for."
+        ];
+        if (c.in.exp) L.push("Experience I'd like to talk about: " + c.in.exp);
+        L.push(
+          "Your role: the hiring manager. Be professional and friendly, but ask challenging questions.",
+          "Ask about " + c.n + " main questions, one at a time. Mix standard questions (for example, \"Tell me about yourself\" or \"Why do you want this job?\") with behavioral questions (for example, \"Tell me about a time you disagreed with a colleague. How did you handle it?\").",
+          "When my answer is vague, probe with follow-up questions about the specific situation, what I did, and the result.",
+          "Near the end, ask if I have any questions for you, and answer them in character."
+        );
+        return { lines: L, start: "Start now: greet me as the hiring manager and ask the first question.",
+          fbJa: "**面接スキル**：答えの具体性と構成（行動面接はSTAR：Situation, Task, Action, Result）、自信の伝わり方。さらに、私の答えを1つ選び、より強い模範解答に書き直してください。",
+          fbEn: "**Interview skills**: how specific and well-structured my answers were (for behavioral questions, check the STAR method: Situation, Task, Action, Result) and how confident I sounded. Then rewrite one of my answers as a stronger model answer.",
+          show: ["面接官：採用担当マネージャー", "質問の数：約" + c.n + "問"].concat(c.in.role ? ["職種：" + c.in.role] : []) };
+      } },
+    { id: "podcast", ja: "ポッドキャストにゲスト出演", en: "Podcast Guest",
+      desc: "英語のポッドキャストにゲストとして出演。ホストがあなたの経験や考えを掘り下げて聞いてきます。",
+      inputs: [ { id: "theme", label: "話したいテーマ（任意）", ph: "例：日本の高校で英語を教えること、映画で英語を学ぶ" } ],
+      make(c) {
+        return { lines: [
+          "Mode: Interview practice",
+          "Interview: I'm a guest on your English-language podcast.",
+          "Your role: the host. Be warm, curious and energetic, like a popular podcast host. React with real interest and sometimes add a quick thought of your own.",
+          c.in.theme ? "Today's theme: " + c.in.theme : "If I haven't told you the theme, ask me what I'd like to talk about, or pick something about my life and work in Japan.",
+          "Ask about " + c.n + " main questions, one at a time, and dig deeper with follow-ups: ask for stories, specific moments, opinions and lessons learned.",
+          "Keep it conversational, like a real episode, not a formal interview."
+        ], start: "Start now: open the show with a short intro like a real podcast, welcome me, and ask the first question.",
+          fbJa: "**ストーリーテリング**：話の引き込み方、具体性、もっと生き生きと伝えるための工夫。",
+          fbEn: "**Storytelling**: how engaging and vivid my stories and explanations were, and how I could make them more compelling.",
+          show: ["ホスト：英語ポッドキャストの司会者", "質問の数：約" + c.n + "問"].concat(c.in.theme ? ["テーマ：" + c.in.theme] : []) };
+      } }
+  ],
+
+  notes: [
+    "設定を変えると、下の「プロンプトを見る・編集する」の中身も変わります。直接書き換えてからコピーすることもできます。",
+    "無料版の音声モードには、1日に使える時間の上限があります。長めの練習はテキストと組み合わせると効率的です。",
+    "フィードバックは毎回コピーしてメモアプリなどに残しておくと、自分専用の表現集になります。"
+  ]
+};
+
+</script>
+<script>
+{
+const A = window.APP, HS = A.id === "hs";
+const KEY = "eikaiwa-prompt-v1-" + A.id;
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const sv = d => '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + d + "</svg>";
+const IC = {
+  qa: sv('<path d="M4 6h24v15H14l-7 5v-5H4z"/><path d="M13.3 11.3a2.8 2.8 0 1 1 3.9 2.6c-.8.3-1.2.9-1.2 1.6"/><path d="M16 18.3v.1"/>'),
+  rp: sv('<path d="M5 12l2.2-6h17.6L27 12"/><path d="M5 12a3.7 3.7 0 0 0 7.3 0 3.7 3.7 0 0 0 7.4 0 3.7 3.7 0 0 0 7.3 0"/><path d="M7 15.5V27h18V15.5"/><path d="M13 27v-6h6v6"/>'),
+  db: sv('<path d="M3 5h15v10H10l-4.5 3.5V15H3z"/><path d="M21 12h8v10h-2.5v3.5L22 22h-8v-4"/>'),
+  iv: sv('<circle cx="16" cy="9.5" r="4.5"/><path d="M7.5 27v-2.5a8.5 8.5 0 0 1 17 0V27"/><path d="M16 18.5l-1.6 3 1.6 2 1.6-2z"/><path d="M3 27h26"/>'),
+  voice: sv('<rect x="12" y="4" width="8" height="14" rx="4"/><path d="M7.5 15a8.5 8.5 0 0 0 17 0"/><path d="M16 23.5V28"/><path d="M11.5 28h9"/>'),
+  text: sv('<rect x="3" y="8" width="26" height="16" rx="3"/><path d="M8 13h0M12 13h0M16 13h0M20 13h0M24 13h0M8 17.5h0M24 17.5h0" stroke-width="3"/><path d="M11 19.5h10"/>')
+};
+const MODES = [
+  { id: "qa", ja: "トピック別Q&A", intro: HS ? "トピックを選ぶと、そのトピックの質問を1つずつ聞いてくれます。" : "トピックを選ぶと、深掘りの質問を交えながら会話が進みます。" },
+  { id: "rp", ja: "ロールプレイ", intro: HS ? "場面を選んで、店員や観光客になりきったAIと会話。ミッションをクリアしよう。" : "交渉・苦情・雑談など、実際に困りがちな場面をロールプレイします。" },
+  { id: "db", ja: "ディスカッション", intro: HS ? "テーマについて意見を言い合う練習。理由と例をつけて話そう。" : "意見交換またはディベート。AIが論理の甘さを突いてきます。" },
+  { id: "iv", ja: "面接練習", intro: HS ? "英語の面接の練習。面接官になりきったAIが質問してきます。" : "試験や面接の形式で、まとまった量を話す練習をします。" }
+];
+const LIST = { qa: A.topics, rp: A.scenes, db: A.debates, iv: A.interviews };
+const LEN = { qa: { short: 4, normal: 6, long: 8 }, db: { short: 3, normal: 5, long: 7 }, iv: { short: 4, normal: 6, long: 8 } };
+const MINS = { short: "約5分", normal: "約10分", long: "約15分" };
+const OPT = {
+  io: [["voice", "音声で話す"], ["text", "文字で入力"]],
+  corr: [["end", "最後にまとめて"], ["each", "その場で短く"], ["light", "少なめ（会話優先）"]],
+  len: [["short", "短め（約5分）"], ["normal", "ふつう（約10分）"], ["long", "長め（約15分）"]],
+  fb: [["ja", "日本語"], ["en", "英語"]],
+  accent: [["us", "アメリカ英語"], ["uk", "イギリス英語"], ["any", "指定なし"]],
+  style: [["interview", "インタビュー型（質問中心）"], ["chat", "雑談型（AIも自分の話をする）"]],
+  order: [["list", "順番どおり"], ["shuffle", "シャッフル"]],
+  diff: [["easy", "やさしい"], ["normal", "ふつう"], ["hard", "手ごわい"]],
+  dbf: [["discussion", "意見交換"], ["debate", "ディベート（AIは反対側）"]],
+  stance: [["agree", "賛成側"], ["disagree", "反対側"], ["random", "おまかせ"]]
+};
+const lab = (k, v) => (OPT[k].find(o => o[0] === v) || ["", ""])[1];
+
+function fresh() {
+  return {
+    mode: "qa", sel: { qa: A.topics[0].id, rp: A.scenes[0].id, db: A.debates[0].id, iv: A.interviews[0].id },
+    custom: { qa: "", rp: "", db: "" }, ivIn: {},
+    level: A.defLevel, io: "voice", corr: "end", len: "normal", fb: HS ? "ja" : "en", jp: true, accent: "us",
+    style: HS ? "interview" : "chat", order: "list", diff: "normal", dbf: "discussion", stance: "random",
+    extra: "", seed: 1 + Math.floor(Math.random() * 2147483000)
+  };
+}
+let st = fresh();
+try {
+  const s = JSON.parse(localStorage.getItem(KEY) || "null");
+  if (s && typeof s === "object") for (const k in st) if (k in s) {
+    if (st[k] && typeof st[k] === "object") Object.assign(st[k], s[k]); else if (typeof s[k] === typeof st[k]) st[k] = s[k];
+  }
+} catch (e) {}
+const valid = (k, v) => !OPT[k] || OPT[k].some(o => o[0] === v);
+for (const k in OPT) if (!valid(k, st[k])) st[k] = fresh()[k];
+if (!A.levels.some(l => l.id === st.level)) st.level = A.defLevel;
+if (!LIST[st.mode]) st.mode = "qa";
+for (const m in LIST) if (st.sel[m] !== "__custom" && !LIST[m].some(x => x.id === st.sel[m])) st.sel[m] = LIST[m][0].id;
+if (st.sel.iv === "__custom") st.sel.iv = A.interviews[0].id;
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} };
+
+const rng = seed => { let s = seed % 2147483646 + 1; return () => (s = s * 16807 % 2147483647) / 2147483647; };
+const shuffle = (arr, seed) => { const a = arr.slice(), r = rng(seed); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const cur = () => LIST[st.mode].find(x => x.id === st.sel[st.mode]);
+const isCustom = () => st.sel[st.mode] === "__custom";
+const nOf = m => LEN[m][st.len];
+const lvl = () => A.levels.find(l => l.id === st.level);
+const qaQs = t => (st.order === "shuffle" ? shuffle(t.q, st.seed) : t.q).slice(0, nOf("qa"));
+function ivRun() {
+  const iv = cur(), inp = {};
+  (iv.inputs || []).forEach(f => { inp[f.id] = String(st.ivIn[iv.id + "." + f.id] || "").trim(); });
+  return iv.make({ n: nOf("iv"), level: st.level, levelJa: lvl().ja, in: inp, app: A, pick: (arr, k) => shuffle(arr, st.seed).slice(0, k) });
+}
+
+function buildPrompt() {
+  const lv = lvl(), voice = st.io === "voice", m = st.mode, it = cur(), custom = isCustom();
+  const P = [], add = (...x) => P.push(...x);
+  let start = "", endPlan = "", fbx = { ja: "", en: "" };
+  add(HS
+    ? "Let's practice English conversation. You are my English conversation partner. I'm a Japanese high school student, and my English level is " + lv.en + "."
+    : "Let's practice English conversation. You are my English conversation partner. I'm a Japanese adult learner of English, and my level is " + lv.en + ". I understand English quite well, but I want to speak more fluently and naturally.");
+  add("", "## Today's practice");
+
+  if (m === "qa") {
+    const n = nOf("qa");
+    add("Mode: Topic talk");
+    if (custom) {
+      add("Topic: " + (st.custom.qa.trim() || "any topic you choose (tell me what it is)"),
+        "Make your own questions about this topic, from easy to more difficult, to suit my level. Ask me about " + n + " main questions.");
+    } else {
+      add("Topic: " + it.en, "Ask me these main questions in this order. You can change the wording a little to fit the flow of the conversation.");
+      qaQs(it).forEach((q, i) => add((i + 1) + ". " + q));
+    }
+    add(st.style === "interview"
+      ? "After each of my answers, react briefly and naturally, then ask one or two short follow-up questions about what I said before you move on to the next main question."
+      : "Make it feel like a relaxed chat between friends, not an interview: react to what I say, sometimes share a short opinion or experience of your own (you can make it up), and then ask me something. Still, keep the focus on me: I should talk more than you.");
+    endPlan = "after we finish the " + n + " main questions";
+    start = "Start now: say hello in one short, natural sentence and ask me the first question.";
+  }
+
+  if (m === "rp") {
+    add("Mode: Role-play");
+    if (custom) {
+      add("Situation (my idea): " + (st.custom.rp.trim() || "any everyday situation you choose"),
+        "Based on this, decide the setting, your role, my role, and a mission of three or four tasks for me.");
+      start = HS
+        ? "Start now: in your first message, write the setting, my role, and my mission in Japanese in a few short lines. Then start the scene with your first line in English, in character."
+        : "Start now: in your first message, briefly describe the setting, our roles and my goals. Then start the scene with your first line, in character.";
+    } else {
+      add("Scene: " + it.en, "Setting: " + it.setting, "Your role: " + it.ai + ".", "My role: " + it.me + ".", (HS ? "My mission:" : "My goals:"));
+      it.mission.forEach(x => add("- " + x));
+      start = HS
+        ? "Start now: in your first message, write my role and mission in Japanese in two or three short lines. Then start the scene with your first line in English, in character."
+        : "Start now: begin the scene with your first line, in character.";
+    }
+    const diff = { easy: "Be patient and helpful, and make things easy for me.", normal: "React the way a real person in your role would.", hard: "Be a little difficult (busy, impatient, or reluctant) so that I have to be clear and persuasive, but never rude." }[st.diff];
+    add("How to do the role-play:",
+      "- Stay in character the whole time. " + diff,
+      "- Don't do my part for me. Let me lead my side of the conversation.",
+      voice
+        ? "- If I get stuck or say \"Hint\", step out of the role for a moment, say \"Hint:\" and give me " + (HS ? "a short English phrase I can use" : "a useful expression") + ", then go back into the scene."
+        : "- If I get stuck or say \"Hint\", give me a hint in (parentheses)" + (HS ? ": a short English phrase I can use, with its Japanese meaning" : "") + ", then continue the scene.",
+      (HS ? "- When I have done everything in my mission" : "- When I have achieved all my goals") + ", end the scene naturally and say \"Mission complete!\"");
+    endPlan = "after \"Mission complete!\"";
+    fbx = HS
+      ? { ja: "【ミッション】それぞれのミッションができたか（○・△）", en: "Mission: did I complete each part of my mission?" }
+      : { ja: "**ゴール**：各ゴールの達成度と、場面にふさわしい言い方（丁寧さ・きっぱりさ・角の立たなさ）ができていたか", en: "**Goals**: how well I achieved each goal, and whether my tone fit the situation (politeness, firmness, diplomacy)." };
+  }
+
+  if (m === "db") {
+    const n = nOf("db"), motion = custom ? st.custom.db.trim() : it.en;
+    if (st.dbf === "discussion") {
+      add("Mode: Discussion",
+        motion ? "Topic: \"" + motion + "\"" : "Topic: choose an interesting discussion topic that suits my level, and tell me what it is.",
+        "Let's discuss this topic naturally.",
+        "- First, ask whether I agree or disagree, and why.",
+        "- Share your own opinion sometimes. It's fine if it's different from mine; that makes the discussion more interesting.",
+        "- Ask follow-up questions that make me explain my reasons and give examples.",
+        "- From time to time, bring in a new point of view (for example, " + (HS ? "a teacher's or a parent's point of view" : "the view of a different generation, industry, or country") + ").",
+        "- Have about " + n + " exchanges in total.");
+      endPlan = "after about " + n + " exchanges";
+      start = "Start now: introduce the topic in one or two short sentences and ask for my opinion.";
+    } else {
+      add("Mode: Debate", motion ? "Motion: \"" + motion + "\"" : "Motion: choose a debate motion that suits my level, and tell me what it is.");
+      if (st.stance === "random") add("Choose my side (agree or disagree) at random and tell me at the start. You take the opposite side.");
+      else if (st.stance === "agree") add("My side: agree (for the motion). Your side: disagree (against the motion).");
+      else add("My side: disagree (against the motion). Your side: agree (for the motion).");
+      add("Flow:",
+        "1. Ask me to give my opening opinion.",
+        "2. Give a short counterargument to my point" + (HS ? " (one or two easy sentences)" : "") + ", then ask me to respond.",
+        "3. Continue for about " + n + " rounds. Make one point at a time, and use realistic, reasonable arguments.",
+        "4. At the end, ask me to give a short closing statement.");
+      endPlan = "after my closing statement";
+      start = "Start now: introduce the motion, tell me which side I am on, and ask for my opening opinion.";
+    }
+    add(HS
+      ? "When I give an opinion, encourage me to use OREO: Opinion, Reason, Example, and then my Opinion again. If I forget a reason or an example, ask \"Why do you think so?\" or \"Can you give me an example?\""
+      : "Challenge weak points in my logic and push me to support my claims with specific evidence or examples. Don't give in too easily, but acknowledge it when I make a strong point.");
+    fbx = HS
+      ? { ja: "【意見の伝え方】OREO（意見・理由・例・意見）で話せていたか", en: "Opinions: did I use OREO (Opinion, Reason, Example, Opinion)?" }
+      : { ja: "**議論**：主張と反論の強さ・論理性と、より強い主張の例", en: "**Arguments**: how strong and logical my arguments and rebuttals were, and what a stronger argument could have been." };
+  }
+
+  if (m === "iv") {
+    const r = ivRun();
+    add(...r.lines, "Stay in your role for the whole interview. The rules below still apply, but keep your reactions short and professional.");
+    start = r.start; endPlan = "at the end of the interview"; fbx = { ja: r.fbJa, en: r.fbEn };
+  }
+
+  add("", "## How to talk with me");
+  const R = HS ? [
+    "Speak only in English, except for the Japanese help and feedback explained below.",
+    "Ask only one question at a time. Then wait for my answer.",
+    "Keep your turns short, usually one or two sentences. I should talk more than you.",
+    lv.style,
+    "React to what I actually said, like a friendly person. Don't say \"Great!\" or \"Good job!\" every time.",
+    "If my answer is very short, help me say more: ask \"Why?\", ask for an example, or give me two choices (for example, \"A or B?\").",
+    "If I don't understand or can't answer, ask again in an easier way.",
+    st.jp ? "If I say something in Japanese, show me how to say it in English, ask me to say it once, and then continue."
+          : "If I use Japanese, gently ask me to try in English, and help me with easy words if I need them."
+  ] : [
+    "Speak only in English.",
+    lv.style,
+    "Ask one question at a time and keep your turns fairly short (two to four sentences), so that I do most of the talking.",
+    "Don't praise every answer. React like a real person: agree, disagree, joke, show surprise, or ask for details.",
+    "Ask follow-up questions that make me go deeper: reasons, specific examples, comparisons, and \"what if\" situations.",
+    "If I get stuck or use a Japanese word, give me the natural English expression and let me try again.",
+    { us: "Use American English (vocabulary and spelling" + (voice ? ", and an American accent" : "") + ").", uk: "Use British English (vocabulary and spelling" + (voice ? ", and a British accent" : "") + ").", any: "" }[st.accent]
+  ];
+  R.filter(Boolean).forEach((r, i) => add((i + 1) + ". " + r));
+
+  add("", voice ? "## Voice mode" : "## Text chat");
+  if (voice) add("After your first message, I will switch to voice mode and talk with you.",
+    "- " + (HS ? "Speak slowly and clearly." : "Speak at a natural, native speed."),
+    "- Don't use lists, emojis, symbols, or formatting while we talk. Keep each turn short and easy to follow by ear.",
+    "- If I'm quiet for a while, wait patiently." + (HS ? " If I still can't answer, say the question again more simply." : ""));
+  else {
+    add("We will chat by typing.", "- Use short, plain messages. Use formatting only for hints, corrections, and feedback.");
+    if (HS) add("- If you use a word that may be difficult for me, add its Japanese meaning in parentheses the first time.");
+  }
+
+  add("", "## Corrections");
+  const nat = HS ? "a mistake" : "a mistake, or say something that sounds unnatural to a native speaker";
+  if (st.corr === "end") add("Don't stop the conversation to correct me. If I make " + nat + ", you can naturally say my idea again correctly in your reply, without pointing it out. Remember my mistakes for the feedback at the end.");
+  else if (st.corr === "each") add(voice
+    ? "If I make " + nat + ", first say a better version briefly (for example, \"" + (HS ? "You can say" : "A more natural way to say that is") + ": ...\"), then continue the conversation. Correct only the most important point each time."
+    : "If I make " + nat + ", add one short line at the end of your reply: \"" + (HS ? "Better" : "More natural") + ": (a better version of my sentence)\". Correct only the most important point. If there is nothing to correct, don't add the line.");
+  else add("Don't correct my mistakes during the conversation. Focus on keeping the conversation fun and moving. In the feedback at the end, point out only the two most important things.");
+
+  add("", "## Commands I may use");
+  A.commands.forEach(c => add("- \"" + c[0] + "\": " + c[2]));
+
+  add("", "## Ending and feedback", "End the practice when I say \"Finish\", or " + endPlan + ".");
+  if (voice) add("We are in voice mode, so when the practice ends (or when I say \"Finish\"), don't read the feedback aloud. Just say a short goodbye and ask me to type \"Finish\". When I type \"Finish\", write the feedback as text (formatting is OK here).");
+  else add("Then write the feedback.");
+  const light = st.corr === "light", ja = st.fb === "ja";
+  if (HS) {
+    if (ja) add("Write the feedback in Japanese, using easy words (keep English sentences in English). Be encouraging but honest. Use this format:",
+      "【よかったところ】具体的に2つ",
+      "【もっとよくなる英文】最大" + (light ? 2 : 3) + "つ。「あなたの英文 → よりよい英文」の形で、理由を日本語で短く",
+      "【使ってみたい表現】今日の話題で使える便利な英語表現を3つ（日本語訳つき）",
+      ...(fbx.ja ? [fbx.ja] : []),
+      "【次へのアドバイス】ひとこと");
+    else add("Write the feedback in easy English. Be encouraging but honest. Use this format:",
+      "Good points: two specific things I did well.",
+      "Better sentences: up to " + (light ? 2 : 3) + ". Write \"What I said → A better sentence\" and a short reason.",
+      "Useful expressions: three useful English expressions for today's topic.",
+      ...(fbx.en ? [fbx.en] : []),
+      "Advice: one short tip for next time.");
+  } else {
+    if (ja) add("Write the feedback in Japanese, but keep all English examples in English. Be honest and specific: I want to improve, not just be praised. Use this format:",
+      "**総評**：流暢さ・表現の幅・自然さについて2〜3文",
+      "**訂正**：最大" + (light ? 2 : 5) + "つ。「私の発言 → より自然な言い方」と短い理由（文法・語の選び方・コロケーション・レジスターなど）",
+      "**ネイティブらしい表現**：今日の会話で使えたはずのイディオム・句動詞・コロケーションを3〜5つ、会話に合わせた例文つきで",
+      ...(fbx.ja ? [fbx.ja] : []),
+      "**次の課題**：次回意識することを1つ");
+    else add("Write the feedback in English. Be honest and specific: I want to improve, not just be praised. Use this format:",
+      "**Overall**: two or three sentences on my fluency, range and naturalness.",
+      "**Corrections**: up to " + (light ? 2 : 5) + ". Write \"What I said → a more natural version\" with a short reason (grammar, word choice, collocation, register, or \"sounds unnatural\").",
+      "**Upgrades**: three to five native-like expressions (idioms, phrasal verbs, collocations) I could have used today, each with a short example based on our conversation.",
+      ...(fbx.en ? [fbx.en] : []),
+      "**Next focus**: one specific thing to work on next time.");
+  }
+
+  if (st.extra.trim()) add("", "## My extra request (it may be in Japanese)", st.extra.trim());
+  add("", "## Start", start);
+  return P.join("\n");
+}
+
+function ticketInfo() {
+  const m = st.mode, it = cur(), custom = isCustom();
+  let title = "", sub = "", body = "", reroll = "";
+  if (m === "qa") {
+    if (custom) { title = st.custom.qa.trim() || "自分で決めたトピック"; sub = "質問はChatGPTが考えます（約" + nOf("qa") + "問）"; }
+    else {
+      title = it.ja; sub = it.en; const qs = qaQs(it);
+      body = '<p class="t-h">聞かれる質問（' + qs.length + "問＋その場の追加質問）</p><ol class=\"t-list\">" + qs.map(q => "<li>" + esc(q) + "</li>").join("") + "</ol>";
+      if (st.order === "shuffle") reroll = "質問をシャッフルし直す";
+    }
+  } else if (m === "rp") {
+    if (custom) { title = st.custom.rp.trim() || "自分で決めた場面"; sub = "役割とミッションはChatGPTが決めます"; }
+    else {
+      title = it.ja; sub = it.en;
+      body = '<p class="t-set">' + esc(it.jaSet) + '</p><p class="t-h">' + (HS ? "ミッション" : "ゴール") + '</p><ul class="t-list tick">' + it.missionJa.map(x => "<li>" + esc(x) + "</li>").join("") + "</ul>";
+    }
+  } else if (m === "db") {
+    if (custom) { title = st.custom.db.trim() || "自分で決めたテーマ"; sub = "自分で決めたテーマ"; }
+    else { title = it.en; sub = it.ja; }
+    body = '<p class="t-set">' + (st.dbf === "discussion"
+      ? "意見交換：AIも自分の意見を言いながら、理由や例を深く聞いてきます（約" + nOf("db") + "往復）。"
+      : "ディベート：" + { agree: "あなたは賛成側、AIは反対側", disagree: "あなたは反対側、AIは賛成側", random: "立場はAIがランダムに決めます" }[st.stance] + "（約" + nOf("db") + "ラウンド）。") + "</p>";
+    if (HS) body += '<p class="t-h">意見はOREOで</p><p class="t-set" style="margin-top:0">Opinion（意見）→ Reason（理由）→ Example（例）→ Opinion（もう一度意見）</p>';
+  } else {
+    const r = ivRun(); title = it.ja; sub = it.en;
+    body = '<p class="t-set">' + esc(it.desc) + "</p>" + (it.id === "eiken1" ? '<p class="t-h">トピック（この中から1つ選ぶ）</p>' : it.id === "ielts" ? '<p class="t-h">Part 2 のトピックカード</p>' : "") +
+      '<ul class="t-list">' + r.show.map(x => "<li>" + esc(x) + "</li>").join("") + "</ul>";
+    if (it.reroll) reroll = it.id === "eiken1" ? "別のトピックにする" : "別のカードにする";
+  }
+  const mins = m === "rp" ? "5〜10分" : (m === "iv" && cur().fixed) ? cur().mins : MINS[st.len];
+  return { title, sub, body, reroll, mins };
+}
+
+function renderTicket() {
+  const t = ticketInfo(), md = MODES.find(x => x.id === st.mode), voice = st.io === "voice";
+  const chips = [lvl().ja, "訂正：" + lab("corr", st.corr), "フィードバック：" + lab("fb", st.fb)];
+  if (!HS && st.accent !== "any") chips.push(lab("accent", st.accent));
+  if (st.mode === "rp") chips.push("相手：" + lab("diff", st.diff));
+  if (st.extra.trim()) chips.push("追加の希望あり");
+  $("#ticket").innerHTML =
+    '<div class="t-main"><p class="t-mode">' + IC[st.mode] + esc(md.ja) + '</p><h2 class="t-title">' + esc(t.title) + '</h2>' +
+    (t.sub ? '<p class="t-sub">' + esc(t.sub) + "</p>" : "") + t.body +
+    (t.reroll ? '<button class="reroll" id="reroll" type="button">' + esc(t.reroll) + "</button>" : "") +
+    '<div class="chips">' + chips.map(c => '<span class="chip">' + esc(c) + "</span>").join("") + "</div></div>" +
+    '<div class="t-stub">' + IC[voice ? "voice" : "text"] + "<b>" + (voice ? "音声" : "文字") + "</b><small>" + esc(t.mins) + '</small><span class="stamp" id="stamp">コピー済</span></div>';
+  $("#barMode").textContent = md.ja;
+  $("#barTitle").textContent = t.title;
+}
+
+function renderModes() {
+  $("#modes").innerHTML = MODES.map(m => '<button class="mode" type="button" role="tab" id="mode-' + m.id + '" data-mode="' + m.id + '" aria-selected="' + (st.mode === m.id) + '">' + IC[m.id] + "<span>" + m.ja + "</span></button>").join("");
+  $("#intro").textContent = MODES.find(m => m.id === st.mode).intro;
+}
+
+function renderCards() {
+  const m = st.mode, sel = st.sel[m], el = $("#cards");
+  const pressed = id => ' aria-pressed="' + (sel === id) + '"';
+  let h = "";
+  if (m === "qa" || m === "rp") h = LIST[m].map(x => '<button class="card" type="button" data-card="' + x.id + '"' + pressed(x.id) + '><span class="ja">' + esc(x.ja) + '</span><span class="en">' + esc(x.en) + "</span></button>").join("");
+  if (m === "db") h = LIST[m].map(x => '<button class="card mot" type="button" data-card="' + x.id + '"' + pressed(x.id) + '><span class="en">' + esc(x.en) + '</span><span class="ja">' + esc(x.ja) + "</span></button>").join("");
+  if (m === "iv") h = LIST[m].map(x => '<button class="card" type="button" data-card="' + x.id + '"' + pressed(x.id) + '><span class="ja">' + esc(x.ja) + '</span><span class="en">' + esc(x.en) + '</span><span class="ds">' + esc(x.desc) + "</span></button>").join("");
+  if (m !== "iv") h += '<button class="card sp" type="button" data-card="__rand" aria-pressed="false"><span class="ja">おまかせ</span><span class="en">ランダムに選ぶ</span></button>' +
+    '<button class="card sp" type="button" data-card="__custom"' + pressed("__custom") + '><span class="ja">自分で決める</span><span class="en">' + (m === "rp" ? "場面を入力" : "テーマを入力") + "</span></button>";
+  el.className = "cards" + (m === "db" || m === "iv" ? " wide" : "");
+  el.innerHTML = h;
+}
+
+const seg = (name, legend) => '<fieldset id="g-' + name + '"><legend>' + legend + '</legend><div class="seg">' +
+  OPT[name].map(o => '<label><input type="radio" name="' + name + '" id="' + name + "-" + o[0] + '" value="' + o[0] + '"' + (st[name] === o[0] ? " checked" : "") + "><span>" + o[1] + "</span></label>").join("") + "</div></fieldset>";
+const fld = (key, label, ph, val) => '<div class="field"><label for="f-' + key.replace(/\W/g, "-") + '">' + label + '</label><input type="text" id="f-' + key.replace(/\W/g, "-") + '" data-k="' + key + '" maxlength="200" placeholder="' + esc(ph) + '" value="' + esc(val) + '"></div>';
+
+function renderOpts() {
+  const m = st.mode, custom = isCustom();
+  let h = "";
+  if (m === "qa") {
+    if (custom) h += fld("custom.qa", "トピック", HS ? "例：My favorite YouTuber（日本語でもOK）" : "例：Working in a Japanese school（日本語でもOK）", st.custom.qa);
+    h += seg("style", "会話のスタイル") + seg("order", "質問の順番");
+  } else if (m === "rp") {
+    if (custom) h += fld("custom.rp", "場面", HS ? "例：美容院で髪型を伝える（日本語でもOK）" : "例：海外の学校の先生と電話で打ち合わせ（日本語でもOK）", st.custom.rp);
+    h += seg("diff", "相手の対応");
+  } else if (m === "db") {
+    if (custom) h += fld("custom.db", "テーマ", HS ? "例：Homework should be banned.（日本語でもOK）" : "例：Japan should introduce a summer-time system.（日本語でもOK）", st.custom.db);
+    h += seg("dbf", "形式");
+    if (st.dbf === "debate") h += seg("stance", "あなたの立場");
+  } else {
+    const iv = cur();
+    h += (iv.inputs || []).map(f => fld("iv." + iv.id + "." + f.id, f.label, f.ph, st.ivIn[iv.id + "." + f.id] || "")).join("");
+  }
+  const box = $("#modeOpts");
+  box.innerHTML = h ? '<div class="panel"><h3>' + esc(MODES.find(x => x.id === m).ja) + 'の設定</h3><div class="setgrid">' + h + "</div></div>" : "";
+}
+
+function renderSettings() {
+  const lvOpt = A.levels.map(l => [l.id, l.ja]);
+  OPT.level = lvOpt;
+  let h = seg("level", HS ? "自分のレベル" : "レベル") + seg("io", "話し方") + seg("corr", "まちがいの訂正") + '<div id="lenBox">' + seg("len", "練習の長さ") + "</div>" + seg("fb", "フィードバックの言語");
+  h += HS
+    ? '<fieldset><legend>日本語の使用</legend><label class="check"><input type="checkbox" id="jp"' + (st.jp ? " checked" : "") + ">困ったら日本語で言ってもOKにする</label></fieldset>"
+    : seg("accent", "英語の種類");
+  h += '<div class="field" style="grid-column:1/-1"><label for="extra">その他の希望（任意・日本語OK）</label><textarea id="extra" rows="2" maxlength="400" placeholder="' + (HS ? "例：今日は過去形を使う練習がしたい" : "例：仕事で使えるフォーマルな表現も教えてほしい") + '">' + esc(st.extra) + "</textarea></div>";
+  $("#settings").innerHTML = h;
+}
+
+function update() {
+  $("#lenBox").hidden = st.mode === "rp" || (st.mode === "iv" && !!cur().fixed);
+  renderTicket();
+  $("#prompt").value = buildPrompt();
+  save();
+}
+
+function setK(k, v) {
+  const p = k.split(".");
+  if (p[0] === "custom") st.custom[p[1]] = v;
+  else if (p[0] === "iv") st.ivIn[p[1] + "." + p[2]] = v;
+}
+
+async function copy(btn) {
+  const t = $("#prompt").value;
+  let ok = false;
+  try { await navigator.clipboard.writeText(t); ok = true; } catch (e) {}
+  if (!ok) {
+    try { $("#prev").open = true; const ta = $("#prompt"); ta.focus(); ta.select(); ok = document.execCommand("copy"); } catch (e) {}
+  }
+  const msg = $("#msg");
+  msg.className = "msg" + (ok ? " ok" : "");
+  msg.textContent = ok ? "コピーしました。ChatGPTを開いて貼り付け、送信してください。" : "自動でコピーできませんでした。下の欄が開いたら、全選択してコピーしてください。";
+  if (ok) {
+    const s = $("#stamp"); s.classList.remove("on"); void s.offsetWidth; s.classList.add("on");
+    if (btn && btn.id === "copy2") { btn.textContent = "コピー済"; setTimeout(() => { btn.textContent = "コピー"; }, 1600); }
+  }
+}
+
+document.addEventListener("click", e => {
+  const t = e.target.closest("[data-mode],[data-card],#reroll,#copy,#copy2");
+  if (!t) return;
+  if (t.dataset.mode) { st.mode = t.dataset.mode; renderModes(); renderCards(); renderOpts(); update(); return; }
+  if (t.dataset.card) {
+    const id = t.dataset.card;
+    if (id === "__rand") { const L = LIST[st.mode].filter(x => x.id !== st.sel[st.mode]); st.sel[st.mode] = L[Math.floor(Math.random() * L.length)].id; }
+    else st.sel[st.mode] = id;
+    renderCards(); renderOpts(); update();
+    if (id === "__custom") { const f = $("#modeOpts input[type=text]"); if (f) f.focus(); }
+    else if (window.innerWidth <= 960 && id === "__rand") $("#ticket").scrollIntoView({ block: "nearest", behavior: "smooth" });
+    return;
+  }
+  if (t.id === "reroll") { st.seed = (st.seed * 48271 + 7) % 2147483646 + 1; update(); return; }
+  copy(t);
+});
+document.addEventListener("change", e => {
+  const t = e.target;
+  if (t.type === "radio" && t.name) { st[t.name] = t.value; if (t.name === "dbf") renderOpts(); update(); }
+  else if (t.id === "jp") { st.jp = t.checked; update(); }
+});
+document.addEventListener("input", e => {
+  const t = e.target;
+  if (t.dataset && t.dataset.k) { setK(t.dataset.k, t.value); update(); }
+  else if (t.id === "extra") { st.extra = t.value; update(); }
+});
+
+$("#lead").textContent = A.lead;
+$("#cmds").innerHTML = A.commands.map(c => "<tr><td>" + esc(c[0]) + "</td><td>" + esc(c[1]) + "</td></tr>").join("");
+$("#notes").innerHTML = A.notes.map(n => "<li>" + esc(n) + "</li>").join("");
+renderSettings(); renderModes(); renderCards(); renderOpts(); update();
+if ("IntersectionObserver" in window) {
+  const barWatch = new IntersectionObserver(en => { $("#bar").classList.toggle("off", en[0].isIntersecting); });
+  barWatch.observe($("#copy"));
+}
+}
+</script>
+</body>
+</html>
