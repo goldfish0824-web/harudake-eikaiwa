@@ -62,7 +62,7 @@ for vid, th in THEMES.items():
              '@media (prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;' + vars(th['dark']) + '}}\n'
              ':root[data-theme=dark]{color-scheme:dark;' + vars(th['dark']) + '}')
     ver = '高校生版' if vid=='hs' else '中〜上級版'
-    title = 'ChatGPT英会話プロンプト ' + ver
+    title = '貼るだけ英会話 ' + ver
     html = (tpl.replace('{{TITLE}}', title).replace('{{VER}}', ver).replace('{{FONTLINK}}', th['link'])
                .replace('{{EYEBROW}}', th['eyebrow']).replace('{{DECO}}', th['deco'])
                .replace('{{THEME}}', theme).replace('{{DATA}}', data))

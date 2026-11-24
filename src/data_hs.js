@@ -1,6 +1,6 @@
 window.APP = {
   id: "hs",
-  title: "ChatGPT英会話プロンプト 高校生版",
+  title: "貼るだけ英会話 高校生版",
   ver: "高校生版",
   lead: "練習を選んで、プロンプトをコピー。ChatGPTに貼り付けて送信すれば、英会話の練習が始まります。",
   learner: "I am a Japanese high school student",

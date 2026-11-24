@@ -1,12 +1,13 @@
-# ChatGPT英会話プロンプト
+# 貼るだけ英会話
 
 ChatGPT（無料版）に貼り付けるだけで英会話の練習ができる、プロンプト作成用のWebページ。
 APIは使わない静的HTMLで、GitHub Pagesで公開している。画面は日本語、生成されるプロンプト本文は英語。
+旧名は「ChatGPT英会話プロンプト」。2026年11月24日に「貼るだけ英会話」に改名し、リポジトリ名も `chatgpt-eikaiwa-prompt` から `harudake-eikaiwa` に変えた。
 
 ## フォルダ構成
 
 ```
-chatgpt-eikaiwa-prompt/
+harudake-eikaiwa/    （手元のフォルダ名は chatgpt-eikaiwa-prompt のまま）
 ├─ hs/index.html     高校生版（生徒にはこのURLだけを配る）
 ├─ adv/index.html    中〜上級版（自分用・一般の学習者向け）
 └─ src/              編集用の元ファイル
@@ -38,17 +39,18 @@ chatgpt-eikaiwa-prompt/
   - 声の文字起こしの可能性があるので、つづりや句読点は無視し、発音は評価しないよう指示している。評価は非公式の目安だと一言添えさせる
 - 高校生版のみ：「困ったら日本語OK」。ディスカッションではOREO（Opinion→Reason→Example→Opinion）を促す
 - 中〜上級版のみ：英語の種類（アメリカ／イギリス）、「Upgrade」コマンド。英検1級のトピックとIELTSのカードはランダムに入れ替わる（IELTS面接の目安バンドは STEP 2 で「IELTS」を選んで出す）
-- 設定はブラウザの localStorage に保存（キーは `eikaiwa-prompt-v1-hs` と `eikaiwa-prompt-v1-adv`）。どちらのステップを開いていたかも保存する
+- 設定はブラウザの localStorage に保存（キーは `eikaiwa-prompt-v1-hs` と `eikaiwa-prompt-v1-adv`。改名のときも変えていない）。どちらのステップを開いていたかも保存する
 - 見た目：濃い色のヘッダー（STEP 1／2のタブつき）、カード型の選択肢、右側に「チケット」（選んだ練習・添削の内容）とコピーボタン。スマホでは下にコピーバーが出る。ダークモード対応
   - 高校生版：紺のヘッダーに青〜紫のグラデーション、差し色は黄色。見出しは Dela Gothic One、本文は M PLUS Rounded 1c
   - 中〜上級版：黒に近いヘッダーに細い方眼、差し色は朱色。見出しは Zen Old Mincho、本文は Zen Kaku Gothic New
 
 ## 公開
 
-- リポジトリ：https://github.com/goldfish0824-web/chatgpt-eikaiwa-prompt （公開、mainブランチ）
+- リポジトリ：https://github.com/goldfish0824-web/harudake-eikaiwa （公開、mainブランチ）
 - GitHub Pages：mainブランチ／ルートから配信（2026年11月24日に公開）
-  - 高校生版：https://goldfish0824-web.github.io/chatgpt-eikaiwa-prompt/hs/
-  - 中〜上級版：https://goldfish0824-web.github.io/chatgpt-eikaiwa-prompt/adv/
+  - 高校生版：https://goldfish0824-web.github.io/harudake-eikaiwa/hs/
+  - 中〜上級版：https://goldfish0824-web.github.io/harudake-eikaiwa/adv/
+  - 旧URL（`/chatgpt-eikaiwa-prompt/`）は改名で404になった。改名前にURLを配った相手はいない
 - 更新するときは、`src/` を直す → `python src/build.py` → コミットして `git push`。1〜2分で公開ページに反映される
 - コミットのメールアドレスは、このリポジトリだけ GitHub の noreply アドレスにしてある（`git config` のローカル設定）
 - リポジトリは公開なので、CLAUDE.md や README.md も誰でも読める（Pages上の `/CLAUDE.md` などでも見える）
