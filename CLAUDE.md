@@ -59,4 +59,5 @@ chatgpt-eikaiwa-prompt/
 
 - 高校生版の「知っておくこと」欄に、個人情報を入れないことと、OpenAIの利用規約（13歳以上、18歳未満は保護者の同意が必要）を書いてある
 - 実際にChatGPTに貼り付けて会話するテストはまだしていない（STEP 2 の添削・評価も同じ）。気になる動きがあれば `template.html` の `buildPrompt()`・`buildReview()` か `data_*.js` の文言を調整する
-- 同じページを claude.ai のアーティファクトとしても公開済み（非公開設定）。ただし中身は2ステップ化・デザイン変更より前の古い版のまま
+- 同じページを claude.ai のアーティファクトとしても公開済み（非公開設定）。2026年11月24日に2ステップ化・新デザインの版に更新した
+  - `src/` を直してもアーティファクトは自動では変わらない。更新するときは、ビルドした `index.html` から DOCTYPE・html・head・body のタグを外し（title・フォントのlink・styleは残す）、`<script>document.documentElement.lang="ja"</script>` を足したものを公開する
