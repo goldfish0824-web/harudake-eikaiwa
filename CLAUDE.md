@@ -9,12 +9,15 @@ APIは使わない静的HTMLで、GitHub Pagesで公開している。画面は�
 ```
 harudake-eikaiwa/    （手元のフォルダ名は chatgpt-eikaiwa-prompt のまま）
 ├─ hs/index.html     高校生版（生徒にはこのURLだけを配る）
+├─ hs/apple-touch-icon.png   高校生版のホーム画面アイコン（180×180、タブのアイコンも兼ねる）
 ├─ adv/index.html    中〜上級版（自分用・一般の学習者向け）
+├─ adv/apple-touch-icon.png  中〜上級版のホーム画面アイコン
 └─ src/              編集用の元ファイル
    ├─ template.html  共通のHTML・CSS・JavaScript（練習のプロンプトは buildPrompt()、添削・評価は buildReview()）
    ├─ data_hs.js     高校生版のデータ（トピック・場面・論題・面接・コマンド・注意書き）
    ├─ data_adv.js    中〜上級版のデータ（上に加え、英検1級トピック・IELTSカード）
-   └─ build.py       src から hs/index.html と adv/index.html を作る
+   ├─ build.py       src から hs/index.html と adv/index.html を作る
+   └─ icon.html      ホーム画面アイコンの元（?v=hs / ?v=adv で版を切り替える）
 ```
 
 - `hs/index.html` と `adv/index.html` は生成物なので直接編集しない。`src/` を直してから `python src/build.py` を実行する。
@@ -43,6 +46,11 @@ harudake-eikaiwa/    （手元のフォルダ名は chatgpt-eikaiwa-prompt の�
 - 見た目：濃い色のヘッダー（STEP 1／2のタブつき）、カード型の選択肢、右側に「チケット」（選んだ練習・添削の内容）とコピーボタン。スマホでは下にコピーバーが出る。ダークモード対応
   - 高校生版：紺のヘッダーに青〜紫のグラデーション、差し色は黄色。見出しは Dela Gothic One、本文は M PLUS Rounded 1c
   - 中〜上級版：黒に近いヘッダーに細い方眼、差し色は朱色。見出しは Zen Old Mincho、本文は Zen Kaku Gothic New
+- ホーム画面アイコン：ふきだしに「英会話」、角にマスキングテープ（「貼る」の意味）。地の色・模様・フォントは各版のヘッダーと同じ（高校生版は黄色のふきだし、中〜上級版は朱色のふきだしに明朝）
+  - ホーム画面での名前は `apple-mobile-web-app-title` の「貼るだけ英会話」（両版とも同じ）
+  - `apple-touch-icon.png` は `build.py` では作らない。`src/icon.html` を直したら、Chrome のヘッドレスで書き出して `hs/`・`adv/` に置く：
+    `chrome --headless=new --hide-scrollbars --force-device-scale-factor=1 --window-size=180,180 --virtual-time-budget=10000 --screenshot=<出力先.png> "file:///<srcの絶対パス>/icon.html?v=hs"`（adv は `?v=adv`）
+  - iPhone が角を丸めるので、アイコンは四角いまま・透明なしで作る
 
 ## 公開
 
@@ -62,4 +70,4 @@ harudake-eikaiwa/    （手元のフォルダ名は chatgpt-eikaiwa-prompt の�
 - 高校生版の「知っておくこと」欄に、個人情報を入れないことと、OpenAIの利用規約（13歳以上、18歳未満は保護者の同意が必要）を書いてある
 - 実際にChatGPTに貼り付けて会話するテストはまだしていない（STEP 2 の添削・評価も同じ）。気になる動きがあれば `template.html` の `buildPrompt()`・`buildReview()` か `data_*.js` の文言を調整する
 - 同じページを claude.ai のアーティファクトとしても公開済み（非公開設定）。2026年11月24日に2ステップ化・新デザインの版に更新した
-  - `src/` を直してもアーティファクトは自動では変わらない。更新するときは、ビルドした `index.html` から DOCTYPE・html・head・body のタグを外し（title・フォントのlink・styleは残す）、`<script>document.documentElement.lang="ja"</script>` を足したものを公開する
+  - `src/` を直してもアーティファクトは自動では変わらない。更新するときは、ビルドした `index.html` から DOCTYPE・html・head・body のタグを外し（title・フォントのlink・styleは残す）、`<script>document.documentElement.lang="ja"</script>` を足したものを公開する。アイコン（apple-touch-icon・icon・apple-mobile-web-app-title）の行はアーティファクトでは要らないので外す
